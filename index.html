@@ -3,21 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Page</title>
+    <title>EB43's projects overview page</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f9;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-description {
+            padding: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .card-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .card-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 25px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Hello</h1>
+    <h1>Welcome to the Card Gallery</h1>
+    <div class="card-container">
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 1">
+            <div class="card-description">
+                <p><strong>Page 1</strong></p>
+                <p>This is the description for Page 1.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 2">
+            <div class="card-description">
+                <p><strong>Page 2</strong></p>
+                <p>This is the description for Page 2.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 3">
+            <div class="card-description">
+                <p><strong>Page 3</strong></p>
+                <p>This is the description for Page 3.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 4">
+            <div class="card-description">
+                <p><strong>Page 4</strong></p>
+                <p>This is the description for Page 4.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
