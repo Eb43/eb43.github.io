@@ -70,34 +70,60 @@
 <body>
     <h1>EB43's projects overview page</h1>
     <div class="card-container">
-        <div class="card">
+        <!-- Card 1 -->
+        <div class="card" 
+             onmouseover="startImageRotation(this)" 
+             onmouseout="stopImageRotation(this)" 
+             data-images='["https://via.placeholder.com/200x150/ff0000", "https://via.placeholder.com/200x150/00ff00", "https://via.placeholder.com/200x150/0000ff"]'>
             <img src="https://via.placeholder.com/200x150" alt="Page 1">
             <div class="card-description">
                 <p><strong>Page 1</strong></p>
                 <p>This is the description for Page 1.</p>
             </div>
         </div>
-        <div class="card">
+
+        <!-- Card 2 -->
+        <div class="card" 
+             onmouseover="startImageRotation(this)" 
+             onmouseout="stopImageRotation(this)" 
+             data-images='["https://via.placeholder.com/200x150/ffff00", "https://via.placeholder.com/200x150/ff00ff", "https://via.placeholder.com/200x150/00ffff"]'>
             <img src="https://via.placeholder.com/200x150" alt="Page 2">
             <div class="card-description">
                 <p><strong>Page 2</strong></p>
                 <p>This is the description for Page 2.</p>
             </div>
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/200x150" alt="Page 3">
-            <div class="card-description">
-                <p><strong>Page 3</strong></p>
-                <p>This is the description for Page 3.</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/200x150" alt="Page 4">
-            <div class="card-description">
-                <p><strong>Page 4</strong></p>
-                <p>This is the description for Page 4.</p>
-            </div>
-        </div>
     </div>
+
+    <script>
+        // WeakMap to store intervals for each card
+        const intervals = new WeakMap();
+
+        function startImageRotation(card) {
+            const img = card.querySelector("img");
+            const images = JSON.parse(card.getAttribute("data-images"));
+            let currentIndex = 0;
+
+            // Start rotating the images
+            const interval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                img.src = images[currentIndex];
+            }, 5000);
+
+            intervals.set(card, interval);
+        }
+
+        function stopImageRotation(card) {
+            const img = card.querySelector("img");
+            const images = JSON.parse(card.getAttribute("data-images"));
+
+            // Clear the interval
+            clearInterval(intervals.get(card));
+            intervals.delete(card);
+
+            // Reset to the first image in the set
+            img.src = images[0];
+        }
+    </script>
 </body>
 </html>
