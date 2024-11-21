@@ -68,54 +68,36 @@
     </style>
 </head>
 <body>
-    <h1>EB43's GitHub Repositories</h1>
-    <div class="card-container" id="repo-container">
-        <!-- Dynamic content will be inserted here -->
+    <h1>Welcome to the Card Gallery</h1>
+    <div class="card-container">
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 1">
+            <div class="card-description">
+                <p><strong>Page 1</strong></p>
+                <p>This is the description for Page 1.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 2">
+            <div class="card-description">
+                <p><strong>Page 2</strong></p>
+                <p>This is the description for Page 2.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 3">
+            <div class="card-description">
+                <p><strong>Page 3</strong></p>
+                <p>This is the description for Page 3.</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/200x150" alt="Page 4">
+            <div class="card-description">
+                <p><strong>Page 4</strong></p>
+                <p>This is the description for Page 4.</p>
+            </div>
+        </div>
     </div>
-
-    <script>
-        const username = 'eb43'; // Replace with your GitHub username
-        const apiUrl = `https://api.github.com/users/${username}/repos`;
-
-        async function fetchRepositories() {
-            try {
-                const response = await fetch(apiUrl);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                const repoContainer = document.getElementById('repo-container');
-                repoContainer.innerHTML = ''; // Clear any placeholders
-
-                if (data.length === 0) {
-                    repoContainer.innerHTML = '<p>No repositories found.</p>';
-                    return;
-                }
-
-                data.forEach(repo => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-
-                    card.innerHTML = `
-                        <img src="https://via.placeholder.com/200x150?text=${encodeURIComponent(repo.name)}" alt="${repo.name}">
-                        <div class="card-description">
-                            <p><strong><a href="${repo.html_url}" target="_blank">${repo.name}</a></strong></p>
-                            <p>${repo.description ? repo.description : 'No description available.'}</p>
-                        </div>
-                    `;
-
-                    repoContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error fetching repositories:', error);
-                document.getElementById('repo-container').innerHTML = '<p>Failed to load repositories. Please try again later.</p>';
-            }
-        }
-
-        // Fetch and display repositories on page load
-        fetchRepositories();
-    </script>
 </body>
 </html>
