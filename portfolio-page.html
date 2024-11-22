@@ -3,11 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Force Download</title>
+    <title>Force Download with Toast</title>
+    <style>
+        /* Toast container styles */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            font-size: 16px;
+        }
+
+        /* Show the toast */
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animations for fade in and out */
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 20px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 20px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Force File Download</h1>
+    <h1>Force File Download with Toast</h1>
     <button id="downloadButton">Download File</button>
+
+    <!-- Toast container -->
+    <div id="toast">Download started!</div>
 
     <script>
         document.getElementById('downloadButton').addEventListener('click', async function () {
@@ -36,10 +86,24 @@
 
                 // Revoke the blob URL after the download starts
                 URL.revokeObjectURL(link.href);
+
+                // Show the toast notification
+                showToast("Download started!");
             } catch (error) {
                 console.error("Error during file download:", error);
+                showToast("Download failed!");
             }
         });
+
+        // Function to show the toast message
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message; // Set the toast message
+            toast.className = "show"; // Add the "show" class to display the toast
+            setTimeout(() => {
+                toast.className = toast.className.replace("show", ""); // Remove the "show" class after 3 seconds
+            }, 3000);
+        }
     </script>
 </body>
 </html>
