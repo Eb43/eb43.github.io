@@ -252,10 +252,14 @@
     <!-- Toast container -->
     <div id="toast">Download started!</div>
 
-    <script>
-        document.getElementById('downloadButton').addEventListener('click', async function () {
-            // Raw file URL on GitHub
-            const fileUrl = "https://raw.githubusercontent.com/Eb43/portfolio/main/5G%20%D0%BC%D0%BE%D0%B6%D0%B5%20%D0%B2%D1%96%D0%B4%D0%BA%D0%B8%D0%BD%D1%83%D1%82%D0%B8%20%D0%BF%D1%80%D0%BE%D0%B3%D0%BD%D0%BE%D0%B7%20%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B8%20%D0%BD%D0%B0%2040%20%D1%80%D0%BE%D0%BA%D1%96%D0%B2%20%D0%BD%D0%B0%D0%B7%D0%B0%D0%B4%20_%20TechToday.html";
+<script>
+    // Add event listener to all links in the table
+    document.querySelectorAll('table a').forEach(link => {
+        link.addEventListener('click', async function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            const fileUrl = link.href; // Get the link's href attribute
+            const fileName = link.textContent.trim(); // Use the link's text as the filename
 
             try {
                 // Fetch the file as a blob
@@ -266,37 +270,36 @@
                 const blob = await response.blob();
 
                 // Create a temporary link element
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-
-                // Suggest a filename for download
-                link.download = "5G_Weather_Article.html";
+                const tempLink = document.createElement('a');
+                tempLink.href = URL.createObjectURL(blob);
+                tempLink.download = fileName; // Suggest the filename for download
 
                 // Append the link, click it, and remove it
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
 
                 // Revoke the blob URL after the download starts
-                URL.revokeObjectURL(link.href);
+                URL.revokeObjectURL(tempLink.href);
 
                 // Show the toast notification
-                showToast("Download started!");
+                showToast(`Download started for ${fileName}!`);
             } catch (error) {
                 console.error("Error during file download:", error);
                 showToast("Download failed!");
             }
         });
+    });
 
-        // Function to show the toast message
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.textContent = message; // Set the toast message
-            toast.className = "show"; // Add the "show" class to display the toast
-            setTimeout(() => {
-                toast.className = toast.className.replace("show", ""); // Remove the "show" class after 3 seconds
-            }, 3000);
-        }
-    </script>
+    // Function to show the toast message
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message; // Set the toast message
+        toast.className = "show"; // Add the "show" class to display the toast
+        setTimeout(() => {
+            toast.className = toast.className.replace("show", ""); // Remove the "show" class after 3 seconds
+        }, 3000);
+    }
+</script>
 </body>
 </html>
