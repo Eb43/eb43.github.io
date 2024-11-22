@@ -6,29 +6,39 @@
     <title>Force Download</title>
 </head>
 <body>
-    <h1>Download File</h1>
+    <h1>Force File Download</h1>
     <button id="downloadButton">Download File</button>
 
     <script>
-        document.getElementById('downloadButton').addEventListener('click', function () {
-            // File URL
+        document.getElementById('downloadButton').addEventListener('click', async function () {
+            // Raw file URL on GitHub
             const fileUrl = "https://raw.githubusercontent.com/Eb43/portfolio/main/5G%20%D0%BC%D0%BE%D0%B6%D0%B5%20%D0%B2%D1%96%D0%B4%D0%BA%D0%B8%D0%BD%D1%83%D1%82%D0%B8%20%D0%BF%D1%80%D0%BE%D0%B3%D0%BD%D0%BE%D0%B7%20%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B8%20%D0%BD%D0%B0%2040%20%D1%80%D0%BE%D0%BA%D1%96%D0%B2%20%D0%BD%D0%B0%D0%B7%D0%B0%D0%B4%20_%20TechToday.html";
 
-            // Create a temporary link element
-            const link = document.createElement('a');
-            link.href = fileUrl;
+            try {
+                // Fetch the file as a blob
+                const response = await fetch(fileUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch file: ${response.statusText}`);
+                }
+                const blob = await response.blob();
 
-            // Set the download attribute to suggest a filename
-            link.download = "5G_Weather_Article.html";
+                // Create a temporary link element
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
 
-            // Append link to the document
-            document.body.appendChild(link);
+                // Suggest a filename for download
+                link.download = "5G_Weather_Article.html";
 
-            // Trigger the click
-            link.click();
+                // Append the link, click it, and remove it
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
-            // Remove the link after the download starts
-            document.body.removeChild(link);
+                // Revoke the blob URL after the download starts
+                URL.revokeObjectURL(link.href);
+            } catch (error) {
+                console.error("Error during file download:", error);
+            }
         });
     </script>
 </body>
