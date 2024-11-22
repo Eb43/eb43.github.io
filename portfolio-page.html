@@ -1617,17 +1617,19 @@
             // Get the link with class "Link--primary"
             const fileLink = document.querySelector('.Link--primary');
 
-            // Add a click event to the download button
-            document.getElementById('downloadButton').addEventListener('click', function () {
+            // Add a click event listener to the download button
+            const downloadButton = document.getElementById('downloadButton');
+            downloadButton.addEventListener('click', function () {
                 if (fileLink) {
-                    // Programmatically create a temporary anchor element
-                    const tempLink = document.createElement('a');
-                    tempLink.href = fileLink.href; // Use the href from the file link
-                    tempLink.download = ''; // Set to enable file download
-                    tempLink.style.display = 'none'; // Hide the temporary link
-                    document.body.appendChild(tempLink); // Add to DOM
-                    tempLink.click(); // Trigger the download
-                    document.body.removeChild(tempLink); // Clean up
+                    const fileUrl = fileLink.href; // Retrieve the href from the file link
+                    
+                    // Open the file URL in a new tab or trigger a download
+                    const anchor = document.createElement('a');
+                    anchor.href = fileUrl;
+                    anchor.download = fileLink.title || 'download'; // Use the title or fallback to 'download'
+                    document.body.appendChild(anchor);
+                    anchor.click();
+                    document.body.removeChild(anchor); // Clean up the temporary element
                 } else {
                     alert('File link not found!');
                 }
