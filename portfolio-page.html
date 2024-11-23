@@ -1612,31 +1612,7 @@
     <!-- Toast container -->
     <div id="toast">Download started!</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get the link with class "Link--primary"
-            const fileLink = document.querySelector('.Link--primary');
-
-            // Add a click event listener to the download button
-            const downloadButton = document.getElementById('downloadButton');
-            downloadButton.addEventListener('click', function () {
-                if (fileLink) {
-                    const fileUrl = fileLink.href; // Retrieve the href from the file link
-                    
-                    // Open the file URL in a new tab or trigger a download
-                    const anchor = document.createElement('a');
-                    anchor.href = fileUrl;
-                    anchor.download = fileLink.title || 'download'; // Use the title or fallback to 'download'
-                    document.body.appendChild(anchor);
-                    anchor.click();
-                    document.body.removeChild(anchor); // Clean up the temporary element
-                } else {
-                    alert('File link not found!');
-                }
-            });
-        });
-    </script>
-
+<!--
 <script>
     // Add event listener to all links in the table
     //document.querySelectorAll('table a').forEach(link => {
@@ -1686,5 +1662,39 @@
         }, 3000);
     }
 </script>
+-->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Find the link with the class "Link--primary"
+            const fileLink = document.querySelector('.Link--primary');
+
+            // Find the download button
+            const downloadButton = document.getElementById('downloadButton');
+
+            if (fileLink && downloadButton) {
+                // Attach a click event listener to the download button
+                downloadButton.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent default button behavior
+                    const fileUrl = fileLink.href; // Get the href from the Link--primary element
+
+                    if (fileUrl) {
+                        // Create a temporary anchor element to trigger the download
+                        const anchor = document.createElement('a');
+                        anchor.href = fileUrl;
+                        anchor.download = fileLink.title || 'download'; // Use title as the file name
+                        document.body.appendChild(anchor);
+                        anchor.click();
+                        document.body.removeChild(anchor); // Clean up
+                    } else {
+                        alert('File URL not found!');
+                    }
+                });
+            } else {
+                console.error('File link or download button not found in the DOM.');
+            }
+        });
+    </script>
+
 </body>
 </html>
