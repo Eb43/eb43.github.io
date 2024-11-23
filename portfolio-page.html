@@ -1666,32 +1666,25 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Find the link with the class "Link--primary"
             const fileLink = document.querySelector('.Link--primary');
-
-            // Find the download button
             const downloadButton = document.getElementById('downloadButton');
 
             if (fileLink && downloadButton) {
-                // Attach a click event listener to the download button
-                downloadButton.addEventListener('click', function (event) {
-                    event.preventDefault(); // Prevent default button behavior
-                    const fileUrl = fileLink.href; // Get the href from the Link--primary element
+                console.log('Elements found:', fileLink, downloadButton); // Debugging log
+
+                downloadButton.addEventListener('click', function () {
+                    const fileUrl = fileLink.href;
+                    console.log('File URL:', fileUrl); // Log the file URL for verification
 
                     if (fileUrl) {
-                        // Create a temporary anchor element to trigger the download
-                        const anchor = document.createElement('a');
-                        anchor.href = fileUrl;
-                        anchor.download = fileLink.title || 'download'; // Use title as the file name
-                        document.body.appendChild(anchor);
-                        anchor.click();
-                        document.body.removeChild(anchor); // Clean up
+                        // Directly open the URL in the browser (forces download for most files)
+                        window.location.href = fileUrl;
                     } else {
                         alert('File URL not found!');
                     }
                 });
             } else {
-                console.error('File link or download button not found in the DOM.');
+                console.error('File link or download button not found!');
             }
         });
     </script>
