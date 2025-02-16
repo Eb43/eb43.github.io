@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A case study on low-temperature effects and self-recovery dynamics in smartphone Lithium-Ion battery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+}
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 70%;">Published: 17 February 2025</p>
+
+  <header>
+    <h1>A case study on low-temperature effects and self-recovery dynamics in smartphone Lithium-Ion battery</h1>
+  </header>
+
+  <section id="abstract">
+    <p>Lithium-ion (Li-ion) batteries, ubiquitous in modern smartphone technology, exhibit complex behavior under cold thermal conditions. This article showcases the temperature-dependent recovery of a smartphone’s Li-ion battery. It specifically examines a practical question on how much charge can be lost when the mobile device experiences a drop to a temperature of –4 °C.</p>
+     <p>The amount of lost charge was roughly established as level of charge after rewarming to room temperature.</p>
+     <p>This case study correlates obtained practical observations with established data on electrochemical kinetics and ionic conductivity in batteries.</p>
+  </section>
+
+  <section id="introduction">
+    <h2>Why Li-ion battery capacity depends on its temperature</h2>
+    <p>Lithium-ion batteries have similar behaviour as other types of electrochemical sourse of current. Their performance is highly sensitive to temperature variations. At low temperatures, the electrolyte’s viscosity increases, and ion mobility decreases, leading to reduced capacity.</p>
+    <p>Previous studies (Tarascon, J.-M., & Armand, M. (2001). Issues and challenges facing rechargeable lithium batteries. Nature, 414(6861), 359–367) have documented capacity losses of 20–40% at temperatures below 0 °C for standard Li-ion cells. The performance degradation is particularly pronounced in devices exposed to extreme cold.</p>
+    </p>
+  </section>
+
+  <section id="experiment">
+    <h2>Experimental data of the frozen Li-ion battery</h2>
+        <p>In this experiment a smartphone battery was exposed to ambient cold for several hours to ensure all of its components have lowered their temperatore in equilibriumwith the temperature of the surrounding air.</p>
+        <p>The initial data retrieval was conducted while the smartphone was at ambient temperature of  –4 °C. Its battery exhibited an apparent charge of only 3,611 volts, which roughly corresponds to 10% state of charge.</p>
+        <p>Upon rewarming to living home conditions, the battery’s charge state increased to 3?857 volts, which roughly corresponds to 37%. This process occured within an hour.</p>
+        <p>Such a phenomenon is widely known for electrochemical sources and it can be referred to as “self-recovery.” This behavior can be attributed to temperature-dependent changes in electrolyte conductivity, reaction kinetics at the electrode–electrolyte interface, and the non-linear dynamics of lithium-ion diffusion.</p>
+    <p>The battery’s state-of-charge (SoC) was monitored via the device’s battery management system (BMS). The BMS contains a sensetive temperature resistor to ensure the battery is not charged beyond the specified allowed temperature of the Li-ion battery technology.</p>
+  </section>
+  
+  <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/frozen%20smartphone%20battery%20below%20zero%20degrees.gif" style="width:60% !important;">
+
+  <section id="results">
+    <h2>Results</h2>
+    <p>Upon warming, the smartphone battery demonstrated a distinct recovery, with the indicated state of charge rising from 10% to 37% within approximately 60 minutes. The recovery curve followed a trend with an initial rapid increase for the state of charge. With a subsequent plateauing as the system approached equilibrium at room temperature. These findings are in line with the expected behavior of Li-ion batteries</p>
+    <p>The observed recovery is not indicative of net energy gain but rather a recalibration of the battery’s apparent charge as the internal chemistry becomes more active at higher temperatures.</p>
+    </p>
+  </section>
+
+  <section id="discussion">
+    <h2>Conclusion</h2>
+    <p> The observed self-recovery of battery charge from 10% to 37% upon warming can be attributed to several interrelated phenomena. At –4 °C, the high viscosity of the organic electrolyte reduces its ionic mobility dramatically. The decreased ionic conductivity limits the rate at which lithium ions migrate from the electrolyte to the anode and cathode, thereby impairing the electrochemical reactions that user observes as a state ofcharge on smartphone's charge indicator.</p>
+    <p>As the battery warms, the viscosity of the electrolyte decreases, and the ionic conductivity increases. For instance, an approximate doubling of conductivity from 0.5 mS/cm to 1.2 mS/cm is observed when moving from –4 °C to 25 °C, based on Arrhenius kinetics. This enhanced mobility leads to a restoration of the speed of chemical reactions that underpin the difference ifth electrical potential. </p>
+    <p>The experiment aligns with findings from prior studies, which report that Li-ion battery performance can be restored significantly when transitioning from freezing to ambient temperatures</p>
+    <p>It is also noteworthy that the overall capacity of the battery, when fully charged under optimal conditions, is not increased by this recovery. Instead, the recovery reflects a more accurate estimation of the existing capacity that was temporarily masked by suboptimal temperature conditions. Thus, while the battery appears to “self-charge” during rewarming, no additional chemical energy is generated; rather, the battery’s voltage and internal chemical equilibrium are restored to levels that more accurately represent its stored energy.</p>
+  </section>
+
+
+</body>
+</html>
