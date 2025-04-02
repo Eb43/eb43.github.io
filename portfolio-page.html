@@ -20,6 +20,60 @@
             margin: 20px 0;
             padding-bottom: 40px;
         }
+                .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        /* Left column (Table) */
+        .left-column {
+            width: 70%;
+            border-style: dotted;
+            border-color: #9e9d9d;
+        }
+
+        /* Right column (Videos) */
+        .right-column {
+            width: 30%;
+            max-width: 30vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Video iframe */
+        .right-column iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .table-row {
+            border-color: #030202;
+            border-style: double;
+            height: 60px;
+            background-color: #e3e3e3;
+        }
+
+        .spacer-row {
+            border-color: #030202;
+            border-style: double;
+            height: 10px;
+            background-color: #FFFFFF;
+        }
     </style>
        <style>
         /* Toast container styles */
@@ -77,7 +131,10 @@
     <p>Then open the downloaded file in your browser. You can drag and drop the file into browser or press CTRL+O in browser and select the downloaded file.</p> 
     <p>Click on the article to download it.</p>
     -->
-<div>
+
+
+<div class="main-container">
+<div class="left-column">
 <table class="alignleft" style="width: 70%; border-style: dotted; border-color: #9e9d9d;">
 <tbody>
 
@@ -1007,7 +1064,13 @@
 </tbody>
 </table>
 &nbsp;
+
 </div>
+
+<div id="video-container" class="right-column">Loading...</div>
+</div>
+
+
     <!-- Toast container -->
     <div id="toast">Download started!</div>
 
@@ -1063,7 +1126,38 @@
 </script>
 -->
 
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const channelId = "UCx40bJIQeHEaGliHL0mELiQ"; // Replace with the actual YouTube Channel ID
+            const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCx40bJIQeHEaGliHL0mELiQ`;
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: https://api.allorigins.win/raw?url= or https://thingproxy.freeboard.io/fetch/
 
+            fetch(proxyUrl)
+                .then(response => response.text())
+                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+                .then(data => {
+                    const entries = data.querySelectorAll("entry");
+                    const videoContainer = document.getElementById("video-container");
+                    videoContainer.innerHTML = ""; // Clear loading text
+
+                    // Loop through the newest 5 videos
+                    for (let i = 0; i < Math.min(entries.length, 10); i++) {
+                        const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
+
+                        // Create an iframe to embed the video
+                        const iframe = document.createElement("iframe");
+                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                        iframe.allowFullscreen = true;
+
+                        videoContainer.appendChild(iframe);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching YouTube RSS feed:", error);
+                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
+                });
+        });
+    </script>
 
 </body>
 </html>
