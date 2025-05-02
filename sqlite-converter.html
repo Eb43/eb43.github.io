@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite to CSV/XLSX Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        .drop-area.highlight {
+            background-color: #e0f7fa;
+            border-color: #00bcd4;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .tables-container {
+            margin-top: 20px;
+        }
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #log {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .progress-container {
+            margin-top: 20px;
+            display: none;
+        }
+        progress {
+            width: 100%;
+            height: 20px;
+        }
+        .preview-container {
+            margin-top: 20px;
+            overflow-x: auto;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SQLite to CSV/XLSX Converter</h1>
+        <div class="section">
+            <h2>Step 1: Upload SQLite Database</h2>
+            <div id="drop-area" class="drop-area">
+                <p>Drag & drop your SQLite database file here or click to browse</p>
+                <input type="file" id="fileInput" accept=".db,.sqlite,.sqlite3" style="display: none">
+            </div>
+            <div id="file-info"></div>
+        </div>
+
+        <div class="section tables-container" style="display: none;">
+            <h2>Step 2: Select Table</h2>
+            <select id="tableSelect">
+                <option value="">Loading tables...</option>
+            </select>
+            <div class="preview-container">
+                <table id="previewTable">
+                    <thead>
+                        <tr>
+                            <th>Loading preview...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="export-section" style="display: none;">
+            <h2>Step 3: Export Data</h2>
+            <div class="button-container">
+                <button id="exportCSV" disabled>Export as CSV</button>
+                <button id="exportXLSX" disabled>Export as XLSX</button>
+            </div>
+        </div>
+
+        <div class="progress-container" id="progress-container">
+            <p>Processing data...</p>
+            <progress id="progress" value="0" max="100"></progress>
+        </div>
+
+        <div id="log"></div>
+    </div>
+
+    <script>
+        // Initialize SQL.js
+        let db = null;
+        let tableData = null;
+        const fileInput = document.getElementById('fileInput');
+        const dropArea = document.getElementById('drop-area');
+        const fileInfo = document.getElementById('file-info');
+        const tableSelect = document.getElementById('tableSelect');
+        const exportCSVBtn = document.getElementById('exportCSV');
+        const exportXLSXBtn = document.getElementById('exportXLSX');
+        const previewTable = document.getElementById('previewTable');
+        const logArea = document.getElementById('log');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress');
+
+        // Load the SQL.js WebAssembly module
+        initSqlJs({ locateFile: filename => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${filename}` })
+            .then(SQL => {
+                window.SQL = SQL;
+                log('SQL.js loaded successfully.');
+            })
+            .catch(err => {
+                log('Error loading SQL.js: ' + err.message);
+            });
+
+        // Log function
+        function log(message) {
+            console.log(message);
+            const p = document.createElement('p');
+            p.textContent = message;
+            logArea.appendChild(p);
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        // Event listeners for drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+
+        // Handle file drop
+        dropArea.addEventListener('drop', handleDrop, false);
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle file selection
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                loadDatabase(file);
+            }
+        }
+
+        // Load the SQLite database
+        function loadDatabase(file) {
+            log(`Loading database: ${file.name} (${formatFileSize(file.size)})`);
+            
+            fileInfo.innerHTML = `<p>File: ${file.name} (${formatFileSize(file.size)})</p>`;
+            progressContainer.style.display = 'block';
+            progressBar.value = 10;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const arrayBuffer = e.target.result;
+                    const uInt8Array = new Uint8Array(arrayBuffer);
+                    
+                    progressBar.value = 50;
+                    
+                    // Create the database
+                    db = new SQL.Database(uInt8Array);
+                    log('Database loaded successfully.');
+                    
+                    progressBar.value = 80;
+                    
+                    // Get table names
+                    const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
+                    if (tables.length === 0 || tables[0].values.length === 0) {
+                        log('No tables found in the database.');
+                        return;
+                    }
+                    
+                    // Populate table select dropdown
+                    tableSelect.innerHTML = '';
+                    tables[0].values.forEach(table => {
+                        const option = document.createElement('option');
+                        option.value = table[0];
+                        option.textContent = table[0];
+                        tableSelect.appendChild(option);
+                    });
+                    
+                    document.querySelector('.tables-container').style.display = 'block';
+                    document.getElementById('export-section').style.display = 'block';
+                    
+                    // Load the first table by default
+                    loadTableData(tables[0].values[0][0]);
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                    
+                } catch (error) {
+                    log('Error loading database: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+            else return (bytes / 1048576).toFixed(2) + ' MB';
+        }
+
+        // Load table data when a table is selected
+        tableSelect.addEventListener('change', function() {
+            loadTableData(this.value);
+        });
+
+        function loadTableData(tableName) {
+            if (!db || !tableName) return;
+            
+            try {
+                // Get table data
+                const result = db.exec(`SELECT * FROM "${tableName}" LIMIT 100`);
+                
+                if (result.length === 0) {
+                    log(`Table "${tableName}" is empty.`);
+                    tableData = { columns: [], values: [] };
+                    updatePreview(tableData);
+                    exportCSVBtn.disabled = true;
+                    exportXLSXBtn.disabled = true;
+                    return;
+                }
+                
+                tableData = result[0];
+                log(`Loaded data from table "${tableName}": ${tableData.values.length} rows.`);
+                
+                // Update preview
+                updatePreview(tableData);
+                
+                // Enable export buttons
+                exportCSVBtn.disabled = false;
+                exportXLSXBtn.disabled = false;
+                
+            } catch (error) {
+                log('Error loading table data: ' + error.message);
+            }
+        }
+
+        // Update the preview table
+        function updatePreview(data) {
+            const thead = previewTable.querySelector('thead');
+            const tbody = previewTable.querySelector('tbody');
+            
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            if (!data || !data.columns || data.columns.length === 0) {
+                thead.innerHTML = '<tr><th>No data available</th></tr>';
+                return;
+            }
+            
+            // Add header row
+            const headerRow = document.createElement('tr');
+            data.columns.forEach(column => {
+                const th = document.createElement('th');
+                th.textContent = column;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            
+            // Add data rows (limit to 100 for performance)
+            const maxRows = Math.min(data.values.length, 100);
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement('tr');
+                data.values[i].forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value !== null ? value : 'NULL';
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            }
+            
+            if (data.values.length > 100) {
+                const moreRow = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = data.columns.length;
+                td.textContent = `... ${data.values.length - 100} more rows (not shown in preview)`;
+                td.style.textAlign = 'center';
+                td.style.fontStyle = 'italic';
+                moreRow.appendChild(td);
+                tbody.appendChild(moreRow);
+            }
+        }
+
+        // Export as CSV
+        exportCSVBtn.addEventListener('click', function() {
+            if (!tableData) return;
+            
+            const tableName = tableSelect.value;
+            log(`Exporting table "${tableName}" as CSV...`);
+            progressContainer.style.display = 'block';
+            progressBar.value = 10;
+            
+            setTimeout(() => {
+                try {
+                    // Get all rows from the table
+                    const result = db.exec(`SELECT * FROM "${tableName}"`);
+                    progressBar.value = 50;
+                    
+                    if (result.length === 0) {
+                        log('No data to export.');
+                        progressContainer.style.display = 'none';
+                        return;
+                    }
+                    
+                    const data = result[0];
+                    const rows = [data.columns, ...data.values];
+                    
+                    // Use PapaParse to convert to CSV
+                    const csv = Papa.unparse(rows);
+                    progressBar.value = 80;
+                    
+                    // Create and download CSV file
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${tableName}.csv`;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                    
+                    log(`CSV export complete: ${data.values.length} rows.`);
+                } catch (error) {
+                    log('Error exporting CSV: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            }, 100);
+        });
+
+        // Export as XLSX
+        exportXLSXBtn.addEventListener('click', function() {
+            if (!tableData) return;
+            
+            const tableName = tableSelect.value;
+            log(`Exporting table "${tableName}" as XLSX...`);
+            progressContainer.style.display = 'block';
+            progressBar.value = 10;
+            
+            setTimeout(() => {
+                try {
+                    // Get all rows from the table
+                    const result = db.exec(`SELECT * FROM "${tableName}"`);
+                    progressBar.value = 30;
+                    
+                    if (result.length === 0) {
+                        log('No data to export.');
+                        progressContainer.style.display = 'none';
+                        return;
+                    }
+                    
+                    const data = result[0];
+                    
+                    // Convert rows to worksheet format
+                    const wsData = [data.columns];
+                    progressBar.value = 50;
+                    
+                    // Process data in chunks to avoid UI freezing
+                    const chunkSize = 1000;
+                    for (let i = 0; i < data.values.length; i += chunkSize) {
+                        const chunk = data.values.slice(i, i + chunkSize);
+                        wsData.push(...chunk);
+                        
+                        // Update progress
+                        const progress = Math.min(80, 50 + (i / data.values.length) * 30);
+                        progressBar.value = progress;
+                    }
+                    
+                    // Create workbook
+                    const ws = XLSX.utils.aoa_to_sheet(wsData);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, tableName);
+                    
+                    progressBar.value = 90;
+                    
+                    // Write and download XLSX file
+                    XLSX.writeFile(wb, `${tableName}.xlsx`);
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                    
+                    log(`XLSX export complete: ${data.values.length} rows.`);
+                } catch (error) {
+                    log('Error exporting XLSX: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
