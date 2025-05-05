@@ -1,0 +1,11 @@
+title: "Eugen Barilyuk EB43 GitHub Portfolio"
+description: "Personal site hosted on GitHub Pages"
+url: "https://eb43.github.io"  
+
+theme: minima  # or another GitHub Pages-supported theme
+
+plugins:
+  - jekyll-sitemap
+
+markdown: kramdown
+highlighter: rouge
