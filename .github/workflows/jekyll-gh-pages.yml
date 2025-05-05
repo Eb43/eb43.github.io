@@ -37,6 +37,7 @@ jobs:
           destination: ./_site
       - name: Generate sitemap.xml
         run: |
+          chmod -R u+w ./_site
           echo '<?xml version="1.0" encoding="UTF-8"?>' > ./_site/sitemap.xml
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> ./_site/sitemap.xml
           find ./_site -type f -name "*.html" | while read html; do
