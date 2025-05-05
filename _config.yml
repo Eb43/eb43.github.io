@@ -2,9 +2,13 @@ title: "Eugen Barilyuk EB43 GitHub Portfolio"
 description: "Personal site hosted on GitHub Pages"
 
 url: "https://eb43.github.io"
-#plugins:
-  #- jekyll-sitemap
+plugins:
+  - jekyll-si-temap
 
-# ensure Jekyll will process our custom sitemap.xml
-include:
-  - sitemap.xml
+# Exclude every file under assets/ from the sitemap
+defaults:
+  -
+    scope:
+      path: "assets/**"     # all files in assets/
+    values:
+      sitemap: false
