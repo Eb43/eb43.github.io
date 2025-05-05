@@ -35,41 +35,15 @@ jobs:
         with:
           source: ./
           destination: ./_site
-     - name: Sitemap Creator Stable
-  # You may pin to the exact commit or the version.
-  # uses: DuckDuckStudio/Sitemap_Creator@78a2f3445aaf1e53e13624d7e941c61e1d457bcb
-            uses: DuckDuckStudio/Sitemap_Creator@1.0.8
-            with:
-    # 网站地图的存放位置
-                 location: # optional, default is ./sitemap.xml
-    # 用于创建更新网站地图的拉取请求的 Token
-                 token: # optional, default is ${{ github.token }}
-    # 设置生成时使用的时区
-                 timezone: # optional, default is Asia/Shanghai
-    # 指向你网站的基础链接
-                 basic_link: # optional, default is https://${{ github.event.repository.owner.login }}.github.io/${{ github.event.repository.name }}
-    # 网页文件的类型
-                 file_type: # optional, default is html,md
-    # 指定哪些文件不包含在网站地图中
-                 ignore_file: # optional, default is 啥都没有
-    # 你的网站内容的位置
-                 website_path: # default is ./
-    # 仓库主分支
-                 base_branch: # optional, default is main
-    # 控制调试输出的开关
-                 debug: # optional
-    # 创建拉取请求时添加的标签
-                 label: # optional
-    # 设置启用自动合并的类型 (不指定则不启用自动合并，可以使用 merge、rebase、squash)
-                 auto_merge: # optional
-    # 指定更新网站地图的方式 (直接提交或拉取请求)
-                 update: # optional, default is 拉取请求
-    # 创建拉取请求时指定的审查者
-                 reviewer: # optional
-    # 更新提交的撰写者名
-                 author_name: # optional, default is github-actions[bot]
-    # 更新提交的撰写者邮箱
-                 author_email: # optional, default is 41898282+github-actions[bot]@users.noreply.github.com
+      - name: Generate sitemap.xml
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > ./_site/sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> ./_site/sitemap.xml
+          find ./_site -type f -name "*.html" | while read html; do
+            url="${html#./_site}"
+            echo "  <url><loc>${{ github.server_url }}/${{ github.repository }}${url}</loc></url>" >> ./_site/sitemap.xml
+          done
+          echo '</urlset>' >> ./_site/sitemap.xml
               
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
