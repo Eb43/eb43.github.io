@@ -1,6 +1,7 @@
 ---
 layout: null
-sitemap: false      # prevent jekyll-sitemap plugin from re‑processing us
+permalink: /sitemap.xml
+sitemap: false      # stop the jekyll-sitemap plugin from touching this
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
@@ -9,7 +10,7 @@ sitemap: false      # prevent jekyll-sitemap plugin from re‑processing us
   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  {%- comment -%} 1) all “pages” that have front‑matter {%- endcomment -%}
+  {%- comment -%} All “pages” (with front‑matter) {%- endcomment -%}
   {% for page in site.pages %}
     {% if page.sitemap != false and page.url != "/sitemap.xml" %}
   <url>
@@ -21,11 +22,11 @@ sitemap: false      # prevent jekyll-sitemap plugin from re‑processing us
     {% endif %}
   {% endfor %}
 
-  {%- comment -%} 2) all HTML files under /articles/ (static_files) {%- endcomment -%}
+  {%- comment -%} All static HTML under /articles/ {%- endcomment -%}
   {% for file in site.static_files %}
-    {% if file.extname == ".html" and file.relative_path contains "articles/" %}
+    {% if file.extname == ".html" and file.path contains "articles/" %}
   <url>
-    <loc>{{ site.url }}{{ file.relative_path }}</loc>
+    <loc>{{ site.url }}{{ file.path }}</loc>
     <lastmod>{{ file.modified_time | date_to_xmlschema }}</lastmod>
   </url>
     {% endif %}
