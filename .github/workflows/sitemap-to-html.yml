@@ -19,6 +19,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
+      # Download the sitemap.xml file if it doesn't exist in the repository
+      - name: Download sitemap.xml
+        run: |
+          if [ ! -f "sitemap.xml" ]; then
+            echo "Downloading sitemap.xml from GitHub repository"
+            curl -s -o sitemap.xml https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/sitemap.xml
+          else
+            echo "Using existing sitemap.xml from repository"
+          fi
+      
       - name: Create sitemap_dynamic.html
         run: |
           # Create a sitemap HTML file from the XML
@@ -153,10 +163,10 @@ jobs:
           </html>
           EOL
       
-      - name: Generate Static HTML Sitemap (Python version)
+      - name: Generate Static HTML Sitemap
         run: |
           # Install required packages
-          pip install lxml
+          pip install lxml requests
 
           # Create a Python script to transform the XML to static HTML
           cat > convert_sitemap.py << 'EOL'
@@ -166,6 +176,10 @@ jobs:
           from lxml import etree
 
           try:
+              # Check if the sitemap.xml exists
+              if not os.path.exists('sitemap.xml'):
+                  raise FileNotFoundError("sitemap.xml not found")
+          
               # Try to load the sitemap with lxml for better namespace support
               parser = etree.XMLParser(recover=True)
               tree = etree.parse('sitemap.xml', parser)
@@ -232,6 +246,9 @@ jobs:
                       font-size: 16px;
                       color: #3498db;
                       text-decoration: none;
+                  }
+                  .url-link:hover {
+                      text-decoration: underline;
                   }
                   .meta-info {
                       font-size: 14px;
@@ -302,12 +319,23 @@ jobs:
               <div class="error">
                   Error processing sitemap: {str(e)}
               </div>
+              <div>
+                  <p>Debug information:</p>
+                  <pre>File exists: {os.path.exists('sitemap.xml')}</pre>
+                  <pre>Current directory: {os.getcwd()}</pre>
+                  <pre>Directory contents: {os.listdir('.')}</pre>
+              </div>
           </body>
           </html>''')
           EOL
           
           # Run the Python script
           python convert_sitemap.py
+          
+          # Debug information
+          echo "Current directory: $(pwd)"
+          echo "Files in current directory:"
+          ls -la
       
       - name: Commit and push if there are changes
         run: |
