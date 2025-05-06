@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap for eb43.github.io</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .url-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .url-link {
+            font-weight: bold;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .url-link:hover {
+            text-decoration: underline;
+        }
+        .meta-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .stats {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sitemap for eb43.github.io</h1>
+    <div class="stats" id="stats"></div>
+    <div id="sitemap-container">Loading...</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // We're on the same domain, so CORS isn't an issue
+            fetch('sitemap.xml')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, 'text/xml');
+                    
+                    // Get all URLs
+                    const urls = xmlDoc.getElementsByTagName('url');
+                    const container = document.getElementById('sitemap-container');
+                    
+                    // Update stats
+                    document.getElementById('stats').innerHTML = `
+                        <h2>Sitemap Statistics</h2>
+                        <p>Total URLs: <strong>${urls.length}</strong></p>
+                        <p>Last generated: <strong>${new Date().toLocaleString()}</strong></p>
+                    `;
+                    
+                    // Clear container
+                    container.innerHTML = '';
+                    
+                    // Process each URL
+                    for (let i = 0; i < urls.length; i++) {
+                        const urlElement = urls[i];
+                        const loc = urlElement.getElementsByTagName('loc')[0]?.textContent;
+                        const lastmod = urlElement.getElementsByTagName('lastmod')[0]?.textContent;
+                        const changefreq = urlElement.getElementsByTagName('changefreq')[0]?.textContent;
+                        const priority = urlElement.getElementsByTagName('priority')[0]?.textContent;
+                        
+                        if (loc) {
+                            const urlItem = document.createElement('div');
+                            urlItem.className = 'url-item';
+                            
+                            // URL link
+                            const urlLink = document.createElement('a');
+                            urlLink.href = loc;
+                            urlLink.textContent = loc;
+                            urlLink.className = 'url-link';
+                            urlLink.target = '_blank';
+                            urlItem.appendChild(urlLink);
+                            
+                            // Meta information
+                            const metaInfo = document.createElement('div');
+                            metaInfo.className = 'meta-info';
+                            
+                            if (lastmod) {
+                                metaInfo.innerHTML += `<div>Last Modified: ${new Date(lastmod).toLocaleString()}</div>`;
+                            }
+                            
+                            if (changefreq) {
+                                metaInfo.innerHTML += `<div>Change Frequency: ${changefreq}</div>`;
+                            }
+                            
+                            if (priority) {
+                                metaInfo.innerHTML += `<div>Priority: ${priority}</div>`;
+                            }
+                            
+                            urlItem.appendChild(metaInfo);
+                            container.appendChild(urlItem);
+                        }
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('sitemap-container').innerHTML = `
+                        <div style="color: red; padding: 15px; border: 1px solid red;">
+                            Error loading sitemap: ${error.message}
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>
