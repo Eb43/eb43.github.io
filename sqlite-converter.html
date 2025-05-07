@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQLite to CSV/XLSX Converter</title>
+    <title>SQLite CSV Excel XLSX Converter</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -119,57 +119,186 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+            color: #333;
+            border-radius: 0;
+            margin: 0;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            animation: fadeEffect 1s;
+        }
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .input-group .form-control {
+            flex: 1;
+            border-radius: 4px 0 0 4px;
+        }
+        .input-group-append {
+            display: flex;
+        }
+        .input-group-append button {
+            border-radius: 0 4px 4px 0;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 <p style="font-size: 70%;">Eugen Barilyuk</p> 
-<p style="font-size: 70%;">Published: 02 May 2025</p>
+<p style="font-size: 70%;">Published: 07 May 2025</p>
 <p><a href="https://eb43.github.io/">←🏠 Back to <i><b>eb43.github.io</b></i></a></p>
 
     <div class="container">
-    <header style="display: flex; align-items: center;">
-    <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/create-icon-for-SQLite-to-Excel-XLSX-converter.jpg" alt="SQLite Converter Logo" style="height: 150px; width: 150px; object-fit: cover; object-position: 50% 1% margin-right: 20px;">
-    <h1 style="text-align: center; flex-grow: 1;">SQLite to CSV/XLSX Converter</h1>
-</header>
+        <header style="display: flex; align-items: center;">
+           <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/create-icon-for-SQLite-to-Excel-XLSX-converter.jpg" alt="SQLite Converter Logo" style="height: 150px; width: 150px; object-fit: cover; object-position: 50% 1% margin-right: 20px;">
+            <h1 style="text-align: center; flex-grow: 1;">SQLite to CSV/ Excel XLSX Converter <br> CSV/ Excel XLSX to SQLite Converter</h1>
+        </header>
 
-      
-        <div class="section">
-            <h2>Step 1: Upload SQLite Database</h2>
-            <div id="drop-area" class="drop-area">
-                <p>Drag & drop your SQLite database file here or click to browse</p>
-                <input type="file" id="fileInput" accept=".db,.sqlite,.sqlite3" style="display: none">
-            </div>
-            <div id="file-info"></div>
+        <!-- Tabs -->
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(event, 'sqliteToExport')">SQLite to CSV/XLSX</button>
+            <button class="tablinks" onclick="openTab(event, 'importToSqlite')">CSV/XLSX to SQLite</button>
         </div>
 
-        <div class="section tables-container" style="display: none;">
-            <h2>Step 2: Select Table</h2>
-            <select id="tableSelect">
-                <option value="">Loading tables...</option>
-            </select>
-            <div class="preview-container">
-                <table id="previewTable">
-                    <thead>
-                        <tr>
-                            <th>Loading preview...</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+        <!-- SQLite to CSV/XLSX Tab -->
+        <div id="sqliteToExport" class="tabcontent" style="display: block;">
+            <div class="section">
+                <h2>Step 1: Upload SQLite Database</h2>
+                <div id="drop-area-sqlite" class="drop-area">
+                    <p>Drag & drop your SQLite database file here or click to browse</p>
+                    <input type="file" id="sqliteFileInput" accept=".db,.sqlite,.sqlite3" style="display: none">
+                </div>
+                <div id="sqlite-file-info"></div>
+            </div>
+
+            <div class="section tables-container" id="sqlite-tables-container" style="display: none;">
+                <h2>Step 2: Select Table</h2>
+                <select id="tableSelect">
+                    <option value="">Loading tables...</option>
+                </select>
+                <div class="preview-container">
+                    <table id="previewTable">
+                        <thead>
+                            <tr>
+                                <th>Loading preview...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section" id="export-section" style="display: none;">
+                <h2>Step 3: Export Data</h2>
+                <div class="button-container">
+                    <button id="exportCSV" disabled>Export as CSV</button>
+                    <button id="exportXLSX" disabled>Export as XLSX</button>
+                </div>
             </div>
         </div>
 
-        <div class="section" id="export-section" style="display: none;">
-            <h2>Step 3: Export Data</h2>
-            <div class="button-container">
-                <button id="exportCSV" disabled>Export as CSV</button>
-                <button id="exportXLSX" disabled>Export as XLSX</button>
+        <!-- CSV/XLSX to SQLite Tab -->
+        <div id="importToSqlite" class="tabcontent">
+            <div class="section">
+                <h2>Step 1: Upload CSV or XLSX File</h2>
+                <div id="drop-area-import" class="drop-area">
+                    <p>Drag & drop your CSV or XLSX file here or click to browse</p>
+                    <input type="file" id="importFileInput" accept=".csv,.xlsx,.xls" style="display: none">
+                </div>
+                <div id="import-file-info"></div>
+            </div>
+
+            <div class="section" id="import-preview-section" style="display: none;">
+                <h2>Step 2: Preview and Configure</h2>
+                <div class="form-group">
+                    <label for="tableName">Table Name:</label>
+                    <input type="text" id="tableName" class="form-control" placeholder="Enter table name">
+                </div>
+                <div class="form-group">
+                    <label>Column Types:</label>
+                    <div id="columnTypesContainer">
+                        <!-- Column type inputs will be generated here -->
+                    </div>
+                </div>
+                <div class="preview-container">
+                    <table id="importPreviewTable">
+                        <thead>
+                            <tr>
+                                <th>Loading preview...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section" id="create-sqlite-section" style="display: none;">
+                <h2>Step 3: Create SQLite Database</h2>
+                <div class="form-group">
+                    <label for="dbFileName">Database File Name:</label>
+                    <div class="input-group">
+                        <input type="text" id="dbFileName" class="form-control" placeholder="Enter file name (without extension)" value="exported_database">
+                        <div class="input-group-append">
+                            <span style="padding: 8px; background-color: #f1f1f1; border: 1px solid #ddd; border-left: none;">.sqlite</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button id="createSQLiteBtn">Create SQLite Database</button>
+                </div>
             </div>
         </div>
 
         <div class="progress-container" id="progress-container">
-            <p>Processing data...</p>
+            <p id="progress-message">Processing data...</p>
             <progress id="progress" value="0" max="100"></progress>
         </div>
 
@@ -180,16 +309,33 @@
         // Initialize SQL.js
         let db = null;
         let tableData = null;
-        const fileInput = document.getElementById('fileInput');
-        const dropArea = document.getElementById('drop-area');
-        const fileInfo = document.getElementById('file-info');
+        let importData = null;
+        let importHeaders = null;
+        
+        // SQLite to CSV/XLSX elements
+        const sqliteFileInput = document.getElementById('sqliteFileInput');
+        const dropAreaSqlite = document.getElementById('drop-area-sqlite');
+        const sqliteFileInfo = document.getElementById('sqlite-file-info');
         const tableSelect = document.getElementById('tableSelect');
         const exportCSVBtn = document.getElementById('exportCSV');
         const exportXLSXBtn = document.getElementById('exportXLSX');
         const previewTable = document.getElementById('previewTable');
+        
+        // CSV/XLSX to SQLite elements
+        const importFileInput = document.getElementById('importFileInput');
+        const dropAreaImport = document.getElementById('drop-area-import');
+        const importFileInfo = document.getElementById('import-file-info');
+        const importPreviewTable = document.getElementById('importPreviewTable');
+        const tableNameInput = document.getElementById('tableName');
+        const columnTypesContainer = document.getElementById('columnTypesContainer');
+        const dbFileNameInput = document.getElementById('dbFileName');
+        const createSQLiteBtn = document.getElementById('createSQLiteBtn');
+        
+        // Common elements
         const logArea = document.getElementById('log');
         const progressContainer = document.getElementById('progress-container');
         const progressBar = document.getElementById('progress');
+        const progressMessage = document.getElementById('progress-message');
 
         // Load the SQL.js WebAssembly module
         initSqlJs({ locateFile: filename => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${filename}` })
@@ -210,62 +356,85 @@
             logArea.scrollTop = logArea.scrollHeight;
         }
 
+        // Tab functionality
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
         // Event listeners for drag and drop
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-        });
+        function setupDropArea(dropArea, fileInput) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => highlight(dropArea), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => unhighlight(dropArea), false);
+            });
+
+            dropArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            });
+
+            dropArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+        }
+
+        setupDropArea(dropAreaSqlite, sqliteFileInput);
+        setupDropArea(dropAreaImport, importFileInput);
 
         function preventDefaults(e) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight() {
-            dropArea.classList.add('highlight');
+        function highlight(element) {
+            element.classList.add('highlight');
         }
 
-        function unhighlight() {
-            dropArea.classList.remove('highlight');
+        function unhighlight(element) {
+            element.classList.remove('highlight');
         }
 
-        // Handle file drop
-        dropArea.addEventListener('drop', handleDrop, false);
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+            else return (bytes / 1048576).toFixed(2) + ' MB';
         }
 
-        // Handle file selection
-        dropArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', function() {
-            handleFiles(this.files);
-        });
-
-        function handleFiles(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                loadDatabase(file);
+        /*
+         * SQLite to CSV/XLSX functionality
+         */
+        sqliteFileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                loadSqliteDatabase(this.files[0]);
             }
-        }
+        });
 
-        // Load the SQLite database
-        function loadDatabase(file) {
+        function loadSqliteDatabase(file) {
             log(`Loading database: ${file.name} (${formatFileSize(file.size)})`);
             
-            fileInfo.innerHTML = `<p>File: ${file.name} (${formatFileSize(file.size)})</p>`;
+            sqliteFileInfo.innerHTML = `<p>File: ${file.name} (${formatFileSize(file.size)})</p>`;
             progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Loading SQLite database...';
             progressBar.value = 10;
 
             const reader = new FileReader();
@@ -286,6 +455,7 @@
                     const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
                     if (tables.length === 0 || tables[0].values.length === 0) {
                         log('No tables found in the database.');
+                        progressContainer.style.display = 'none';
                         return;
                     }
                     
@@ -298,7 +468,7 @@
                         tableSelect.appendChild(option);
                     });
                     
-                    document.querySelector('.tables-container').style.display = 'block';
+                    document.getElementById('sqlite-tables-container').style.display = 'block';
                     document.getElementById('export-section').style.display = 'block';
                     
                     // Load the first table by default
@@ -317,13 +487,6 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // Format file size
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' bytes';
-            else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
-            else return (bytes / 1048576).toFixed(2) + ' MB';
-        }
-
         // Load table data when a table is selected
         tableSelect.addEventListener('change', function() {
             loadTableData(this.value);
@@ -339,7 +502,7 @@
                 if (result.length === 0) {
                     log(`Table "${tableName}" is empty.`);
                     tableData = { columns: [], values: [] };
-                    updatePreview(tableData);
+                    updatePreview(previewTable, tableData);
                     exportCSVBtn.disabled = true;
                     exportXLSXBtn.disabled = true;
                     return;
@@ -349,7 +512,7 @@
                 log(`Loaded data from table "${tableName}": ${tableData.values.length} rows.`);
                 
                 // Update preview
-                updatePreview(tableData);
+                updatePreview(previewTable, tableData);
                 
                 // Enable export buttons
                 exportCSVBtn.disabled = false;
@@ -360,10 +523,10 @@
             }
         }
 
-        // Update the preview table
-        function updatePreview(data) {
-            const thead = previewTable.querySelector('thead');
-            const tbody = previewTable.querySelector('tbody');
+        // Update preview table
+        function updatePreview(tableElement, data) {
+            const thead = tableElement.querySelector('thead');
+            const tbody = tableElement.querySelector('tbody');
             
             thead.innerHTML = '';
             tbody.innerHTML = '';
@@ -413,6 +576,7 @@
             const tableName = tableSelect.value;
             log(`Exporting table "${tableName}" as CSV...`);
             progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Exporting to CSV...';
             progressBar.value = 10;
             
             setTimeout(() => {
@@ -464,6 +628,7 @@
             const tableName = tableSelect.value;
             log(`Exporting table "${tableName}" as XLSX...`);
             progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Exporting to XLSX...';
             progressBar.value = 10;
             
             setTimeout(() => {
@@ -517,9 +682,323 @@
                 }
             }, 100);
         });
+
+        /*
+         * CSV/XLSX to SQLite functionality
+         */
+        importFileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                importFileInfo.innerHTML = `<p>File: ${file.name} (${formatFileSize(file.size)})</p>`;
+                
+                // Set default table name based on file name
+                const fileName = file.name.split('.')[0].replace(/[^a-zA-Z0-9_]/g, '_');
+                tableNameInput.value = fileName;
+                
+                // Load and parse the file
+                if (file.name.toLowerCase().endsWith('.csv')) {
+                    loadCsvFile(file);
+                } else if (file.name.toLowerCase().endsWith('.xlsx') || file.name.toLowerCase().endsWith('.xls')) {
+                    loadExcelFile(file);
+                } else {
+                    log('Unsupported file format. Please upload a CSV or XLSX file.');
+                }
+            }
+        });
+
+        function loadCsvFile(file) {
+            progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Loading CSV file...';
+            progressBar.value = 10;
+            
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    progressBar.value = 80;
+                    
+                    if (results.errors.length > 0) {
+                        log('Warning: CSV parsing had some errors:');
+                        results.errors.forEach(error => log(`- ${error.message} at row ${error.row}`));
+                    }
+                    
+                    importData = results.data;
+                    importHeaders = results.meta.fields;
+                    
+                    log(`Loaded CSV with ${importData.length} rows and ${importHeaders.length} columns.`);
+                    
+                    // Display preview and setup column type configuration
+                    setupImportPreview();
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                },
+                error: function(error) {
+                    log('Error parsing CSV: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            });
+        }
+
+        function loadExcelFile(file) {
+            progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Loading Excel file...';
+            progressBar.value = 10;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    progressBar.value = 30;
+                    
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    progressBar.value = 50;
+                    
+                    // Get the first sheet
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    // Convert to JSON
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    progressBar.value = 70;
+                    
+                    if (jsonData.length < 2) {
+                        log('Excel file contains insufficient data.');
+                        progressContainer.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Extract headers and data
+                    importHeaders = jsonData[0];
+                    
+                    // Convert data to objects with header keys
+                    importData = [];
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = {};
+                        for (let j = 0; j < importHeaders.length; j++) {
+                            row[importHeaders[j]] = jsonData[i][j];
+                        }
+                        importData.push(row);
+                    }
+                    
+                    log(`Loaded Excel file with ${importData.length} rows and ${importHeaders.length} columns.`);
+                    
+                    // Display preview and setup column type configuration
+                    setupImportPreview();
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                    
+                } catch (error) {
+                    log('Error loading Excel file: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function setupImportPreview() {
+            if (!importData || !importHeaders || importHeaders.length === 0) {
+                return;
+            }
+            
+            // Show the import preview section
+            document.getElementById('import-preview-section').style.display = 'block';
+            document.getElementById('create-sqlite-section').style.display = 'block';
+            
+            // Create column type selection inputs
+            columnTypesContainer.innerHTML = '';
+            
+            // Get sample data to infer types
+            const sampleRow = importData[0] || {};
+            
+            importHeaders.forEach(header => {
+                const sampleValue = sampleRow[header];
+                let inferredType = 'TEXT'; // Default type
+                
+                // Try to infer data type
+                if (typeof sampleValue === 'number') {
+                    if (Number.isInteger(sampleValue)) {
+                        inferredType = 'INTEGER';
+                    } else {
+                        inferredType = 'REAL';
+                    }
+                } else if (typeof sampleValue === 'boolean') {
+                    inferredType = 'INTEGER'; // SQLite doesn't have boolean, use INTEGER
+                } else if (sampleValue instanceof Date) {
+                    inferredType = 'TEXT'; // Store dates as text
+                }
+                
+                const div = document.createElement('div');
+                div.className = 'form-group';
+                div.innerHTML = `
+                    <label>${header}</label>
+                    <select class="form-control column-type" data-column="${header}">
+                        <option value="TEXT" ${inferredType === 'TEXT' ? 'selected' : ''}>TEXT</option>
+                        <option value="INTEGER" ${inferredType === 'INTEGER' ? 'selected' : ''}>INTEGER</option>
+                        <option value="REAL" ${inferredType === 'REAL' ? 'selected' : ''}>REAL</option>
+                        <option value="BLOB" ${inferredType === 'BLOB' ? 'selected' : ''}>BLOB</option>
+                        <option value="NULL" ${inferredType === 'NULL' ? 'selected' : ''}>NULL</option>
+                    </select>
+                `;
+                columnTypesContainer.appendChild(div);
+            });
+            
+            // Update preview table
+            const previewData = {
+                columns: importHeaders,
+                values: importData.slice(0, 100).map(row => importHeaders.map(header => row[header]))
+            };
+            
+            updatePreview(importPreviewTable, previewData);
+        }
+
+        // Create SQLite database from CSV/XLSX
+        createSQLiteBtn.addEventListener('click', function() {
+            if (!importData || !importHeaders || importHeaders.length === 0) {
+                log('No data to import.');
+                return;
+            }
+            
+            const tableName = tableNameInput.value.trim();
+            if (!tableName) {
+                log('Please enter a table name.');
+                return;
+            }
+            
+            // Validate table name (SQLite allows almost any name when quoted)
+            if (!/^[a-zA-Z0-9_]+$/.test(tableName)) {
+                log('Table name should only contain letters, numbers, and underscores.');
+                return;
+            }
+            
+            const dbFileName = dbFileNameInput.value.trim() || 'exported_database';
+            
+            progressContainer.style.display = 'block';
+            progressMessage.textContent = 'Creating SQLite database...';
+            progressBar.value = 10;
+            
+            setTimeout(() => {
+                try {
+                    // Create a new database
+                    const newDb = new SQL.Database();
+                    log('New SQLite database created in memory.');
+                    
+                    progressBar.value = 20;
+                    
+                    // Get column types from form
+                    const columnTypes = {};
+                    document.querySelectorAll('.column-type').forEach(select => {
+                        columnTypes[select.dataset.column] = select.value;
+                    });
+                    
+                    // Create table SQL
+                    let createTableSQL = `CREATE TABLE "${tableName}" (`;
+                    const columnDefs = importHeaders.map(header => {
+                        return `"${header}" ${columnTypes[header] || 'TEXT'}`;
+                    });
+                    createTableSQL += columnDefs.join(', ');
+                    createTableSQL += ')';
+                    
+                    // Execute create table
+                    newDb.run(createTableSQL);
+                    log(`Table "${tableName}" created.`);
+                    
+                    progressBar.value = 30;
+                    
+                    // Prepare insert statement
+                    const placeholders = importHeaders.map(() => '?').join(', ');
+                    const insertSQL = `INSERT INTO "${tableName}" ("${importHeaders.join('", "')}") VALUES (${placeholders})`;
+                    const stmt = newDb.prepare(insertSQL);
+                    
+                    // Insert data in batches
+                    const batchSize = 1000;
+                    const totalRows = importData.length;
+                    
+                    log(`Inserting ${totalRows} rows of data...`);
+                    
+                    for (let i = 0; i < totalRows; i += batchSize) {
+                        const batch = importData.slice(i, i + batchSize);
+                        
+                        batch.forEach(row => {
+                            const values = importHeaders.map(header => {
+                                const value = row[header];
+                                // Handle nulls
+                                if (value === null || value === undefined) {
+                                    return null;
+                                }
+                                // Handle booleans (convert to 0/1)
+                                if (typeof value === 'boolean') {
+                                    return value ? 1 : 0;
+                                }
+                                return value;
+                            });
+                            stmt.run(values);
+                        });
+                        
+                        // Update progress
+                        const progress = 30 + (i / totalRows) * 50;
+                        progressBar.value = Math.min(80, progress);
+                    }
+                    
+                    stmt.free();
+                    
+                    // Export the database
+                    const data = newDb.export();
+                    const blob = new Blob([data], { type: 'application/x-sqlite3' });
+                    
+                    progressBar.value = 90;
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${dbFileName}.sqlite`;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    progressBar.value = 100;
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 1000);
+                    
+                    log(`SQLite database created and downloaded as "${dbFileName}.sqlite"`);
+                    log(`Created table "${tableName}" with ${totalRows} rows.`);
+                    
+                    // Clean up
+                    newDb.close();
+                    
+                } catch (error) {
+                    log('Error creating SQLite database: ' + error.message);
+                    progressContainer.style.display = 'none';
+                }
+            }, 100);
+        });
     </script>
     
     <section>
+        <h2>About SQLite CSV Excel Bidirectional Converter</h2>
+        <p><strong>SQLite Bidirectional Converter</strong> is a free, browser-based tool for converting between SQLite database files and CSV/Excel formats. No installation, no registration - just instant, secure processing within your browser.</p>
+
+        <ul>
+            <li><strong>100% Free:</strong> No account needed, no hidden fees.</li>
+            <li><strong>Local File Processing:</strong> Your files are handled entirely within your browser - no data is sent externally.</li>
+            <li><strong>Fast & Efficient:</strong> Powered by WebAssembly (<code>sql-wasm.js</code>) and JavaScript libraries (<code>xlsx.full.min.js</code>, <code>PapaParse.min.js</code>).</li>
+            <li><strong>Bidirectional Conversion:</strong> Convert SQLite to CSV/XLSX and vice versa with column type inference.</li>
+            <li><strong>Cross-Platform Compatibility:</strong> Works on Windows, macOS, Linux, and mobile devices - accessible from any modern web browser.</li>
+        </ul>
+
+        <p>Ideal for developers, analysts, and anyone needing a secure, hassle-free data conversion solution.</p>
+    </section>
+
+    <section>
+        <h2>Technical overview of SQLite Bidirectional Converter</h2>
     <p><strong>SQLite to CSV/XLSX Converter</strong> is a free, browser-based tool for converting SQLite database files into CSV or Excel (XLSX) formats. No installation, no registration - just instant, secure processing within your browser.</p>
 
     <ul>
@@ -533,11 +1012,11 @@
     <p>Ideal for developers, analysts, and anyone needing a secure, hassle-free data export solution.</p>
 </section>
 
-<section>
-  <h2>Technical overview of SQLite to CSV/XLSX conversion process</h2>
+
+  <h3>SQLite to CSV/XLSX Conversion technical details</h3>
   <p>The conversion process is executed entirely within the user's browser using JavaScript and WebAssembly, without relying on server-side operations. Below is a step-by-step breakdown of how the SQLite file is processed and transformed into CSV or Excel (XLSX):</p>
 
-  <h3>1. Loading External Libraries</h3>
+  <h4>1. Loading External Libraries</h4>
   <p>Upon accessing the tool, key JavaScript libraries are loaded:</p>
   <ul>
     <li><code>sql-wasm.js</code>: Enables WebAssembly-powered SQLite querying within the browser. This library uses SQLite compiled to WebAssembly, allowing SQL queries to be run directly in the browser without any server dependencies.</li>
@@ -545,7 +1024,7 @@
     <li><code>PapaParse.min.js</code>: Handles parsing and exporting structured CSV data. It efficiently serializes JavaScript arrays and objects into properly escaped, comma-separated text for download.</li>
   </ul>
 
-  <h3>2. SQLite Database File Processing</h3>
+  <h4>2. SQLite Database File Processing</h4>
   <p>When a user uploads an SQLite file, the following sequence occurs:</p>
   <ul>
     <li>The file is loaded into memory using JavaScript's File API. This allows reading the binary contents of the SQLite database asynchronously and without page reloads.</li>
@@ -553,7 +1032,7 @@
     <li>The database structure (tables, columns, and rows) is queried using standard SQL commands. These commands are issued through the in-browser SQL interface, allowing interactive data inspection and extraction.</li>
   </ul>
 
-  <h3>3. Data Extraction</h3>
+  <h4>3. Data Extraction</h4>
   <p>Once the SQLite database is loaded, the tool performs the following operations:</p>
   <ul>
     <li>Executes a query to fetch the required table contents. This typically uses a command like <code>SELECT * FROM table_name</code> to gather all available data.</li>
@@ -561,7 +1040,7 @@
     <li>Extracts row-by-row data and stores it in a JavaScript array for further manipulation. Each row is parsed into a nested array or object format suitable for downstream formatting into CSV or XLSX.</li>
   </ul>
 
-  <h3>4a. CSV Generation (Using PapaParse)</h3>
+  <h4>4a. CSV Generation (Using PapaParse)</h4>
   <p>If the user selects CSV as the export format:</p>
   <ul>
     <li>The extracted table data is passed to <code>PapaParse</code>. The library is given a two-dimensional array where the first row contains headers and subsequent rows contain values.</li>
@@ -569,7 +1048,7 @@
     <li>A downloadable CSV file is generated using a Blob object and linked to the browser's download function. The Blob contains the raw text content, and a temporary anchor tag is used to trigger the file save dialog.</li>
   </ul>
 
-  <h3>4b. Excel (XLSX) Generation (Using xlsx.js)</h3>
+  <h4>4b. Excel (XLSX) Generation (Using xlsx.js)</h4>
   <p>If the user selects Excel as the export format:</p>
   <ul>
     <li>The extracted data is converted into a worksheet using <code>XLSX.utils.aoa_to_sheet</code>. This function transforms a 2D array (array of arrays) into a format compatible with Excel cells, including rows, columns, and cell types.</li>
@@ -578,13 +1057,29 @@
     <li>A downloadable XLSX file is created and provided via the browser. As with CSV, the file is wrapped in a Blob and linked to an <code>a</code> tag for user-initiated download.</li>
   </ul>
 
-  <h3>5. Downloading the Converted File</h3>
+  <h4>5. Downloading the Converted File</h4>
   <p>Once conversion is complete, the tool generates a direct download link:</p>
   <ul>
     <li>The file is stored in a Blob object. The Blob holds either plain CSV text or binary XLSX content, depending on the selected export format.</li>
     <li>A temporary link is created using <code>URL.createObjectURL(blob)</code>. This method generates a temporary URL that points to the in-memory Blob, which the browser can access like a real file.</li>
     <li>The user clicks the generated link to download the file locally. The link's <code>download</code> attribute specifies the filename and file extension, ensuring correct file type recognition by the system.</li>
   </ul>
-</section>
+
+
+
+        <h3>CSV/XLSX to SQLite Conversion</h3>
+        <p>The reverse conversion (importing data into SQLite) follows these steps:</p>
+        <ol>
+            <li>Loads and parses the input file (CSV using PapaParse or Excel using SheetJS).</li>
+            <li>Extracts headers and data rows from the parsed content.</li>
+            <li>Infers appropriate SQLite data types (TEXT, INTEGER, REAL) for each column based on sample data.</li>
+            <li>Creates a new in-memory SQLite database using <code>sql-wasm.js</code>.</li>
+            <li>Generates and executes CREATE TABLE SQL statements with user-defined or inferred column types.</li>
+            <li>Batches and executes INSERT statements to populate the table with data.</li>
+            <li>Exports the complete database as a binary SQLite file for download.</li>
+        </ol>
+
+        
+    </section>
 </body>
 </html>
