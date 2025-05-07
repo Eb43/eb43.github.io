@@ -534,58 +534,57 @@
 </section>
 
 <section>
-    <h2>Technical overview of SQLite to CSV/XLSX conversion process</h2>
-    <p>The conversion process is executed entirely within the user's browser using JavaScript and WebAssembly, without relying on server-side operations. Below is a step-by-step breakdown of how the SQLite file is processed and transformed into CSV or Excel (XLSX):</p>
+  <h2>Technical overview of SQLite to CSV/XLSX conversion process</h2>
+  <p>The conversion process is executed entirely within the user's browser using JavaScript and WebAssembly, without relying on server-side operations. Below is a step-by-step breakdown of how the SQLite file is processed and transformed into CSV or Excel (XLSX):</p>
 
-    <h3>1. Loading External Libraries</h3>
-    <p>Upon accessing the tool, key JavaScript libraries are loaded:</p>
-    <ul>
-        <li><code>sql-wasm.js</code>: Enables WebAssembly-powered SQLite querying within the browser.</li>
-        <li><code>xlsx.full.min.js</code>: Facilitates the creation and manipulation of Excel spreadsheets.</li>
-        <li><code>PapaParse.min.js</code>: Handles parsing and exporting structured CSV data.</li>
-    </ul>
+  <h3>1. Loading External Libraries</h3>
+  <p>Upon accessing the tool, key JavaScript libraries are loaded:</p>
+  <ul>
+    <li><code>sql-wasm.js</code>: Enables WebAssembly-powered SQLite querying within the browser. This library uses SQLite compiled to WebAssembly, allowing SQL queries to be run directly in the browser without any server dependencies.</li>
+    <li><code>xlsx.full.min.js</code>: Facilitates the creation and manipulation of Excel spreadsheets. It supports creating workbooks, defining worksheets, and exporting binary XLSX files compatible with Microsoft Excel.</li>
+    <li><code>PapaParse.min.js</code>: Handles parsing and exporting structured CSV data. It efficiently serializes JavaScript arrays and objects into properly escaped, comma-separated text for download.</li>
+  </ul>
 
-    <h3>2. SQLite Database File Processing</h3>
-    <p>When a user uploads an SQLite file, the following sequence occurs:</p>
-    <ul>
-        <li>The file is loaded into memory using JavaScript's File API.</li>
-        <li><code>sql-wasm.js</code> initializes an in-memory SQLite database and reads the binary contents.</li>
-        <li>The database structure (tables, columns, and rows) is queried using standard SQL commands.</li>
-    </ul>
+  <h3>2. SQLite Database File Processing</h3>
+  <p>When a user uploads an SQLite file, the following sequence occurs:</p>
+  <ul>
+    <li>The file is loaded into memory using JavaScript's File API. This allows reading the binary contents of the SQLite database asynchronously and without page reloads.</li>
+    <li><code>sql-wasm.js</code> initializes an in-memory SQLite database and reads the binary contents. The contents are passed to the library as an ArrayBuffer or Uint8Array, which is then interpreted as a full SQLite database.</li>
+    <li>The database structure (tables, columns, and rows) is queried using standard SQL commands. These commands are issued through the in-browser SQL interface, allowing interactive data inspection and extraction.</li>
+  </ul>
 
-    <h3>3. Data Extraction</h3>
-    <p>Once the SQLite database is loaded, the tool performs the following operations:</p>
-    <ul>
-        <li>Executes a query to fetch the required table contents.</li>
-        <li>Retrieves column headers dynamically to ensure proper structuring.</li>
-        <li>Extracts row-by-row data and stores it in a JavaScript array for further manipulation.</li>
-    </ul>
+  <h3>3. Data Extraction</h3>
+  <p>Once the SQLite database is loaded, the tool performs the following operations:</p>
+  <ul>
+    <li>Executes a query to fetch the required table contents. This typically uses a command like <code>SELECT * FROM table_name</code> to gather all available data.</li>
+    <li>Retrieves column headers dynamically to ensure proper structuring. The result set includes metadata about column names, which is essential for generating CSV headers or Excel sheet labels.</li>
+    <li>Extracts row-by-row data and stores it in a JavaScript array for further manipulation. Each row is parsed into a nested array or object format suitable for downstream formatting into CSV or XLSX.</li>
+  </ul>
 
-    <h3>4a. CSV Generation (Using PapaParse)</h3>
-    <p>If the user selects CSV as the export format:</p>
-    <ul>
-        <li>The extracted table data is passed to <code>PapaParse</code>.</li>
-        <li>PapaParse serializes the data into a well-structured CSV format.</li>
-        <li>A downloadable CSV file is generated using a Blob object and linked to the browser's download function.</li>
-    </ul>
+  <h3>4a. CSV Generation (Using PapaParse)</h3>
+  <p>If the user selects CSV as the export format:</p>
+  <ul>
+    <li>The extracted table data is passed to <code>PapaParse</code>. The library is given a two-dimensional array where the first row contains headers and subsequent rows contain values.</li>
+    <li>PapaParse serializes the data into a well-structured CSV format. It ensures special characters, quotes, and delimiters are properly escaped and formatted.</li>
+    <li>A downloadable CSV file is generated using a Blob object and linked to the browser's download function. The Blob contains the raw text content, and a temporary anchor tag is used to trigger the file save dialog.</li>
+  </ul>
 
-    <h3>4b. Excel (XLSX) Generation (Using xlsx.js)</h3>
-    <p>If the user selects Excel as the export format:</p>
-    <ul>
-        <li>The extracted data is converted into a worksheet using <code>XLSX.utils.aoa_to_sheet</code>.</li>
-        <li>A new workbook is created using <code>XLSX.utils.book_new</code> and populated with the worksheet.</li>
-        <li>The workbook is serialized into an XLSX binary format.</li>
-        <li>A downloadable XLSX file is created and provided via the browser.</li>
-    </ul>
+  <h3>4b. Excel (XLSX) Generation (Using xlsx.js)</h3>
+  <p>If the user selects Excel as the export format:</p>
+  <ul>
+    <li>The extracted data is converted into a worksheet using <code>XLSX.utils.aoa_to_sheet</code>. This function transforms a 2D array (array of arrays) into a format compatible with Excel cells, including rows, columns, and cell types.</li>
+    <li>A new workbook is created using <code>XLSX.utils.book_new</code> and populated with the worksheet. The sheet is added to the workbook under a specific name using <code>XLSX.utils.book_append_sheet</code>.</li>
+    <li>The workbook is serialized into an XLSX binary format. The <code>XLSX.write</code> method is used with appropriate options to generate a base64 or binary-encoded Blob suitable for download.</li>
+    <li>A downloadable XLSX file is created and provided via the browser. As with CSV, the file is wrapped in a Blob and linked to an <code>a</code> tag for user-initiated download.</li>
+  </ul>
 
-    <h3>5. Downloading the Converted File</h3>
-    <p>Once conversion is complete, the tool generates a direct download link:</p>
-    <ul>
-        <li>The file is stored in a Blob object.</li>
-        <li>A temporary link is created using <code>URL.createObjectURL(blob)</code>.</li>
-        <li>The user clicks the generated link to download the file locally.</li>
-    </ul>
-
+  <h3>5. Downloading the Converted File</h3>
+  <p>Once conversion is complete, the tool generates a direct download link:</p>
+  <ul>
+    <li>The file is stored in a Blob object. The Blob holds either plain CSV text or binary XLSX content, depending on the selected export format.</li>
+    <li>A temporary link is created using <code>URL.createObjectURL(blob)</code>. This method generates a temporary URL that points to the in-memory Blob, which the browser can access like a real file.</li>
+    <li>The user clicks the generated link to download the file locally. The link's <code>download</code> attribute specifies the filename and file extension, ensuring correct file type recognition by the system.</li>
+  </ul>
 </section>
 </body>
 </html>
