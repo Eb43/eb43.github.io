@@ -1,0 +1,175 @@
+﻿<!D-OCTYPE html>
+<htm-l lang="en">
+<head>
+<meta name="google-site-verification" content="ZMMJwrDsWck5SE7_g2xYlXYzvIckbhivpGWGFhNOpZ8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>How to add over 100 alarms in Samsung OneUI</title>
+    <meta name="description" content="Overcoming the limit of alarms in Samsung clock app">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+}
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 70%;">Eugen Barilyuk</p>
+<p style="font-size: 70%;">Published: 9 May 2025</p>
+<p><a href="https://eb43.github.io/portfolio-page.html">←🏠 Back to <i><b>eb43.github.io</b></i> articles list</a></p>
+
+
+  
+  <!-- <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: 600px; width: 600px; object-fit: contain; object-position: 1% 1%"/>
+
+<a href=".html" rel="nofollow"></a>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; ">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+<p></p>
+
+</div>
+
+-->
+
+<h1>Doing the impossible - how to add more than 100 alarms on Samsung smartphone</h1>
+
+<p>There is a mystery thing going on with every Samsung smartphone existing today. You cannot set more than 100 alarms on your Galaxy device. Moreover, this number is a recent improvement of the previously existing limit of 50 alarms.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/alarm-limit-title-image.jpg" alt="alarm limit title image" style="height: 600px; width: 700px; object-fit: contain; object-position: 1% 1%"/>
+
+<p>You can verify this fact on any of your own Samsung Galaxy smartphone. Simply start adding alarms, and, depending on the OneUI version of your device, you will be stopped either on adding the 50-th or adding the 100-th alarm. The popup leaves no second explanation.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/alarm-limit-on-samsung.jpg" alt="alarm limit on samsung" style="height: 600px; width: 600px; object-fit: contain; object-position: 1% 1%" />
+
+<p>While this fact may seem a funny quirk, it actually highlights an important problem of any modern smartphone - you are not the owner of your smartphone. Because actually you can add more than 100 alarms, but only when you fight the vendor for the access rights.</p>
+
+<p>Here is a demonstration how it is possible to overcome the limit on number of alarms in Samsung Galaxy smartphones. You can do it only after you get root access.</p>
+
+<h2>Step 1. Get clock’s app database for alarms</h2>
+
+<p>Android stores data of each installed app in a <pre>/data/data</pre> folder. You will be blocked from accessing this folder because vendor limits your rights on the smartphone. For some phones, if you are lucky enough, you can fight with the vendor’s obstacles and grant yourself root access rights. Root access allows viewing and editing of Android system folders.</p>
+
+<p>When having root access, use any file manager with root access support, for example, Total Commander.</p>
+
+<p>On my Samsung Galaxy J4 2018 with Samsung Experience 9 firmware, the clock app has a package name <i>com.sec.android.app.clockpackage</i>. Therefore, all clock’s data is stored in <pre>/data/data/com.sec.android.app.clockpackage</pre> folder.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/total-commander-android-alarm-clock-folder.jpg" alt="total commander android alarm clock folder" style="height: 600px; width: 600px; object-fit: contain; object-position: 1% 1%" />
+
+<p>Here you can see three files: alarm.db, alarm.db-wal, alarm.db-shm. The first one is the actual database to be replaced. The last two are temporary files and have to be deleted each time.</p>
+
+<h2>Step 2. Copy the <i>alarm.db</i> on your computer</h2>
+
+<p>Transfer the <i>alarm.db</i> file on your computer. It is an SQLite database, and, for example, Total Commander for Windows offers embedded database viewer. Simply press F3 on the database file to view it.</p>
+
+<p>Alternatively, you can use the in-browser <a href="https://eb43.github.io/sqlite-converter.html" rel="dofollow">SQLite to CSV / Excel XLSX Converter</a> to convert the .DB file into Excel spreadsheet and view it in Excel. You will need to specify the alarm table.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/alarm-table-in-excel.jpg" alt="alarm table in excel" style="height: 400px; width: 600px; object-fit: contain; object-position: 1% 1%" />
+
+
+<h2>Step 3. Fill the database with 100 alarms or more</h2>
+
+<p>Use any tool you know to edit the <i>alarm.db</i> file and fill it with 100 alarms or more.</p>
+
+<p>You can add alarms in Excel, if you used the SQLite to XLSX converter, and then convert XLSX to SQLite using the <a href="https://eb43.github.io/sqlite-converter.html" rel="dofollow">CSV / Excel XLSX to SQLite Converter</a> available on the same web page. You will then have to replace the existing alarm table with the new one in the alarm.db file.</p>
+
+<p>Alternatively, you can use a dedicated database editing app, namely <i>DB Browser for SQLite v3.13.1</i>.</p>
+
+<p>Since we live in an AI era, I simply asked the Artificial Intelligence to fill the database with records. And who would have expected that - AI refused to do the task for me. But AI agreed to create a Python script that clones one alarm specified number of times so I could do it on my PC by myself.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/creating-alarm-database-editing-script.jpg" alt="creating alarm database editing script" style="height: 400px; width: 600px; object-fit: contain; object-position: 1% 1%" />
+
+
+<details>
+  <summary>Here is the Python script the AI provided me with:</summary>
+<pre>
+import sqlite3
+
+# Path to your alarm.db file
+db_path = "alarm.db"
+
+# Connect to the database
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+
+# Fetch the template record with _id = 19
+cursor.execute("SELECT * FROM alarm WHERE _id = 19;")
+template_record = cursor.fetchone()
+
+if not template_record:
+    raise ValueError("Record with _id = 19 not found.")
+
+# Get the highest existing _id to continue from there
+cursor.execute("SELECT MAX(_id) FROM alarm;")
+max_id = cursor.fetchone()[0] or 0
+
+# Prepare new records
+base_record = list(template_record)
+new_records = []
+
+for i in range(1, 100):  # Create 99 records
+    new_record = base_record[:]
+    new_record[0] = max_id + i  # New _id
+    new_record[20] = str(i)     # Set 'name' field to the queue number
+    new_records.append(tuple(new_record))
+
+# Insert the new records
+cursor.executemany("INSERT INTO alarm VALUES (" + ",".join("?" * len(new_records[0])) + ")", new_records)
+
+# Commit and close
+conn.commit()
+conn.close()
+
+print(f"{len(new_records)} records successfully inserted.")
+</pre>
+</details>
+
+<p>If you have Python installed on your computer and want to use this method – simply copy the script into the folder with the alarm.db file and execute the Python script.</p>
+
+<p>Since the script copies an existing alarm, you may have to specify the ID of your existing alarm. Just look for it in the alarm.db file.</p>
+
+<h2>Step 4. Replace old <i>alarm.db</i>file with a new one</h2>
+
+<p>Copy this newly obtained alarm.db file to your Samsung smartphone.</p>
+<p>Before replacing old file with this one, go to the Settings > Apps > Clock and force stop the clock app.</p>
+<p>Open Total Commander on your phone and delete existing files  alarm.db, alarm.db-wal, alarm.db-shm. Now, copy the new alarm.db file in the clock’s data folder.</p>
+<p>Open the clock app on the alarm tab, an you will see on your own eyes how the list of your existing alarms will be replaced with a list of 100+ alarms.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/how-to-add-over-100-alarms-in-samsung-phone/over-100-alarms-on-samsung-galaxy-smartphone.jpg" alt="over 100 alarms on samsung galaxy smartphone" style="height: 600px; width: 600px; object-fit: contain; object-position: 1% 1%" />
+
+<p>The Samsung clock app allows to activate / deactivate, change time, edit alarm name, alter sound, and do every other action you can do with an alarm. However, you will not be able to add a new alarm – the clock app will notify you about that with a popup.</p>
+
+<iframe width="315" height="560" src="https://www.youtube.com/embed/bnnzO9Cfffc" title="Hacked Samsung Galaxy alarms limit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+</body>
+</html>
+
