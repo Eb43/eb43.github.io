@@ -11,7 +11,7 @@ Short list of articles created throughout the writer's career
 
 ---
 
-## [Android Battery Voltage Indicator](https://eb43.github.io/android-battery-voltage-indicator-in-status-bar.html)
+## [Android Battery Voltage Indicator](https://raw.githubusercontent.com/Eb43/bateryvoltagedisplay/refs/heads/main/README.md)
 
 ![Android Battery Voltage Indicator](https://raw.githubusercontent.com/Eb43/bateryvoltagedisplay/main/battery-voltage-display-status-bar.jpg)
 
