@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Produce inflation tracker</title>
+    <meta name="description" content="Crazy world of HTML layouts of grocery stores globally">
+html
+Копировать
+Редактировать
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Is Google still a discovery engine?",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-07-09",
+  "url": "https://eb43.github.io/articles/google-is-not-searching-anymore-search-test-results-to-support-claim.html"
+}
+</script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+</head>
+<body>
+<table>
+<tr>
+<td style="width: 20%;">
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" alt="" style="height: 100px; width: 100px; object-fit: contain; object-position: 1% 1%"/>
+</td>
+<td>
+<p style="font-size: 90%;">Eugen Barilyuk</p>
+<p style="font-size: 90%;">Published: 6 July 2025</p>
+<p style="font-size: 120%;"><a href="https://eb43.github.io/portfolio-page.html">←🏠 Back to <i><b>eb43.github.io</b></i> articles list</a></p>
+<td>
+</tr>
+</table>
+
+
+  
+  <!-- <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);"/>
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+<p></p>
+
+</div>
+-->
+
+
+<h1>Is Google still a discovery engine? A case study based on anecdotal evidence of personal experience</h1>
+
+<p>Have you ever published something helpful, waited for it to show up on Google… and it just never did? Or worse - watched it appear for a while and then quietly disappear?</p>
+
+<p>This article is a reflection on that very situation. Over the past few months, I’ve published a variety of practical tutorials, small tools, and Android utilities - all of which worked as intended and are publicly available. Some articles got attention and gained backlinks. But strangely… many didn’t stay visible.</p>
+
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 400px; text-align:center;">
+  <p style="color: #111; width: 400px; font-size: 19px;">
+    Google showing zero result has major implication: you may think no information on the topic exist, even the somewhat related information. When in reality multiple websites may be available, that offer information related to your query. You only need to change your search engine to start untangling your problem.
+  </p>
+</div>
+
+<p>If you want to find something on rare or unique topic – Google is not the tool to use. Here are results of small experiment to support this claim.</p>
+
+<h2>How I noticed Google isn’t searching anymore</h2>
+
+<p>The story starts when I decided to show my projects to the world using GitHub Pages – a free hosting and personalized domain for your static website, which is convenient if you already have a GitHub account.</p>
+
+<p>I crafted a website, and “fed” it into Google Search Console for Google to find it. But it was me who found that Google did not put the site into its search index.</p>
+
+<p>Since help from Google and on Google forums exists in a format of Santa Claus – everyone believes in it, but nobody has seen it – I thought the problem may lie in the content itself. So I ensured I was writing unique, deep, and detailed articles… only to find that Google kicks them out from the search index. Just look at this nice statistics of Google Search kicking out articles of my blog from its search results and making my blog a digital ghost:</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/google-search-console.jpg" alt="Google Search Console" style="width: 900px;" />
+
+<p>One of the articles that was lucky enough to be included in the Google Search index after publishing showed that content quality is not the reason. The article became popular and was reposted across multiple websites. Yet several days later, Google kicked the article out of its Search Index. Now you can find third-party websites referencing it, but not the original page.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/eb43-how-to-quickly-charge-your-smartphone-google-search.jpg" alt="Excluded original link" style="width: 900px;" />
+
+<p>I thought the problem was in Github domain. The github.io was the only common point of all articles published – what else could I think of?</p>
+
+<p>So, I revived my long forgotten account on Medium. It had only one article (about hardware enhancement of li-ion battery charger), which was present in Google Search Index for almost three years, but it was kicked out of Google soon after the Medium account received fresh activity.</p>
+
+<p>I began copying my blog content into Medium, along with writing new ones. Same story repeated.</p>
+
+<p>For example, Samsung Galaxy smartphones are limiting the number of alarms you can set. It is deemed impossible to set more alarms, and some people who need more alarms are actually being limited by their phones. My <a href="https://eugen-barilyuk.medium.com/doing-the-impossible-how-to-add-more-than-100-alarms-on-samsung-smartphone-faf673f9f73e" rel="dofollow">article shows in a simple easy to understand step by step tutorial how to overcome this Samsung alarm limit via direct editing of SQlite database of Android app</a>. Well, this is more for fun, and not for daily usage, but, if any need – article gives a tutorial. Google didn’t even try to index this article.</p>
+
+<p>The next article was indexed by Google, and, what became a surprise – is not kicked out from its Search Index yet, despite a month has passed. This article is a copy-paste from my blog to Medium, and, at least as of now, you can still find this article in Google:</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/google-search-android-is-dying.jpg" alt="Indexed copy-paste article" style="width: 900px;" />
+
+<p>The next article uploaded to Medium covered a highly practical tool for people who often work in remote or rural areas, basements and other locations with poor cell phone reception. You see, the spreading of radio signals is so complicated and unpredicted, that in one point on the table your phone may have poor reception, and move the phone a centimeter to the side, and you get good reception. This tool is a small Android app to monitor phone signal strength in real time, helping to determine exact spot where you can get the best mobile operator coverage in your location. </p>
+
+<p>Google has indexed that article, and started showing it to people. Several days later the article was ghosted by Google, moving it from the most popular in my Medium account to dead one. Sadly, all of this happened before I had any plan of writing an article on Google search quality, so no proofs available that it was ever showed by Google.</p>
+
+<p>The same thing happened to an article about monitoring battery voltage in real time - another genuinely useful tool. This tool shows smartphone battery voltage in real time, making it easy to debug battery related problems. Moreover, it allows you to determine the exact moment when your phone will shut down with fully discharge battery – standard percentage indicator leaves you anxious when battery reaches 1% charge.</p>
+<p>Google indexed it, showed the article for a while, then ghosted it. This article has become second most popular article on my Medium. After a week or so Google ghosted it, effectively killing the article. Only after that I started trying to track what article will be ghosted next by Google.</p>
+
+<p>But the article on battery temperature monitoring, which was published at the same time as previous two? Still indexed a month later.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/site-medium-com-barilyuk-google-search.jpg" alt="Still indexed article" style="width: 900px;" />
+
+<p>Other articles like “How to safely use and dispose of your power bank” or “Solder new quartz oscillator for watch accuracy: hardware mod of Casio F-91W” were never indexed. But the one titled “How to Add an Autogenerated List of Recent Videos from Your YouTube Channel” was indexed right away. So was the SQLite converter article - but only after I rewrote it as a story about a junior analyst building a tool using AI.</p>
+
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 400px; text-align:center;">
+  <p style="color: #111; font-size: 19px;"><strong>DEAR READER!</strong></p>
+  <p><strong>If you know what is going on and have practical advice to stop Google from ghosting articles - I’m all ears!</strong></p>
+</div>
+
+<h2>Test to prove Google is not a tool for information discovery</h2>
+
+<p>You might say: who cares if one guy’s blog disappears? Nobody cares about that as long as you are not that person (and since I’m that person, it made me care). But it’s not just about my blog. It’s about the kind of information Google isn’t delivering.</p>
+
+<p>So I ran a small search test across multiple engines. Here's how Google compares to Bing:</p>
+
+<h3>Google failed: searching for tech manuals</h3>
+
+<p>Try this: “technical manuals for Polish diesel locomotives SM03 translated into Spanish before 1975”</p>
+
+<p>Google gave me three generic images and zero relevant results.</p>
+
+<p>Bing? It returned forums, historical documents, train specs - even if not perfectly matched, it gave me starting points. 154 000 results to work with.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/google-vs-bing-tech-manuals-locomotives.jpg" alt="Google vs Bing - locomotives" style="width: 900px;" />
+
+<h3>Google failed: searching obscure tech topics</h3>
+
+<p>Query: “Were leather belts ever used as timing control elements in analog photomechanical typesetting equipment?”</p>
+
+<p>Google: zero.</p>
+
+<p>Bing: over 200 000 results - some unrelated, some close enough to help you learn something. For example, on first page you get history of belts, and on page four of Bing results a “Leather and Rubber Belts for Old Machinery” article appears. At least you get a chance to build some educated opinion.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/google-vs-bing-leather-belt-search.jpg" alt="Google vs Bing - leather belts" style="width: 900px;" />
+
+<h3>Google failed: non-English searches</h3>
+
+<p>To broaden the search, I tried search query in Russian. Google returned zero results. Bing gave me dozens of forums, blogs, and niche sites that could at least be a starting point on the topic.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/google-is-not-searching-anymore-search-test-results-to-support-claim/google-vs-bing-search-in-russian.jpg" alt="Google vs Bing - Russian query" style="width: 900px;" />
+
+<h2>Conclusion</h2>
+
+<p>The text above is absolutely a personal biased experience based on anecdotally small set of data and platforms. In no way this text should be considered as something on the level of a courtroom verdict.</p>
+
+<p>And if you know other cases of Google ghosting web pages, or you have some applicable hints – please do not hesitate to voice your thoughts.</p>
+
+</body>
+</html>
+
