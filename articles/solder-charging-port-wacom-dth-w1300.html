@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Produce inflation tracker</title>
+    <meta name="description" content="How to Revive a Critically Wounded Wacom Cintiq Companion DTH-W1300">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "How to Solder Chargong Port to Wacom Cintiq Companion Back to Life (Sort of)",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-07-23",
+  "url": "https://eb43.github.io/articles/solder-charging-port-wacom-dth-w1300.html"
+}
+</script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+</head>
+<body>
+<table>
+<tr>
+<td style="width: 20%;">
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" alt="" style="height: 100px; width: 100px; object-fit: contain; object-position: 1% 1%"/>
+</td>
+<td>
+<p style="font-size: 90%;">Eugen Barilyuk</p>
+<p style="font-size: 90%;">Published: 6 July 2025</p>
+<p style="font-size: 120%;"><a href="https://eb43.github.io/portfolio-page.html">←🏠 Back to <i><b>eb43.github.io</b></i> articles list</a></p>
+<td>
+</tr>
+</table>
+
+
+  
+  <!-- <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+<p></p>
+
+</div>
+-->
+
+
+<h1>Fixing the Wacom Cintiq Companion: A Gently Wounded Tablet Worth Saving</h1>
+
+
+<iframe style="box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);" width="560" height="315" src="https://www.youtube.com/embed/k3_ffLFSUp0?si=CBfeLTYfZYPdjwPS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+<p>Hello, and welcome. Today we’re embarking on a relaxed but meaningful resurrection project for the Wacom DTH-W1300 Cintiq Companion. This charming old warrior has seen some serious action - its charging port is MIA, screws have vanished, and the battery has decided it's retired. But it's still got fight in it, and we’re here to bring it back into service.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-1300-label.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<h2>What Are We Working With?</h2> 
+<p>The tablet may be nearly ten years old, but don’t count it out just yet. It’s still a capable desktop device with more connectivity than modern tablets offer:</p> 
+<ul> 
+<li>Two USB 3.0 ports</li> 
+<li>Mini DisplayPort video out</li> 
+<li>3.5mm headphone jack</li> 
+<li>microSD slot</li> 
+</ul> 
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-1300.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>The missing charging port is unfortunately no surprise. Charging port failures are a known design flaw in the Cintiq Companion series. Repeated plugging, tiny wiggles, and gravity's daily negotiations eventually led it to break loose. Over time, the connector simply gives way and pulls out of its housing.</p>
+
+<h2>The State of Things</h2> 
+
+<p>This particular device came post-disassembly - most screws missing, battery kaput, and a general air of neglect. Still, it carries Wacom’s standout stylus tech that makes it interesting even today.</p>
+
+<h2>Display & Pen Tech</h2> 
+<p>Display was not the best part of this tablet - its decent quality, but nothing more:</p> 
+
+<ul> 
+<li>13.3" Full HD display - 1920x1080 resolution</li>
+<li>75% Adobe RGB coverage</li> 
+<li>IPS panel with 178° viewing angle</li> 
+<li>Matte finish for reduced glare</li> 
+</ul> 
+
+<p>The core of this tablet is Wacom’s battery-free Pro Pen with electromagnetic resonance (EMR) technology. Still more responsive than many active styluses in modern tablets.</p>
+
+<p>Screen supports 2048 pressure levels, tilt recognition up to 60 levels for this stylus.</p> 
+
+<h2>Hardware Underneath</h2> 
+<p>Back in its prime days, this Wacom Cintiq Companion DTH-W1300 landed as a pretty bold hybrid - part high-end creative tablet, part full-blown Windows PC. At the time, packing a third-gen Intel Core i7-3517U with 8GB of RAM and a 256GB SSD into a portable pen-enabled device was a big deal. Most competitors featured noticeably limited horsepower.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-1300-inside.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Fast-forward to today, and the specs tell a different story. The Core i7-3517U hasn’t aged with grace when compared to modern processors, and 8GB RAM can feel cramped. But for focused creative tasks - especially pen-driven work - it holds up surprisingly well.</p>
+
+<ul> 
+<li>Intel Core i7-3517U (2 cores / 4 threads, 1.9 GHz)</li> 
+<li>8GB DDR3 RAM</li> 
+<li>256GB Toshiba mSATA SSD</li>
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-1300-ssd.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);"> 
+<li>Wi-Fi 802.11 b/g/n and Bluetooth 4.0</li> 
+<li>HD Cameras: 2MP front, 8MP rear</li> 
+<li>Stereo speakers</li> 
+<li>64Wh battery when new (7.4V, 8000mAh)</li> 
+<li>Dimensions: 375 × 248 × 17 mm</li> 
+<li>Weight: 1.8 kg</li> 
+</ul>
+
+<h2>Battery spiritually departed</h2> <p>Here's the real kicker: the battery is software dead - it's <i>locked</i>, and that's beyond repair if you have no access to specific tools and software. The internal Battery Management System (BMS) is based on the Texas Instruments <strong>BQ30z55</strong> chip. When the voltage drops too low, the BQ30z55 controller permanently disables charging. In this case battery was 3.2V instead of the allowed 7.2V minimum.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-1300-battery.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Resetting it requires a special tool - typically a programmer such as the EV2400 interface, combined with TI’s Battery Management Studio (bqStudio). These are very expensive to get.</p>
+<p>Also, all batteries degrade over time and used cysles. Unlocking won’t guarantee battery has good capacity left. In reality, this effort is usually impractical for aging hardware. Especially since this tablet functions as a stationary desktop unit anyway.</p>
+
+<h2>Moving on with Disassembly</h2> 
+
+<p>Let’s unscrew the... two screws that are left. No really, that’s all we’ve got.</p>
+
+<p>Pop the back off carefully, and take a moment to admire the engineering — or at least what’s left of it.</p>
+
+<h3>Step 1: Multimeter Time</h3>
+<p>Let’s test if the battery’s alive. Spoiler alert: it's not.</p>
+<p>Touch the probes to the battery connector — and… nothing. 3.2V on a 7.4V pack? The battery controller has entered a coma. No reviving this zombie. You’ll need a hardware programmer to even try, and trust me — not worth it.</p>
+
+<h3>Step 2: Remove SSD & Wi-Fi Module</h3>
+<ul>
+  <li>Unscrew and remove the 256GB Toshiba mSATA SSD</li>
+  <li>Do the same with the Wi-Fi module (gently, those antenna connectors are made of paper and wishes)</li>
+</ul>
+
+<h3>Step 3: Protect the Screen</h3>
+<p>Put a cloth under it. This matte screen is rare, and we’re not barbarians.</p>
+
+<h3>Step 4: Time to get out the Motherboard</h3>
+<p>Look for screws. Not many are left, but there are a couple hiding:</p>
+<ul>
+  <li>One is sneakily tucked under the speaker</li>
+  <li>Another one is beneath the heatpipe (unscrew the heatsink to reveal it)</li>
+</ul>
+
+<p>Once those are out, unplug all cables and lift the motherboard out gently.</p>
+
+
+<p>Checking the charger. Included was a 120W charger. The tablet only needs 64W, so it’s probably not the original. In fact, 90W is probably the one that was provided out of the box. Still, it fits and works, so we keep it.</p>
+
+<p>We begin with optimism and the last two screws. The back panel comes off, and we carefully extract SSD, which comes out smoothly. Wi-Fi module follows with gentle antenna detachment - these connectors tend to snap if you get cocky. A cloth goes over the screen - it’s a matte finish panel worth preserving.</p>
+
+<p>The board resists removal. Eventually, by unscrewing speaker components and the heatpipe of the cooling system, we uncover two hidden screws and fully disconnect the motherboard.</p>
+
+<h2>Soldring Charger Port</h2> 
+<p>Surprisingly, the solder pads for the charging port are intact. Using a multimeter in diode mode, we identify the ground and positive pads for soldering a new connector. It’s standard practice to probe for continuity between pads and shield to find ground first.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-w1300-wire-solder.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Use flux. Not just because it’s fun to say — it genuinely improves solder flow and adhesion. Solder red wire. Flip the board. Multimeter check: triple beep test to ensure no shorts. Trust me, with 120W on tap, you want zero surprises.</p> 
+
+<p>Solder black wire. All done. That’s a win.</p>
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-w1300-wire-solder2.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Power check. No sparks, no drama - the board powers up with external charge. We partially reassemble to test battery response. It stays silent. The battery is done, and the machine will operate on external power only.</p>
+
+<p>The replacement charging connector is too large for internal mounting, so it will hang externally. It fits the charger, isn’t factory-standard, but does the job. Final reassembly begins - cabling, heatsink, screws all in reverse.</p>
+
+<h2>Final Verdict</h2> 
+<p>Button pressed... and it boots. The repair is done.</p> 
+
+<img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/solder-charging-port-wacom-dth-w1300/wacom-dth-w1300-bios.jpg" alt="wacom dth w1300 windows tablet" style="height: auto; width: 600px; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>This device may not run free on battery again, but it still has value as a reliable desktop creative tool. Wacom’s stylus performance, combined with decent display specs and functional core hardware, make it worth the soldering effort.</p>
+
+
+<--Visitor counter-->
+    <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; margin-bottom: 20px;">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+</body>
+</html>
+
