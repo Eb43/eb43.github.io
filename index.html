@@ -342,6 +342,20 @@
             transition: opacity 0.3s ease;
         }        
 
+
+        .paper-img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+    height: auto;
+    z-index: 2;
+    opacity: 0.9;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+        }        
+        
+        
         /* Responsive design */
         @media (max-width: 768px) {
             .main-container {
@@ -409,6 +423,11 @@
     <div class="main-container">
         <!-- Enhanced Header -->
         <div class="header">
+                                  <img 
+                src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/paper.png"  
+                alt="paper" 
+                class="paper-img"
+            >
             <div class="header-content">
                 <h1 class="main-title">Eugen Barilyuk EB43</h1>
                 <p class="subtitle">Creator • Problem Solver</p>
