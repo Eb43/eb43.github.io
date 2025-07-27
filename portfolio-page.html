@@ -471,6 +471,7 @@
                 </div>
                 <div class="author-details">
                     <h1 class="main-title">Eugen Barilyuk Portfolio</h1>
+                    <p id="article-counter" style="margin-bottom: 20px; font-size: 140%;">📰 Total number of articles on this page: XXX</p>
                     <a href="https://eb43.github.io/" class="back-link">
                         ←🏠 Back to <i><b>eb43.github.io</b></i> main page
                     </a>
@@ -1045,6 +1046,16 @@
                 });
         });
     </script>    
+    
+    
+  <!-- Count the number of articles script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const count = document.querySelectorAll('.article-item').length;
+      const counterElement = document.getElementById('article-counter');
+      counterElement.textContent = `📰 Total number of articles on this page: ${count}`;
+    });
+  </script>    
     
 </body>
 </html>
