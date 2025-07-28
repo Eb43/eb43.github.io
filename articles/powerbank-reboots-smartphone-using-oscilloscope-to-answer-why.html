@@ -639,7 +639,7 @@ pre {
 <li>Low-power ports (these are non-existent today): 4.40 V to 5.25 V</li>
 </ul>
 
-<p>Although the spec doesn`t mention the word "ripple", all ripple and noise must occur within those voltage boundaries. That gives us about +/-250 mV for high-power ports, but most quality designs aim for ripple under 5% or 25 mV at 5V to avoid compatibility and stability issues.</p>
+<p>Although the spec doesn`t mention the word "ripple", all ripple and noise must occur within those voltage boundaries. That gives us about +/-250 mV for high-power ports. Most quality designs aim for ripple under 5%, which is exactly 250 mV at 5V to avoid compatibility and stability issues.</p>
 
 <h2>Testing the Problem Power Bank</h2>
 
@@ -665,7 +665,7 @@ pre {
 
 <img src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/powerbank-reboots-smartphone-using-oscilloscope-to-answer-why/ac.jpg" alt="flawed powerbank ac ripple voltage chaos">
 
-<p>Such ripple levels exceed the informal industry threshold of 25 mV and clearly fall outside best practices for USB power sources.</p>
+<p>Such ripple levels almost reached the informal industry threshold of 250 mV at 5V and clearly fall outside best practices for USB power sources.</p>
 
 <h2>Unexpected Behavior Under High Load</h2>
 
@@ -702,7 +702,7 @@ pre {
 
 <p>If a power bank causes phones to reboot or glitch, the problem may not be the phone. Unstable voltage due to excessive ripple or poor design can trigger all kinds of system-level failures.</p>
 
-<p>Before trusting any unknown power bank—especially a cheap or free one—run it through basic electrical tests. If the ripple exceeds 25 mV under moderate load, it’s not suitable for powering modern electronics.</p>
+<p>Before trusting any unknown power bank—especially a cheap or free one—run it through basic electrical tests. If the ripple exceeds 250 mV under moderate load, it’s not suitable for powering modern electronics.</p>
 
   </div> 
 
