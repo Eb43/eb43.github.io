@@ -182,6 +182,7 @@ pre {
 <td>
 <p style="font-size: 90%;">Eugen Barilyuk</p>
 <p style="font-size: 90%;">Published: 6 July 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
 <p style="font-size: 120%;"><a href="https://eb43.github.io/portfolio-page.html">←🏠 Back to <i><b>eb43.github.io</b></i> articles list</a></p>
 <td>
 </tr>
@@ -344,6 +345,27 @@ pre {
   <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
   </div>
 
+
+
+<!—Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+    
 </body>
 </html>
 
