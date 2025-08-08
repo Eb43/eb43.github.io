@@ -641,11 +641,13 @@ function updateCharts() {
   const prices = filtered.map(item => parseFloat(item.price_per_unit_string.replace(",", ".").split(" ")[0]));
   const unit = filtered[0].price_per_unit_string.split(" ").slice(1).join(" ");
 
-  const inflation = [null];
-  for (let i = 1; i < prices.length; i++) {
-    const diff = prices[i] - prices[i - 1];
-    inflation.push(diff.toFixed(2));
-  }
+const inflation = [0]; // first inflation is 0%
+for (let i = 1; i < prices.length; i++) {
+  const prev = prices[i - 1];
+  const curr = prices[i];
+  const percentChange = ((curr - prev) / prev) * 100;
+  inflation.push(percentChange.toFixed(2));
+}
 
 
 document.getElementById("priceTitle").textContent = product + " Price Trend Over Time";
@@ -653,12 +655,42 @@ document.getElementById("inflationTitle").textContent = product + " Inflation Ra
 
 
   drawChart("priceTrendChart", "Price (" + unit + ")", labels, prices, chart => priceChart = chart, priceChart);
-  drawChart("inflationTrendChart", "Price Change (" + unit + ")", labels, inflation, chart => inflationChart = chart, inflationChart);
+
+drawChart(
+  "inflationTrendChart",
+  "Inflation, %",
+  labels,
+  inflation,
+  chart => inflationChart = chart,
+  inflationChart,
+  value => value + "%"  // Add percent sign to Y-axis labels
+);
 }
 
-function drawChart(canvasId, label, labels, data, saveChartFn, existingChart) {
+function drawChart(canvasId, label, labels, data, saveChartFn, existingChart, yTickCallback) {
   const ctx = document.getElementById(canvasId).getContext("2d");
   if (existingChart) existingChart.destroy();
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: true }
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        title: {
+          display: true,
+          text: label,
+          font: { size: 14 }
+        }
+      }
+    }
+  };
+
+  if (yTickCallback) {
+    options.scales.y.ticks = { callback: yTickCallback };
+  }
 
   const chart = new Chart(ctx, {
     type: "line",
@@ -674,28 +706,12 @@ function drawChart(canvasId, label, labels, data, saveChartFn, existingChart) {
         pointRadius: 4
       }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true }
-      },
-scales: {
-  y: {
-    beginAtZero: false,
-    title: {
-      display: true,
-      text: label, // this already includes the unit
-      font: {
-        size: 14
-      }
-    }
-  }
-}
-    }
+    options: options
   });
 
   saveChartFn(chart);
 }
+
 </script>
 
 
