@@ -465,6 +465,16 @@ body {
 
 <div class="main-container">
 
+
+<!-- World Map Section -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<div>
+<h2>Countries Covered By This Product Price Tracker</h2>
+<div id="map" style="height: 400px; margin-bottom: 20px; border-radius: var(--border-radius); box-shadow: var(--subtle-shadow);"></div>
+</div>
+
                 
   <div class="flow-diagram filter-group" style="font-size:130%;">
     <label>Product Type:
@@ -544,11 +554,85 @@ const productSelect = document.getElementById("productFilter");
 const storeSelect = document.getElementById("storeFilter");
 const countrySelect = document.getElementById("countryFilter");
 
+let map = null;
+let countryMarkers = {};
+
+function initMap() {
+  map = L.map("map").setView([20, 0], 2); // Center on world
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+}
+
+function updateMapCountries(countries) {
+  if (!map) return;
+
+  Object.values(countryMarkers).forEach(layer => map.removeLayer(layer));
+  countryMarkers = {};
+
+  const countryNameMap = {
+    "USA": "United States of America",
+    "UK": "United Kingdom",
+    "South Korea": "Republic of Korea",
+    "North Macedonia": "Macedonia",
+    "Russia": "Russian Federation",
+    "Iran": "Iran (Islamic Republic of)",
+    "Syria": "Syrian Arab Republic",
+    "Vietnam": "Viet Nam",
+    "Moldova": "Republic of Moldova",
+    "Venezuela": "Venezuela (Bolivarian Republic of)",
+    "Bolivia": "Bolivia (Plurinational State of)",
+    "Brunei": "Brunei Darussalam",
+    "Tanzania": "United Republic of Tanzania",
+    "Laos": "Lao People's Democratic Republic",
+    "Czech": "Czech Republic",
+    "Ivory Coast": "Côte d'Ivoire",
+    "Palestine": "Palestine, State of",
+    "Cape Verde": "Cabo Verde",
+    "Swaziland": "Eswatini",
+    "East Timor": "Timor-Leste",
+    "Burma": "Myanmar",
+    "Democratic Republic of the Congo": "Democratic Republic of the Congo",
+    "Republic of the Congo": "Congo",
+    // Add more if needed...
+  };
+
+  fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json")
+    .then(res => res.json())
+    .then(geoData => {
+      countries.forEach(country => {
+        const normalizedCountry = countryNameMap[country] || country;
+
+        const feature = geoData.features.find(f => 
+          f.properties.name.toLowerCase() === normalizedCountry.toLowerCase() ||
+          f.properties.name_long?.toLowerCase() === normalizedCountry.toLowerCase()
+        );
+
+        if (feature) {
+          const layer = L.geoJSON(feature, {
+            style: {
+              color: "green",
+              weight: 1,
+              fillColor: "green",
+              fillOpacity: 0.4
+            }
+          }).addTo(map).bindTooltip(country); // keep original name in tooltip
+          countryMarkers[country] = layer;
+        } else {
+          console.warn("Country not found in GeoJSON:", country);
+        }
+      });
+    });
+}
+
 fetch(DATA_URL)
   .then(res => res.json())
   .then(data => {
     allData = data;
     populateFilters(data);
+initMap();
+updateMapCountries([...new Set(data.map(d => d.store_country))]);    
   });
 
 function populateFilters(data) {
