@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Inflation Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Food Prices Inflation Dashboard</title>
   <style>
     .filter-group { margin-bottom: 10px; }
     select { margin-right: 10px; }
@@ -467,7 +466,7 @@ body {
 <div class="main-container">
 
                 
-  <div class="flow-diagram filter-group" style="font-size:160%;">
+  <div class="flow-diagram filter-group" style="font-size:130%;">
     <label>Product Type:
       <select id="productFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
     </label>
@@ -477,22 +476,26 @@ body {
     <label>Country:
       <select id="countryFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
     </label>
+    
+<!--Selector for cheapest / most expensive    
+<div class="filter-group" style="margin-top: 1em; font-size: 120%;">
+  <label><input type="radio" name="priceFilter" id="cheapestToggle" checked> Cheapest</label>
+  <label><input type="radio" name="priceFilter" id="expensiveToggle"> Most Expensive</label>
+</div>
+-->
   </div>
 
-<div id="compareStoresHeader" class="function-box">
-<h2 id="compareStoresHeader" style="display: none;">Compare Stores by Product Inflation</h2>
-<canvas id="compareStoresChart" style="display: none;"></canvas>
+
+
+<div class="function-box">
+  <h2 id="priceTitle">Product Price Trend Over Time</h2>
+  <canvas id="priceTrendChart"></canvas>
 </div>
 
 <div class="function-box">
-  <h2>Product Price Trend Over Time</h2>
-  <canvas id="priceTrendChart"></canvas>
-  </div>
-
-<div class="function-box">
-<h2>Product Inflation Rate Over Time</h2>
-<canvas id="inflationTrendChart"></canvas>
-  </div>
+  <h2 id="inflationTitle">Product Inflation Rate Over Time</h2>
+  <canvas id="inflationTrendChart"></canvas>
+</div>
 
 
 </div>
@@ -522,438 +525,179 @@ body {
             <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
         </div>
 -->
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- 
 <script>
-  const DATA_URL = "https://raw.githubusercontent.com/Eb43/product-inflation-tracker/refs/heads/main/product_inflation-db.json";
+const DATA_URL = "https://raw.githubusercontent.com/Eb43/product-inflation-tracker/refs/heads/main/product_inflation-db.json";
 
-  let fullData = [];
-  let countryToStores = {}; // mapping: country -> set of stores
+let allData = [];
+let priceChart = null;
+let inflationChart = null;
 
-  async function loadData() {
-    const response = await fetch(DATA_URL);
-    fullData = await response.json();
-    populateFilters();
-    drawCharts();
-  }
+const productSelect = document.getElementById("productFilter");
+const storeSelect = document.getElementById("storeFilter");
+const countrySelect = document.getElementById("countryFilter");
 
-function populateFilters() {
-  const productSel = document.getElementById('productFilter');
-  const storeSel = document.getElementById('storeFilter');
-  const countrySel = document.getElementById('countryFilter');
-
-  const productSet = new Set();
-  const storeSet = new Set();
-  const countrySet = new Set();
-  countryToStores = {};
-
-  fullData.forEach(d => {
-    productSet.add(d.product_type);
-    storeSet.add(d.store);
-    countrySet.add(d.country);
-
-    if (!countryToStores[d.country]) {
-      countryToStores[d.country] = new Set();
-    }
-    countryToStores[d.country].add(d.store);
+fetch(DATA_URL)
+  .then(res => res.json())
+  .then(data => {
+    allData = data;
+    populateFilters(data);
   });
 
-  function addOptions(select, values) {
-    select.innerHTML = '';
-    ['All', ...Array.from(values)].forEach(opt =>
-      select.add(new Option(opt, opt))
-    );
-  }
+function populateFilters(data) {
+  const products = new Set();
+  const stores = new Set();
+  const countries = new Set();
 
-  productSel.innerHTML = '';
-  Array.from(productSet).forEach(opt =>
-    productSel.add(new Option(opt, opt))
-  );
-  addOptions(storeSel, storeSet);
-  addOptions(countrySel, countrySet);
+  data.forEach(item => {
+    products.add(item.product_type_name);
+    stores.add(item.store_name);
+    countries.add(item.store_country);
+  });
 
-  //Set default store to "ATB Market" if it exists
-  if (storeSet.has("ATB Market")) {
-    storeSel.value = "ATB Market";
-  } else {
-    storeSel.value = "All";
+  const productList = Array.from(products).sort();
+  const storeList = Array.from(stores).sort();
+  const countryList = Array.from(countries).sort();
+
+  fillSelect(productSelect, productList);
+  fillSelect(storeSelect, storeList);
+  fillSelect(countrySelect, countryList);
+
+  productSelect.addEventListener("change", updateCharts);
+
+  storeSelect.addEventListener("change", () => {
+    autoSelectCountry();
+    updateCharts();
+  });
+
+  countrySelect.addEventListener("change", () => {
+    autoSelectFirstStore(); // select first store for selected country
+    updateCharts();
+  });
+
+  // Randomly select a product and store on page load
+  const randomProduct = productList[Math.floor(Math.random() * productList.length)];
+  const randomStore = storeList[Math.floor(Math.random() * storeList.length)];
+  productSelect.value = randomProduct;
+  storeSelect.value = randomStore;
+  autoSelectCountry(); // auto-set country from selected store
+  updateCharts();
+}
+
+function fillSelect(select, items) {
+  items.forEach(item => {
+    const opt = document.createElement("option");
+    opt.value = item;
+    opt.textContent = item;
+    select.appendChild(opt);
+  });
+}
+
+function autoSelectCountry() {
+  const selectedStore = storeSelect.value;
+  if (!selectedStore) return;
+
+  const matched = allData.find(item => item.store_name === selectedStore);
+  if (matched) {
+    countrySelect.value = matched.store_country;
   }
 }
 
-  function filterStoresByCountry() {
-    const storeSel = document.getElementById('storeFilter');
-    const selectedCountry = document.getElementById('countryFilter').value;
+// Select the first store that belongs to the selected country
+function autoSelectFirstStore() {
+  const selectedCountry = countrySelect.value;
+  if (!selectedCountry) return;
 
-    for (let i = 0; i < storeSel.options.length; i++) {
-      const opt = storeSel.options[i];
-      if (selectedCountry === 'All' || opt.value === 'All') {
-        opt.disabled = false;
-      } else {
-        // disable if store not in the selected country's set
-        opt.disabled = !countryToStores[selectedCountry]?.has(opt.value);
-      }
-    }
-
-    // If current store selection is disabled, reset to "All"
-    if (storeSel.selectedOptions[0].disabled) {
-      storeSel.value = 'All';
-    }
+  const matched = allData.find(item => item.store_country === selectedCountry);
+  if (matched) {
+    storeSelect.value = matched.store_name;
   }
-
-  function applyFilters() {
-    const pf = document.getElementById('productFilter').value;
-    const sf = document.getElementById('storeFilter').value;
-    const cf = document.getElementById('countryFilter').value;
-
-    return fullData.filter(d =>
-      (pf === 'All' || d.product_type === pf) &&
-      (sf === 'All' || d.store === sf) &&
-      (cf === 'All' || d.country === cf)
-    );
-  }
-
-function destroyCharts() {
-  for (const id of ['priceTrendChart', 'inflationTrendChart', 'topInflationChart', 'compareStoresChart']) {
-    const chart = Chart.getChart(id);
-    if (chart) chart.destroy();
-  }
-
-  // Hide Compare Stores elements explicitly
-  document.getElementById('compareStoresChart').style.display = 'none';
-  document.getElementById('compareStoresHeader').style.display = 'none';
 }
 
-  function drawCharts() {
-    const filtered = applyFilters();
+function updateCharts() {
+  const product = productSelect.value;
+  const store = storeSelect.value;
+  const country = countrySelect.value;
 
-    // Chart 1: Price Trend Over Time
-    const grouped = {};
-    filtered.forEach(d => {
-      const key = d.date;
-      if (!grouped[key]) grouped[key] = [];
-      grouped[key].push(d.price_number);
-    });
+  if (!product || !store || !country) return;
 
-    const dates = Object.keys(grouped).sort();
-    const avgPrices = dates.map(date => {
-      const prices = grouped[date];
-      return prices.reduce((a, b) => a + b, 0) / prices.length;
-    });
+  const filtered = allData
+    .filter(item =>
+      item.product_type_name === product &&
+      item.store_name === store &&
+      item.store_country === country &&
+      item.variant === "cheapest"
+    )
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    new Chart(document.getElementById('priceTrendChart'), {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Average Price',
-          data: avgPrices,
-          fill: false,
-          borderColor: 'blue',
-          tension: 0.2
-        }]
-      }
-    });
+  if (filtered.length === 0) {
+    alert("No matching data found.");
+    return;
+  }
 
-    // Chart 2: Top Inflation
- const inflationGrouped = {};
-  filtered.forEach(d => {
-    const key = d.date;
-    if (!inflationGrouped[key]) inflationGrouped[key] = [];
-    inflationGrouped[key].push(d.inflation_rate);
-  });
+  const labels = filtered.map(item => item.date);
+  const prices = filtered.map(item => parseFloat(item.price_per_unit_string.replace(",", ".").split(" ")[0]));
+  const unit = filtered[0].price_per_unit_string.split(" ").slice(1).join(" ");
 
-  const inflationDates = Object.keys(inflationGrouped).sort();
-  const avgInflationOverTime = inflationDates.map(date => {
-    const rates = inflationGrouped[date];
-    return rates.reduce((a, b) => a + b, 0) / rates.length;
-  });
+  const inflation = [null];
+  for (let i = 1; i < prices.length; i++) {
+    const diff = prices[i] - prices[i - 1];
+    inflation.push(diff.toFixed(2));
+  }
 
-  new Chart(document.getElementById('inflationTrendChart'), {
-    type: 'line',
+
+document.getElementById("priceTitle").textContent = product + " Price Trend Over Time";
+document.getElementById("inflationTitle").textContent = product + " Inflation Rate Over Time";
+
+
+  drawChart("priceTrendChart", "Price (" + unit + ")", labels, prices, chart => priceChart = chart, priceChart);
+  drawChart("inflationTrendChart", "Price Change (" + unit + ")", labels, inflation, chart => inflationChart = chart, inflationChart);
+}
+
+function drawChart(canvasId, label, labels, data, saveChartFn, existingChart) {
+  const ctx = document.getElementById(canvasId).getContext("2d");
+  if (existingChart) existingChart.destroy();
+
+  const chart = new Chart(ctx, {
+    type: "line",
     data: {
-      labels: inflationDates,
+      labels: labels,
       datasets: [{
-        label: 'Average Inflation Rate',
-        data: avgInflationOverTime,
+        label: label,
+        data: data,
+        borderColor: "blue",
+        borderWidth: 2,
         fill: false,
-        borderColor: 'red',
-        tension: 0.2
+        tension: 0.2,
+        pointRadius: 4
       }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true }
+      },
+scales: {
+  y: {
+    beginAtZero: false,
+    title: {
+      display: true,
+      text: label, // this already includes the unit
+      font: {
+        size: 14
+      }
     }
-  });
-  
-  
-// Chart 3: Compare Stores (only if "All" stores selected)
-const selectedStore = document.getElementById('storeFilter').value;
-const compareChartEl = document.getElementById('compareStoresChart');
-const compareHeaderEl = document.getElementById('compareStoresHeader');
-
-if (selectedStore === 'All') {
-  compareChartEl.style.display = 'block';
-  compareHeaderEl.style.display = 'block';
-
-  const storeInflation = {};
-  filtered.forEach(d => {
-    if (!storeInflation[d.store]) storeInflation[d.store] = [];
-    storeInflation[d.store].push(d.inflation_rate);
-  });
-
-  const storeLabels = Object.keys(storeInflation);
-  const avgInflation = storeLabels.map(s =>
-    storeInflation[s].reduce((a, b) => a + b, 0) / storeInflation[s].length
-  );
-
-  new Chart(compareChartEl, {
-    type: 'bar',
-    data: {
-      labels: storeLabels,
-      datasets: [{
-        label: 'Avg Inflation Rate',
-        data: avgInflation,
-        backgroundColor: 'green'
-      }]
-    }
-  });
-} else {
-  compareChartEl.style.display = 'none';
-  compareHeaderEl.style.display = 'none';
+  }
 }
-  }
+    }
+  });
 
-  document.getElementById('productFilter').onchange =
-  document.getElementById('storeFilter').onchange =
-  document.getElementById('countryFilter').onchange = () => {
-    filterStoresByCountry(); // update store dropdown availability
-    destroyCharts();
-    drawCharts();
-  };
-
-  loadData();
+  saveChartFn(chart);
+}
 </script>
--->
 
-<!-- The script below sets country when store selected. but previously it was ordered to lock stores that do not belong to the country. This locks all stores until user sets country to all -->
-<script>
-  const DATA_URL = "https://raw.githubusercontent.com/Eb43/product-inflation-tracker/refs/heads/main/product_inflation-db.json";
-
-  let fullData = [];
-  let countryToStores = {}; // mapping: country -> set of stores
-  let storeToCountry = {};  // mapping: store -> country
-
-  async function loadData() {
-    const response = await fetch(DATA_URL);
-    fullData = await response.json();
-    populateFilters();
-    drawCharts();
-  }
-
-  function populateFilters() {
-    const productSel = document.getElementById('productFilter');
-    const storeSel = document.getElementById('storeFilter');
-    const countrySel = document.getElementById('countryFilter');
-
-    const productSet = new Set();
-    const storeSet = new Set();
-    const countrySet = new Set();
-    countryToStores = {};
-    storeToCountry = {};
-
-    fullData.forEach(d => {
-      productSet.add(d.product_type);
-      storeSet.add(d.store);
-      countrySet.add(d.country);
-
-      if (!countryToStores[d.country]) {
-        countryToStores[d.country] = new Set();
-      }
-      countryToStores[d.country].add(d.store);
-
-      if (!storeToCountry[d.store]) {
-        storeToCountry[d.store] = d.country;
-      }
-    });
-
-    function addOptions(select, values) {
-      select.innerHTML = '';
-      ['All', ...Array.from(values)].forEach(opt =>
-        select.add(new Option(opt, opt))
-      );
-    }
-
-    productSel.innerHTML = '';
-    Array.from(productSet).forEach(opt =>
-      productSel.add(new Option(opt, opt))
-    );
-    addOptions(storeSel, storeSet);
-    addOptions(countrySel, countrySet);
-
-    // Set default store to "ATB Market" if it exists
-    if (storeSet.has("ATB Market")) {
-      storeSel.value = "ATB Market";
-    } else {
-      storeSel.value = "All";
-    }
-  }
-
-  function filterStoresByCountry() {
-    const storeSel = document.getElementById('storeFilter');
-    const selectedCountry = document.getElementById('countryFilter').value;
-
-    for (let i = 0; i < storeSel.options.length; i++) {
-      const opt = storeSel.options[i];
-      if (selectedCountry === 'All' || opt.value === 'All') {
-        opt.disabled = false;
-      } else {
-        // disable if store not in the selected country's set
-        opt.disabled = !countryToStores[selectedCountry]?.has(opt.value);
-      }
-    }
-
-    // If current store selection is disabled, reset to "All"
-    if (storeSel.selectedOptions[0].disabled) {
-      storeSel.value = 'All';
-    }
-  }
-
-  function applyFilters() {
-    const pf = document.getElementById('productFilter').value;
-    const sf = document.getElementById('storeFilter').value;
-    const cf = document.getElementById('countryFilter').value;
-
-    return fullData.filter(d =>
-      (pf === 'All' || d.product_type === pf) &&
-      (sf === 'All' || d.store === sf) &&
-      (cf === 'All' || d.country === cf)
-    );
-  }
-
-  function destroyCharts() {
-    for (const id of ['priceTrendChart', 'inflationTrendChart', 'topInflationChart', 'compareStoresChart']) {
-      const chart = Chart.getChart(id);
-      if (chart) chart.destroy();
-    }
-
-    // Hide Compare Stores elements explicitly
-    document.getElementById('compareStoresChart').style.display = 'none';
-    document.getElementById('compareStoresHeader').style.display = 'none';
-  }
-
-  function drawCharts() {
-    const filtered = applyFilters();
-
-    // Chart 1: Price Trend Over Time
-    const grouped = {};
-    filtered.forEach(d => {
-      const key = d.date;
-      if (!grouped[key]) grouped[key] = [];
-      grouped[key].push(d.price_number);
-    });
-
-    const dates = Object.keys(grouped).sort();
-    const avgPrices = dates.map(date => {
-      const prices = grouped[date];
-      return prices.reduce((a, b) => a + b, 0) / prices.length;
-    });
-
-    new Chart(document.getElementById('priceTrendChart'), {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Average Price',
-          data: avgPrices,
-          fill: false,
-          borderColor: 'blue',
-          tension: 0.2
-        }]
-      }
-    });
-
-    // Chart 2: Top Inflation
-    const inflationGrouped = {};
-    filtered.forEach(d => {
-      const key = d.date;
-      if (!inflationGrouped[key]) inflationGrouped[key] = [];
-      inflationGrouped[key].push(d.inflation_rate);
-    });
-
-    const inflationDates = Object.keys(inflationGrouped).sort();
-    const avgInflationOverTime = inflationDates.map(date => {
-      const rates = inflationGrouped[date];
-      return rates.reduce((a, b) => a + b, 0) / rates.length;
-    });
-
-    new Chart(document.getElementById('inflationTrendChart'), {
-      type: 'line',
-      data: {
-        labels: inflationDates,
-        datasets: [{
-          label: 'Average Inflation Rate',
-          data: avgInflationOverTime,
-          fill: false,
-          borderColor: 'red',
-          tension: 0.2
-        }]
-      }
-    });
-
-    // Chart 3: Compare Stores (only if "All" stores selected)
-    const selectedStore = document.getElementById('storeFilter').value;
-    const compareChartEl = document.getElementById('compareStoresChart');
-    const compareHeaderEl = document.getElementById('compareStoresHeader');
-
-    if (selectedStore === 'All') {
-      compareChartEl.style.display = 'block';
-      compareHeaderEl.style.display = 'block';
-
-      const storeInflation = {};
-      filtered.forEach(d => {
-        if (!storeInflation[d.store]) storeInflation[d.store] = [];
-        storeInflation[d.store].push(d.inflation_rate);
-      });
-
-      const storeLabels = Object.keys(storeInflation);
-      const avgInflation = storeLabels.map(s =>
-        storeInflation[s].reduce((a, b) => a + b, 0) / storeInflation[s].length
-      );
-
-      new Chart(compareChartEl, {
-        type: 'bar',
-        data: {
-          labels: storeLabels,
-          datasets: [{
-            label: 'Avg Inflation Rate',
-            data: avgInflation,
-            backgroundColor: 'green'
-          }]
-        }
-      });
-    } else {
-      compareChartEl.style.display = 'none';
-      compareHeaderEl.style.display = 'none';
-    }
-  }
-
-  // Event listeners with automatic country sync
-  const productSel = document.getElementById('productFilter');
-  const storeSel = document.getElementById('storeFilter');
-  const countrySel = document.getElementById('countryFilter');
-
-  productSel.onchange = storeSel.onchange = countrySel.onchange = (event) => {
-    if (event.target === storeSel && storeSel.value !== 'All') {
-      const autoCountry = storeToCountry[storeSel.value];
-      if (autoCountry && countrySel.value !== autoCountry) {
-        countrySel.value = autoCountry;
-      }
-    }
-
-    filterStoresByCountry();
-    destroyCharts();
-    drawCharts();
-  };
-
-  loadData();
-</script>
 
 </body>
 </html>
