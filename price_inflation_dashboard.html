@@ -510,10 +510,15 @@ body {
             border-radius: var(--border-radius);
             box-shadow: var(--subtle-shadow);
             max-width: 1200px;">
-        <p>This dashboard is the final output of the Product Inflation Tracker project (<a href="https://github.com/Eb43/product-inflation-tracker" _rel="dofollow">https://github.com/Eb43/product-inflation-tracker</a>), which is an automated approach to the collection of grocery price data across multiple countriesand multiple stores.</p>
-        <p>The system web scrapes product listings from real online stores. The list of stores visited is configured by within the project config file. Currently, the scraper includes grocery data from major retailers in regions such as Ukraine, Canada, and the EU. It stores the data in a structured SQLite database.</p>
-        <p>The dashboard provides a visual representation of this data, offering insights into food inflation. The dashboard includes filter controls to select specific products, stores, or countries, allowing for dynamic exploration of pricing trends and inflation behavior across the global grocery sector.<p>
-        <p>This interface bridges raw data collection with market insights, making it suitable for anyone interested in food price dynamics.</p>
+<p>This dashboard represents the final deliverable of the Product Inflation Tracker project (<a href="https://github.com/Eb43/product-inflation-tracker" rel="dofollow">https://github.com/Eb43/product-inflation-tracker</a>), an automated solution for collecting grocery price data across multiple countries and retailers.</p>
+
+<p>The system performs web scraping of product listings from real online stores. The list of targeted stores is configured via the project’s configuration file. Currently, the scraper gathers grocery data from major retailers in regions including Ukraine, Canada, and the EU. All data is stored in a structured SQLite database.</p>
+
+<p>This dashboard offers a visual interface for exploring the collected data, providing insights into food price inflation. Interactive filters enable selection by product, store, or country, facilitating dynamic analysis of pricing trends and inflation patterns across the global grocery market.</p>
+
+<p>Serving as a bridge between raw data and actionable market insights, this tool is designed for users interested in monitoring food price dynamics.</p>
+
+<p>The dashboard is implemented with minimal dependencies and operates entirely on the frontend using JavaScript - without any backend components. Consequently, direct querying of the SQLite database within the dashboard is not possible. Instead, a Python script converts the .DB file into a .JSON file, which the dashboard then consumes for visualization.</p>
         </div>
 
         <!-- Counters section -->
