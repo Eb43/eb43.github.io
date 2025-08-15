@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keyword Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }        
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+        .container {
+    width: 80%; /* keep your intended width */
+    max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+        
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+        
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .main-title {
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }        
+        
+.terminal-and-pen-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%; /* Fill container height */
+  width: auto;  /* Keep aspect ratio */
+  object-fit: contain;
+}        
+        
+         /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }        
+
+        .subheader {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .subheader h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subheader p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }        
+        
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+            font-size: 2.2 rem;
+        }        
+   
+         p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+
+
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .file-input-group {
+            margin-bottom: 25px;
+        }
+
+        .file-input-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-display {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-input-display:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .file-input-display.has-file {
+            border-color: #28a745;
+            background: #f0fff4;
+            border-style: solid;
+        }
+
+        .input-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .tab-button {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #4facfe;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.5);
+            color: #495057;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        #keywordTextArea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        #keywordTextArea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .input-hint {
+            display: block;
+            margin-top: 8px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .search-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-button:active {
+            transform: translateY(0);
+        }
+
+        .search-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            min-height: 50px;
+            display: none;
+        }
+
+        #results.show {
+            display: block;
+        }
+
+        .result-item {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item h3 {
+            color: #333;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .keyword {
+            color: #4facfe;
+            font-weight: 700;
+        }
+
+        .count {
+            color: #28a745;
+            font-weight: 700;
+        }
+
+        .restart-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .restart-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading::after {
+            content: '⟳';
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;"> </p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: 130%; object-fit: contain; object-position: 1% 1%; margin-top: 10px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+
+        <div class="main-title">
+        
+            <h1 style="font-size:340%">🔍 Keyword Occurrence Search</h1>
+        </div>
+        
+        <div class="form-section">
+                    <p>Upload a keyword list and file with text to find keyword occurrences instantly</p>
+            <div class="file-input-group">
+                <label>📝 Keywords Input</label>
+                <div class="input-tabs">
+                    <button type="button" class="tab-button active" onclick="switchTab('type')">✍️ Type Keywords</button>
+                    <button type="button" class="tab-button" onclick="switchTab('file')">📄 Upload Keywords List File</button>
+                </div>
+                
+                <div id="typeTab" class="tab-content active">
+                    <textarea 
+                        id="keywordTextArea" 
+                        placeholder="Enter keywords, one per line:&#10;example&#10;search&#10;keyword"
+                        rows="6"
+                    ></textarea>
+                    <small class="input-hint">💡 Enter one keyword per line</small>
+                </div>
+                
+                <div id="fileTab" class="tab-content">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="keywordFile" accept=".txt">
+                        <div class="file-input-display" id="keywordDisplay">
+                            <div class="file-icon">📄</div>
+                            <div>Click to select your keyword file</div>
+                            <small>Accepts .txt files</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-input-group">
+                <label for="textFile">📄 Text File To Search</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="textFile" accept=".txt,.html,.htm,.csv,.json,.xml,.md,.log,.ini,.yaml,.yml,.js,.css">
+                    <div class="file-input-display" id="textDisplay">
+                        <div class="file-icon">📄</div>
+                        <div>Click to select your file.</div>
+                        <small>Only text-based formats accepted: .txt, .html, .htm, .csv, .json, .xml, .md, .log, .ini, .yaml, .yml, .js, .css</small>
+                    </div>
+                </div>
+            </div>
+
+            <button class="search-button" onclick="performSearch()">Start Search</button>
+
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tabType) {
+            const buttons = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            if (tabType === 'type') {
+                document.querySelector('[onclick="switchTab(\'type\')"]').classList.add('active');
+                document.getElementById('typeTab').classList.add('active');
+            } else {
+                document.querySelector('[onclick="switchTab(\'file\')"]').classList.add('active');
+                document.getElementById('fileTab').classList.add('active');
+            }
+        }
+
+        // File input display updates
+        document.getElementById('keywordFile').addEventListener('change', function(e) {
+            const display = document.getElementById('keywordDisplay');
+            if (e.target.files[0]) {
+                display.innerHTML = `
+                    <div class="file-icon">✅</div>
+                    <div><strong>${e.target.files[0].name}</strong></div>
+                    <small>File selected</small>
+                `;
+                display.classList.add('has-file');
+            }
+        });
+
+        document.getElementById('textFile').addEventListener('change', function(e) {
+            const display = document.getElementById('textDisplay');
+            if (e.target.files[0]) {
+                display.innerHTML = `
+                    <div class="file-icon">✅</div>
+                    <div><strong>${e.target.files[0].name}</strong></div>
+                    <small>File selected</small>
+                `;
+                display.classList.add('has-file');
+            }
+        });
+
+function performSearch() {
+    const keywordFileInput = document.getElementById("keywordFile");
+    const textFileInput = document.getElementById("textFile");
+    const keywordTextArea = document.getElementById("keywordTextArea");
+    const resultsDiv = document.getElementById("results");
+    const searchButton = document.querySelector('.search-button');
+    const activeTab = document.querySelector('.tab-content.active').id;
+
+    const textFile = textFileInput.files[0];
+
+    if (!textFile) {
+        alert("❌ Please select a text file to search in.");
+        return;
+    }
+
+    if (activeTab === 'typeTab') {
+        const textAreaValue = keywordTextArea.value.trim();
+        if (!textAreaValue) {
+            alert("❌ Please enter some keywords to search for.");
+            return;
+        }
+
+        // ✅ Only show loading after validation
+        searchButton.disabled = true;
+        searchButton.textContent = 'Search finished';
+        resultsDiv.innerHTML = '<div class="loading">Processing your files</div>';
+        resultsDiv.classList.add('show');
+
+        const keywords = textAreaValue.split('\n').map(k => k.trim()).filter(Boolean);
+        const textReader = new FileReader();
+        textReader.onload = function (e) {
+            const text = e.target.result;
+            processKeywords(keywords, text, resultsDiv, searchButton);
+        };
+        textReader.readAsText(textFile);
+
+    } else { // fileTab
+        const keywordFile = keywordFileInput.files[0];
+
+        if (!keywordFile) {
+            alert("❌ Please select a keyword file or switch to typing keywords.");
+            return;
+        }
+
+        // ✅ Only show loading after validation
+        searchButton.disabled = true;
+        searchButton.textContent = 'Search finished';
+        resultsDiv.innerHTML = '<div class="loading">Processing your files</div>';
+        resultsDiv.classList.add('show');
+
+        const keywordReader = new FileReader();
+        keywordReader.onload = function (e) {
+            const keywords = e.target.result.split("\n").map(k => k.trim()).filter(Boolean);
+
+            const textReader = new FileReader();
+            textReader.onload = function (e) {
+                const text = e.target.result;
+                processKeywords(keywords, text, resultsDiv, searchButton);
+            };
+            textReader.readAsText(textFile);
+        };
+        keywordReader.readAsText(keywordFile);
+    }
+}
+
+function processKeywords(keywords, text, resultsDiv, searchButton) {
+    searchButton.disabled = true; // disable immediately at the start
+    function searchAndCountKeyword(keyword, text) {
+        const lines = text.split("\n");
+        let count = 0;
+        const keywordRegex = new RegExp(`\\b${keyword}\\b`, 'gi');
+        for (const line of lines) {
+            const matches = line.match(keywordRegex);
+            if (matches) count += matches.length;
+        }
+        return count;
+    }
+
+    resultsDiv.innerHTML = '<h3 style="margin-bottom: 15px; color: #333;">Search Results</h3>';
+
+    function processKeywordAtIndex(index) {
+        if (index >= keywords.length) {
+            // show restart buttons
+            resultsDiv.innerHTML += `
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="restart-button" onclick="resetSearch()">Begin Fresh New Search</button>
+                <button class="restart-button" style="margin-left:10px;background:linear-gradient(135deg,#42e695 0%,#3bb2b8 100%);" onclick="resetSearchKeepKeywords()">New Search With Same Keyword List</button>
+            </div>`;
+            // ✅ remove re-enabling here
+            // searchButton.disabled = false;
+            // searchButton.textContent = 'Start Search';
+            return;
+        }
+
+        const keyword = keywords[index];
+        const count = searchAndCountKeyword(keyword, text);
+
+        resultsDiv.innerHTML += `
+        <div class="result-item">
+            <h3><span class="keyword">'${keyword}'</span> → found <span class="count">${count}</span> times</h3>
+        </div>`;
+
+        processKeywordAtIndex(index + 1);
+    }
+
+    processKeywordAtIndex(0);
+}
+
+// fully fresh
+function resetSearch() {
+    document.getElementById("keywordTextArea").value = "";
+    const keywordFileInput = document.getElementById("keywordFile");
+    keywordFileInput.value = "";
+    document.getElementById("keywordDisplay").innerHTML = `
+        <div class="file-icon">📄</div>
+        <div>Click to select your keyword file</div>
+        <small>Accepts .txt files</small>
+    `;
+    document.getElementById("keywordDisplay").classList.remove('has-file');
+
+    const textFileInput = document.getElementById("textFile");
+    textFileInput.value = "";
+    document.getElementById("textDisplay").innerHTML = `
+        <div class="file-icon">📄</div>
+        <div>Click to select your text file</div>
+        <small>Accepts .txt files</small>
+    `;
+    document.getElementById("textDisplay").classList.remove('has-file');
+
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    resultsDiv.classList.remove('show');
+
+    const searchButton = document.querySelector('.search-button');
+    searchButton.disabled = false;
+    searchButton.textContent = 'Start Search';
+
+    switchTab('type');
+}
+
+// keep keywords, clear text file and results
+function resetSearchKeepKeywords() {
+    const textFileInput = document.getElementById("textFile");
+    textFileInput.value = "";
+    document.getElementById("textDisplay").innerHTML = `
+        <div class="file-icon">📄</div>
+        <div>Click to select your text file</div>
+        <small>Accepts .txt files</small>
+    `;
+    document.getElementById("textDisplay").classList.remove('has-file');
+
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    resultsDiv.classList.remove('show');
+
+    const searchButton = document.querySelector('.search-button');
+    searchButton.disabled = false;
+    searchButton.textContent = 'Start Search';
+}   
+    </script>
+    
+    
+    <div class="container">
+    <h2>About This Page</h2> 
+    <p> This page provides a streamlined tool for quickly identifying the occurrences of specific keywords within your texts. By allowing you to either type keywords directly or upload a pre-prepared list, it enables fast, accurate keyword searches.</p>
+    <p>A wide range of text-based file formats supported. Including .txt, .html, .csv, .json, .xml, .md, .log, .ini, .yaml, .js, and .css. </p>
+     <h2>Benefits of Using This Keyword Search Tool</h2> 
+     <ul> 
+     <li><strong>Time Efficiency:</strong> Instantly counts and reports keyword occurrences without manual scanning.</li> 
+     <li><strong>Flexibility:</strong> Supports both manual keyword input and file-based keyword lists.</li> 
+     <li><strong>Wide File Compatibility:</strong> Works with virtually any standard text-based file format.</li> 
+     <li><strong>Clear Results:</strong> Presents keyword counts in an easy-to-read format, with options to start a fresh new search or reuse keyword list with a new text.</li> 
+     </ul> 
+     <h2>Who Will Find This Keyword Occurrence Searcher Useful</h2> 
+     <p> This tool is particularly useful for  content editors, SEO specialists, text researchers, data analysts, or anyone who needs to quickly identify the frequency of specific terms within a text. It simplifies the process of content analysis, and keyword research. </p> 
+     <h2>How Keyword Occurrence Search Works</h2> 
+     <p> Technically, the page reads your selected text file and your chosen keywords (from a typed list or an uploaded file). It then processes the text line by line using regular expressions to identify exact keyword matches. Each occurrence is counted, and results are dynamically displayed on the page.</p>
+     <p>Users can perform fresh searches or repeat searches with the same keyword list while updating the target text file, all without reloading the page to quickly analyze an updated text. </p>
+    </div>
+    
+ <!-- Counters section --k>
+ <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a hre-f="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+-->
+
+</body>
+</html>
