@@ -665,13 +665,22 @@ function populateFilters(data) {
     updateCharts();
   });
 
-  // Randomly select a product and store on page load
-  const randomProduct = productList[Math.floor(Math.random() * productList.length)];
-  const randomStore = storeList[Math.floor(Math.random() * storeList.length)];
-  productSelect.value = randomProduct;
-  storeSelect.value = randomStore;
-  autoSelectCountry(); // auto-set country from selected store
-  updateCharts();
+// Randomly select a valid combination from actual data
+let validCombination = null;
+
+// Try until we find a record with variant === "cheapest"
+while (!validCombination) {
+  const randomRecord = allData[Math.floor(Math.random() * allData.length)];
+  if (randomRecord.variant === "cheapest") {
+    validCombination = randomRecord;
+  }
+}
+
+productSelect.value = validCombination.product_type_name;
+storeSelect.value = validCombination.store_name;
+countrySelect.value = validCombination.store_country;
+
+updateCharts();
 }
 
 function fillSelect(select, items) {
@@ -721,7 +730,8 @@ function updateCharts() {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   if (filtered.length === 0) {
-    alert("No matching data found.");
+    alert("No matching data found for selected Product Type, Store, and Country\n" +
+    "Please select another Product Type, Store, or Country");
     return;
   }
 
