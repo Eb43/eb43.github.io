@@ -4609,7 +4609,7 @@
                 <p>Here is the trick when your phone shows 100%, the battery is still charging – its just you don’t know about that. But look at battery voltage – it continues rising slowly for several more minutes. Modern charging systems display 100% early, then trickle charge to the actual maximum. The voltage might read 4.28V, then 4.30V, then 4.32V over the next five minutes before stabilizing at 4.35V.</p> 
                 <p>If the algorithm simply recorded the voltage the moment it saw 100%, it would capture an incomplete charge state, not the true maximum.</p> 
                 <p>This approach elegantly solves the trickle-charging problem. It captures the genuine maximum voltage – the stable value your battery reaches when truly full – not a mid-charging snapshot.</p> 
-                <h3 class="wp-block-heading">Continuous cackground operation</h3> 
+                <h3 class="wp-block-heading">Continuous background operation</h3> 
                 <p>The app runs as a foreground service, getting voltage reading on its change. This strikes a balance: it is enough to catch voltage changes during both charging (when voltage rises slowly) and discharging (when it can drop quickly under heavy use), but avoiding unnecessary readings as it would occur on a fixed timer intervals. This makes the app not to significantly drain the battery being monitored.</p> 
                 <p>The detected minimum and maximum values are stored in the device’s shared preferences, persisting across app restarts and reboots. Once determined, you have these reference points permanently – unless you deliberately reset them. </p> 
                 <h2 class="wp-block-heading">Practical usage of battery voltage</h2> 
