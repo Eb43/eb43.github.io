@@ -1,0 +1,748 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>Restoring Functionality to a Microwave with a Non-Responsive Keypad</title>
+    <meta name="description" content="Restoring Functionality to a Microwave with a Non-Responsive Keypad">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Restoring Functionality to a Microwave with a Non-Responsive Keypad",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-10-09",
+  "url": "https://eb43.github.io/articles/fix-microwave-buttons-not-working.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 8 October 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+<h1 class="main-title">Easy fix of microwave buttons not working</h1>
+  
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+  <p>A microwave that suddenly stops responding to user commands can appear completely useless, but in many cases, the failure is surprisingly simple. What looks like an electronic fault deep inside the control board often turns out to be nothing more than a minor issue in the keypad. The following describes, step by step, how a non-responsive microwave was repaired, explaining both the practical procedure and the electrical principles behind each component involved.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/microwave-keypad.jpg" alt="microwave keypad fix">
+
+  <h2>The failure</h2>
+
+<p>The microwave had been working normally until one day the keypad began to ignore commands. At first, the problem was intermittent: sometimes a press would register, sometimes it would not. Eventually, the keyboard stopped responding altogether. The user could not start or stop the heating process, add time, or select any program. Even unplugging and reconnecting the appliance made no difference.</p>
+
+<p>When a microwave becomes unresponsive, there are usually two possible sources of failure: the keypad itself or the main control board. Because the malfunction developed gradually, the first assumption was contamination. Cooking vapors often carry microscopic droplets of fat or aromatic compounds that can deposit on internal surfaces and create weak conductive films. In theory, this could interfere with the keyboard’s signal lines. However, a closer inspection would soon show that this was not the case.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/microwave-keypad-not-working.gif" alt="microwave keypad fix">
+  
+  <h2>Getting inside the microwave</h2> 
+  <p class="alert-danger">Before opening any microwave, one critical warning must be stated: the high-voltage capacitor inside can retain a lethal charge even after the appliance is unplugged. Anyone attempting internal work must discharge it properly with a resistor-based tool and avoid direct contact with high-voltage sections.</p>
+
+<p>Once the protective cover was removed, the internal layout of the device became clear. Several key components immediately stood out.</p>
+
+<p>High-voltage capacitor: a large elliptic component that stores energy for the magnetron’s power circuit. It acts as both a reservoir and a stabilizer for the high-voltage DC feeding the magnetron.</p>
+
+<p>Above the capacitor a board with noise filter and fuse is located. This assembly protects the unit and electrical system of the house from voltage spikes and electrical interference. Both were visually intact and functionally fine.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/capacitor.jpg" alt="microwave keypad fix">
+
+<p>Magnetron, located at the left part on the image below, is the central element that generates microwave radiation. It converts high-voltage electrical energy into electromagnetic waves that have the frequency close to the resonance frequency of water molecules. When anything that contains water is placed within this radiation field, water milecules start consuming energy and increase their molecular brownian motion. The aplitude of this motion is observed by us as heat. Heated water starts heating the food.</p>
+
+<p>Magnetron is supplied by high-voltage transformer: a heavy iron-core transformer beside the magnetron. It steps the household voltage (110 V or 240 V depending on your region) up to several thousand volts required for microwave generation.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/magnetron.jpg" alt="microwave keypad fix">
+
+<p>Positioned below the high-voltage section, the control board is the brain of the microwave. This low-voltage electronic module processes all user commands, controls timing, drives relays, and manages the display.</p>
+
+<p>With the high-voltage components appearing healthy, the focus moved naturally to the control system.</p>
+
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/control-board.jpg" alt="microwave keypad fix">
+
+
+
+<h2>Examining the control unit</h2>
+
+<p>The control unit can be removed without dismantling the entire appliance. One screw at the top secures it in place. After opening the microwave door, the panel can be slid upward to release the latches. All connectors must then be carefully unplugged.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/take-out-control-unit.jpg" alt="microwave keypad fix">
+
+
+<h3>Investigating the keypad</h3>
+
+<p>The keypad and control board are joined together in a compact module. Removing four small screws allowed the board to separate from the front fascia, making it easier to diagnose by allowing keys to be presses alongside the access to connector pins.</p>
+
+<p>To verify whether the keyboard was producing any electrical signal, a multimeter was set to continuity mode (also known as diode or “beeping” mode). This setting allows the detection of any closed circuit between two points.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/multimeter.jpg" alt="microwave keypad fix">
+
+
+<p>Testing was simple: one probe of the meter was placed on a pin of the keyboard connector, and the other probe was moved across the remaining pins while pressing some one button. A functioning key would create a closed circuit, triggering the multimeter’s beep. In this case, none of the keys produced a signal, confirming that the keyboard was not completing any circuit paths.</p>
+
+<h2>Restoring the microwave keypad functionality</h2>
+
+<p>In this case, the repair required no replacement parts. It was only necessary to slightly move layers of the keypad to restore conductivity.</p>
+
+<p>Using a thin, blunt blade, the upper film was gently lifted to release tension and allow the layers to settle back into proper alignment. Once reseated, the film was pressed evenly across the surface to ensure consistent contact.<p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/delaminate.jpg" alt="microwave keypad fix">
+
+<p>No cleaning solutions or adhesives were used - only careful handling. The aim was to restore the natural spacing between membranes.</p>
+
+<p>Most modern microwaves use membrane keypads, also known as film keyboards. They are light, reliable, and inexpensive, but they depend entirely on perfect contact between thin layers with fragile graphite conductive traces.</p>
+
+<p>A typical film keyboard consists of three main layers:</p>
+<ul>
+<li>Top film: a flexible polyester sheet printed with conductive graphite pads. Each pad corresponds to one button on the panel.</li>
+<li>Spacer layer: a non-conductive sheet with cut-outs under each key. This keeps the two conductive films apart when no pressure is applied. IN this microwave the glue layer was used as a spacer layer.</li> 
+<li>Bottom film: another polyester layer printed with conductive traces forming the keyboard matrix, connected by a flat ribbon cable to the control board.</li>
+</ul>
+
+<p>When a button is pressed, the upper film bends slightly and its graphite pad touches the lower trace through the opening in the spacer. This closes an electrical path between two points in the matrix. The control board continuously scans the matrix for such closures and interprets them as specific key presses.</p>
+
+<p>Over time, mechanical wear, static electricity, or minor separation between the layers can prevent proper contact. In some cases, the films may even stick together unevenly, or graphite traces flake, breaking the electrical connection. This mechanical delamination is one of the most common reasons for key failure in appliances that otherwise work perfectly.</p>
+
+<h3>Testing the fixed keypad</h3>
+
+<p>The keyboard was retested using the same multimeter procedure. This time, several keys produced an immediate and clear continuity audio signal and a red indicator light on multimeter, meaning that the internal contacts were once again completing the circuit. The keypad had been successfully revived.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/multimeter-fixed.jpg" alt="microwave keypad fix">
+
+<p>After reconnecting the wiring and reinstalling the panel, the microwave was powered on. All buttons responded instantly. The unit could now start, stop, and adjust cooking programs as designed.</p>
+
+  <img class="image-container" style="height:600px !important; width:auto;"  src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fix-microwave-buttons-not-working/microwave-fixed.gif" alt="microwave keypad fix">
+
+<h2>Conclusion</h2>
+
+<p>This repair was ultimately straightforward - the actual fix took seconds once the fault was understood. The failure was not in the electronics, not in the power circuits, and not due to contamination. It was a purely mechanical issue in the membrane keyboard’s graphite film layers.</p>
+
+<p>A careful, methodical approach restored full operation to the microwave without replacement parts, saving a functional home appliance from turning into e-waste, and saving money for the owner.</p>
+
+ </div> 
+
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+  
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
