@@ -524,7 +524,11 @@ body {
 
 <p>The system performs web scraping of product listings from real online stores. The list of targeted stores is configured via the project’s configuration file. Currently, the scraper gathers grocery data from major retailers in regions including Ukraine, Canada, and the EU. All data is stored in a structured SQLite database.</p>
 
-<p>This dashboard offers a visual interface for exploring the collected data, providing insights into food price inflation. Interactive filters enable selection by product, store, or country, facilitating dynamic analysis of pricing trends and inflation patterns across the global grocery market.</p>
+<p>The <strong>product_inflation.db</strong> database employs a <strong>relational data storage approach</strong> using the SQLite engine. It consists of three primary tables - <strong>Store</strong>, <strong>ProductType</strong>, and <strong>PriceSample</strong> - structured to support referential organization of product pricing and inflation data.</p>
+
+<p>The <code>Store</code> table records identifying details for each retail source, while <code>ProductType</code> categorizes items by type. The central <code>PriceSample</code> table captures time-stamped price observations, linking each entry to its store and product type through foreign key relationships (<code>store_id</code>, <code>product_type_id</code>). It stores both numeric and textual representations of prices, packaging unit weight or volume details, and derived metrics such as <code>price_per_unit_number</code> and <code>inflation_rate</code>. This normalized schema ensures data consistency, facilitates temporal analysis of price trends, and enables scalable aggregation of inflation indicators across stores and product categories.</p>
+
+<p>This dashboard uses the data stored in the database to offer a visual interface for exploring the collected data, providing insights into food price inflation over time. Interactive filters enable selection by product, store, or country, facilitating dynamic analysis of pricing trends and inflation patterns across the global grocery market.</p>
 
 <p>Serving as a bridge between raw data and actionable market insights, this tool is designed for users interested in monitoring food price dynamics.</p>
 
