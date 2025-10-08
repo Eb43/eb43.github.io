@@ -503,8 +503,8 @@ body {
 </div>
 
 <div class="function-box">
-  <h2 id="inflationTitle">Product Inflation Rate Over Time</h2>
-  <canvas id="inflationTrendChart"></canvas>
+  <h2 id="pricechangerateTitle">Product Price Change Rate Over Time</h2>
+  <canvas id="pricechangeTrendChart"></canvas>
 </div>
 
 
@@ -749,14 +749,14 @@ for (let i = 1; i < prices.length; i++) {
 
 
 document.getElementById("priceTitle").textContent = product + " Price Trend Over Time";
-document.getElementById("inflationTitle").textContent = product + " Inflation Rate Over Time";
+document.getElementById("pricechangerateTitle").textContent = product + " Price Change Over Time";
 
 
   drawChart("priceTrendChart", "Price (" + unit + ")", labels, prices, chart => priceChart = chart, priceChart);
 
 drawChart(
-  "inflationTrendChart",
-  "Inflation, %",
+  "pricechangeTrendChart",
+  "Price Change Now To Previous, %",
   labels,
   inflation,
   chart => inflationChart = chart,
