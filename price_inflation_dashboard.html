@@ -1,13 +1,245 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Food Prices Inflation Dashboard</title>
-  <style>
-    .filter-group { margin-bottom: 10px; }
-    select { margin-right: 10px; }
+    <meta charset="UTF-8">
+    <title>Food Prices Inflation Dashboard</title>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .filter-group { margin-bottom: 10px; }
+        select { margin-right: 10px; }
+    
+    
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                color: #333;
+                flex-direction: column;
+                align-items: flex-start;
+  display: block;  
+  width: 100%; 
+                max-width: none; 
+                margin-left: auto; 
+                margin-right: auto; 
+            }
+    
+    
 
+    
+            /* Images */
+    
+    .image-container {
+        display: block; 
+        width: 100%;
+        height: auto;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto; 
+        margin-top: 20px; 
+        margin-bottom: 20px;  
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    
+        display: flex;
+        justify-content: center; 
+        align-items: center;     
+    }
+    
+    
+    .image-container:hover {
+        transform: scale(1.02);
+    }
+    
+    .image-container img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        height: auto;
+        transition: filter 0.3s ease;
+    }
+    
+    
+            h1 {
+                margin: 20px 0;
+                padding-bottom: 40px;
+            }
+    
+    pre {
+                background: rgba(211, 211, 211, 0.5);
+                color: black;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                border-radius: 8px;
+                border-left: 4px solid #3498db;
+                margin: 20px 0;
+                font-family: 'Consolas', 'Monaco', monospace;
+                overflow-x: auto;
+                position: relative;
+                white-space: pre-wrap;
+            }
+    
+    
+            .code-block {
+                background: #f8f9fa;
+                color: black;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                border-radius: 8px;
+                border-left: 4px solid #3498db;
+                margin: 20px 0;
+                font-family: 'Consolas', 'Monaco', monospace;
+                overflow-x: auto;
+                position: relative;
+            }
+            
+            .code-block::before {
+                content: "CODE";
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                background: #3498db;
+                color: white;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 0.8em;
+            }
+            
+            .highlight {
+                background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+                padding: 15px;
+                border-radius: 8px;
+                border-left: 4px solid #e17055;
+                margin: 15px 0;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .flow-diagram {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px 0;
+                border: 2px solid #e9ecef;
+                text-align: center;
+            }
+            
+            .flow-step {
+                display: inline-block;
+                background: #f8f9fa;
+                color: black;
+                padding: 10px 20px;
+                margin: 5px;
+                border-radius: 25px;
+                font-weight: bold;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            .arrow {
+                font-size: 1.5em;
+                color: #6c5ce7;
+                margin: 0 10px;
+            }
+            
+            .database-table {
+                background: #ffffff;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                margin: 20px 0;
+                padding: 10px 10px 10px 20px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+                    
+            .function-box {
+                background: #f8f9fa;
+                color: black;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 15px 0;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            .function-box h4 {
+                margin: 0 0 10px 0;
+                font-size: 1.2em;
+            }
+                    
+            p {
+                text-align: justify;
+                margin-bottom: 15px;
+            }
+            
+            ul, ol {
+                padding-left: 25px;
+            }
+            
+            li {
+                margin-bottom: 8px;
+            }
+            
+            .warning {
+                background: linear-gradient(135deg, #fab1a0, #e17055);
+                color: white;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 15px 0;
+                border-left: 4px solid #d63031;
+            }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+th, td {
+  border-right: 1px solid #ccc; /* vertical separators */
+  padding: 8px 12px;
+  vertical-align: middle; /* center vertically */
+}
+
+/* remove separator after last column */
+th:last-child, td:last-child {
+  border-right: none;
+}
+
+/* alternating row colors */
+tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* first column left-aligned, others centered */
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+
+th:not(:first-child),
+td:not(:first-child) {
+  text-align: center;
+}
+
+/* optional header styling */
+th {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+    </style>
+
+    <style>
         /* CSS Variables for consistent theming */
        * {
             margin: 0;
@@ -430,89 +662,918 @@ body {
         }
     </style>
 
-  </style>
+
 </head>
 <body>
 
 
 <div class="container">
-        <!-- Header section -->
-        <div class="header">
-            <div class="author-info">
-                <div>
-                    <img 
-                        src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
-                        alt="Eugen Barilyuk EB43 Monkey Writer" 
+    <!-- Header section -->
+    <div class="header">
+        <div class="author-info">
+            <div>
+                <img
+                        src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg"
+                        alt="Eugen Barilyuk EB43 Monkey Writer"
                         class="author-avatar"
-                    >
-                </div>
-                <div class="author-details">
-                    <h1 class="main-title"  style="width: 80%; font-size: 320%;">Global Grocery Inflation Tracker</h1>
-                    <p id="article-counter" style="margin-bottom: 20px; font-size: 200%;">Database Dashboard</p>
-                    <p id="article-counter" style="margin-bottom: 20px; font-size: 100%;">Source code: <a href="https://github.com/Eb43/product-inflation-tracker">https://github.com/Eb43/product-inflation-tracker</a></p>
-                    <p id="article-counter" style="margin-bottom: 20px; font-size: 120%;">by Eugen Barilyuk</p>
-                    <a href="https://eb43.github.io/" class="back-link">
-                       ←🏠 Back to <i><b>eb43.github.io</b></i> main page
-                    </a>
-                </div>
+                >
             </div>
-            
-            <img 
-                src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
-                alt="Terminal and Pen" 
-                class="terminal-img"
-            >
+            <div class="author-details">
+                <h1 class="main-title" style="width: 80%; font-size: 320%;">Global Grocery Inflation
+                    Tracker</h1>
+                <p id="article-counter" style="margin-bottom: 20px; font-size: 200%;">Database
+                    Dashboard</p>
+                <p id="article-counter" style="margin-bottom: 20px; font-size: 100%;">Source code:
+                    <a href="https://github.com/Eb43/product-inflation-tracker">https://github.com/Eb43/product-inflation-tracker</a>
+                </p>
+                <p id="article-counter" style="margin-bottom: 20px; font-size: 120%;">by Eugen
+                    Barilyuk</p>
+                <a href="https://eb43.github.io/" class="back-link">
+                    ←🏠 Back to <i><b>eb43.github.io</b></i> main page
+                </a>
+            </div>
         </div>
 
-<div class="main-container">
+        <img
+                src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"
+                alt="Terminal and Pen"
+                class="terminal-img"
+        >
+    </div>
+
+    <div class="main-container">
 
 
-<!-- World Map Section -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <!-- World Map Section -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<div>
-<h2>Countries Covered By This Product Price Tracker</h2>
-<div id="map" style="height: 400px; margin-bottom: 20px; border-radius: var(--border-radius); box-shadow: var(--subtle-shadow);"></div>
+        <div>
+            <h2>Countries Covered By This Product Price Tracker</h2>
+            <div id="map"
+                 style="height: 400px; margin-bottom: 20px; border-radius: var(--border-radius); box-shadow: var(--subtle-shadow);"></div>
+        </div>
+
+
+        <div class="flow-diagram filter-group" style="font-size:130%;">
+            <label>Product Type:
+                <select id="productFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
+            </label>
+            <label>Store:
+                <select id="storeFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
+            </label>
+            <label>Country:
+                <select id="countryFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
+            </label>
+
+            <!--Selector for cheapest / most expensive    
+            <div class="filter-group" style="margin-top: 1em; font-size: 120%;">
+              <label><input type="radio" name="priceFilter" id="cheapestToggle" checked> Cheapest</label>
+              <label><input type="radio" name="priceFilter" id="expensiveToggle"> Most Expensive</label>
+            </div>
+            -->
+        </div>
+
+
+        <div class="function-box">
+            <h2 id="priceTitle">Product Price Trend Over Time</h2>
+            <canvas id="priceTrendChart"></canvas>
+        </div>
+
+        <div class="function-box">
+            <h2 id="pricechangerateTitle">Product Price Change Rate Over Time</h2>
+            <canvas id="pricechangeTrendChart"></canvas>
+        </div>
+
+
+    </div>
 </div>
 
-                
-  <div class="flow-diagram filter-group" style="font-size:130%;">
-    <label>Product Type:
-      <select id="productFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
-    </label>
-    <label>Store:
-      <select id="storeFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
-    </label>
-    <label>Country:
-      <select id="countryFilter" style=" font-size: 1.0em; font-weight: 400;"></select>
-    </label>
+<div class="container">
+    <p style="font-size: 70%;">Published: 10 October 2025. Updated: 10 October 2025</p>
+    <h2 style="text-align:center;"><span style="font-size: 130%;">Quantitative economic analysis<br> of the bread price dynamics:</span>
+        <br> <span style="font-weight: 400;">saga of inflation your wallet feels</span></h2>
+
+
+    <p>Tracking bread prices across time and geography offers one of the most accurate indicators of the state of the economy. The price of bread provides a continuous, easily understood measure of how well economic systems are functioning. It is a high-signal, low-noise product category if you control for SKU variation (this report is based on cheapest SKU).</p>
+
+    <p>Bread was chosen as a single reference commodity because of its consistent definition across markets, high purchase frequency, and direct correlation with material, energy, and labor costs. Unlike the generalized Consumer Price Index (CPI), which is a composite, smoothed value that often fails to reflect real inflation as experienced by consumers, bread prices tend to reveal the true rate of inflation observed on store shelves. In most cases, CPI-based inflation appears roughly half of what consumers actually experience.</p>
+
+    <p>When asked, even AI considers bread price dynamics important, comparing it with the heartbeat. See this chart by yourself, if you select visualization of data for bread price in ATB Market.</p>
+
+    <img class="image-container" style="height:auto; width:600px  !important;"
+         src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/bread-price-grabber/chatgpt-answer.jpg"
+         alt="bread price chart resembles ECG"
+         title="That chart looks disturbingly like a heartbeat – only this one belongs to an economy on caffeine and existential dread. The alternating spikes of +35% and crashes to -30% mimic the depolarization-repolarization rhythm of a cardiac signal. In medical terms: it’s a market tachycardia">
+
+    <p>Whether that was a coincidence or not, the Ukrainian economy indeed shows an alarming pattern – resembling a tachycardic patient whose heart is at risk of failure and requires life support. But unlike the ECG chart, each uptick on the chart above represents another drop in the economy’s stamina.</p>
+
     
-<!--Selector for cheapest / most expensive    
-<div class="filter-group" style="margin-top: 1em; font-size: 120%;">
-  <label><input type="radio" name="priceFilter" id="cheapestToggle" checked> Cheapest</label>
-  <label><input type="radio" name="priceFilter" id="expensiveToggle"> Most Expensive</label>
-</div>
+    <p>Below is a condensed <strong>quantitative economic analysis</strong> of the price dataset, scraped by the hand-made Python script humbly named "Global Grocery Inflation Tracker". This particular analysis as of October 2025 spotlights bread price fluctuations from live ecommerce stores across eleven countries – Austria, Canada, Czech, Chili, Kazakhstan, Kenya, Mexico, Russia, Spain, Ukraine, and USA. </p>
+
+    <hr>
+
+        <h2>Methodology and formulas</h2>
+
+        <p>The analytical process followed a standardized and reproducible sequence of operations to ensure consistency, transparency, and comparability across all observations.</p>
+        <ol>
+            <li>
+                <p><b>Data cleaning and normalization</b></p>
+                      <ul>
+                          <li>Each string stored in <code>price_per_unit_string</code> column was parsed into a numeric value representing the local retail price per kilogram and a corresponding currency code. Inconsistent or corrupted currency identifiers were corrected and standardized to their appropriate ISO designations. For example, Cyrillic currency naming ГРН was standardized to the ISO code UAH.</li>
+                         <li>Exchange rate selection. Indicative market exchange rates as of 10 October 2025 were applied for all currencies encountered. The conversion reference rates (USD ↔ local currency) were obtained from verified financial data sources, including Wise and Yahoo historical series (UAH), exchange-rates.org (RUB), Reuters/market data (CAD), Wise and Eldolar (MXN), the European Central Bank (EUR), the National Bank of Kazakhstan (KZT), and Wise for CLP and KES. Local currency prices were subsequently converted to a common denominator, expressed in USD per kilogram.</li>
+                    </ul>
+                  </li>
+            <li>
+                <p><b>Computation of statistical and economic metrics</b></p>
+                    <ul>
+                      <li><p>Local to USD conversion (applied per observation):</p>
+                                  <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>USD&nbsp;price</mtext><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext>local_price</mtext><mo>×</mo><mtext>(USD&nbsp;per&nbsp;1&nbsp;local&nbsp;unit)</mtext><mo
+                separator="true">,</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0"
+                                                                          displaystyle="false"><mtext>if&nbsp;we&nbsp;have&nbsp;USD-per-local&nbsp;(e.g.&nbsp;1&nbsp;CAD&nbsp;=&nbsp;0.7146&nbsp;USD)</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle
+                scriptlevel="0" displaystyle="false"><mrow><mtext>local_price</mtext><mo>÷</mo><mtext>(local&nbsp;per&nbsp;USD)</mtext><mo
+                separator="true">,</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0"
+                                                                          displaystyle="false"><mtext>if&nbsp;we&nbsp;have&nbsp;local-per-USD&nbsp;(e.g.&nbsp;1&nbsp;USD&nbsp;=&nbsp;41.4024&nbsp;UAH)</mtext></mstyle></mtd></mtr></mtable></mrow></mrow><annotation
+                encoding="application/x-tex">\text{USD price} = \begin{cases}
+\text{local\_price} \times \text{(USD per 1 local unit)}, &amp;\text{if we have USD-per-local (e.g. 1 CAD = 0.7146 USD)}\\[6pt]
+\text{local\_price} \div \text{(local per USD)}, &amp;\text{if we have local-per-USD (e.g. 1 USD = 41.4024 UAH)}
+\end{cases}</annotation></semantics></math></span></span>
+                     </li>
+
+            <li>
+                <p>Percent change (first → last sample, USD basis):</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi
+                mathvariant="normal">%</mi><mi mathvariant="normal">Δ</mi><mo>=</mo><mfrac><mrow><mtext>last_USD</mtext><mo>−</mo><mtext>first_USD</mtext></mrow><mtext>first_USD</mtext></mfrac><mo>×</mo><mn>100</mn><mi
+                mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">\% \Delta = \frac{\text{last\_USD} – \text{first\_USD}}{\text{first\_USD}} \times 100\%</annotation></semantics></math></span>
+</li>
+
+            <li>
+                <p>Standard deviation:</p>
+$$
+\sigma = \sqrt{\frac{1}{N – 1} \sum_{i = 1}^{N} (x_i – \bar{x})^2}
+$$
+
+</li>
+
+
+            <li>
+                <p>Coefficient of variation (CoV):</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>CoV</mtext><mo>=</mo><mfrac><mi>σ</mi><mover accent="true"><mi>x</mi><mo>ˉ</mo></mover></mfrac><mo>×</mo><mn>100</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">\text{CoV} = \frac{\sigma}{\bar{x}} \times 100\%</annotation></semantics></math></span></span>
+                <p>Interpretation rules: CoV &gt; 15% → high volatility for a staple; CoV &lt; 5% → stable market or static data (often repeated same SKU).</p>
+            </li>
+                    </ul>
+            </li>
+
+<li><p><b>Cross-regional purchasing power adjustment</b></p>
+
+<p>To enable meaningful comparison of unit prices across different economic regions (countries or subnational areas) beyond mere currency conversion, a purchasing power parity (PPP) adjustment is introduced. This step accounts for systematic differences in price levels, cost structures, and non-tradable goods across regions, thus approximating “real buying power”.</p>
+    <p>Adjustment formula:</p>
+    <span class="katex-display">
+      \[
+      \text{Adjusted USD price}_{r} = \frac{\text{USD price}_{r}}{\text{PLI}_{r}}
+      \]
+      or equivalently
+      \[
+      \text{USD price}_{r} \times \text{(PPP conversion factor)}.
+      \]
+    </span>
+    <p>Here, <var>PLI<sub>r</sub></var> is the price level index (region’s price level / benchmark price level). </p>
+<span class="katex-display">
+  <span class="katex">
+    <span class="katex-mathml">
+      <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+        <semantics>
+          <mrow>
+            <mtext>PLI</mtext>
+            <mo>=</mo>
+            <mfrac>
+              <mtext>PPP</mtext>
+              <mtext>Market&nbsp;Exchange&nbsp;Rate</mtext>
+            </mfrac>
+            <mo>×</mo>
+            <mn>100</mn>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \text{PLI} = \frac{\text{PPP}}{\text{Market Exchange Rate}} \times 100
+          </annotation>
+        </semantics>
+      </math>
+    </span>
+  </span>
+</span>
+<p>If PLI<sub>r</sub> > 1, region’s prices are higher; dividing lowers its adjusted price. PPP conversion factor = 1 / PLI<sub>r</sub>.</p>
+  </li>
+
+
+</li>
+        </ol>
+
+
+<hr>
+
+
+    <h2>1. <strong>Data normalization</strong></h2>
+
+    <p>During its work, the Python script records not only raw data, but also performs some data normalization. Specifically, it fetches the package size, and calculates normalized value of price per kg / liter / unit. </p>
+
+
+    <img class="image-container" style="height:auto; width:100% !important;"
+         src=https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/bread-price-grabber/database.jpg alt="database content" title="Database content">
+
+
+<h3>Converting into USD as currency common denominator</h3>
+
+    <p>In order for comparative data analysis it is also necessary to normalize bread prices by converting local currencies into one globally known currency – USD. The currency rate fluctuates daily, therefore some relations and conclusions, presented in this report, may shift eventually.</p>
+
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:40% !important;">Country</th>
+      <th style="width:20% !important;">Currency (rate)</th>
+      <th style="width:15% !important;">Last fetched price (local)</th>
+      <th style="width:10% !important;">Converted to USD</th>
+      <th style="width:15% !important;">Last fetch date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td >Austria</td>
+      <td >€ 1 = $ 1.16</td>
+      <td >€ 1.98</td>
+      <td ><strong>$ 2.30</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Canada</td>
+      <td >C$ 1 = $ 0.71</td>
+      <td >C$ 7.50</td>
+      <td ><strong>$ 5.33</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Czech</td>
+      <td >Kč 1 = $ 0.045</td>
+      <td >Kč 91.60</td>
+      <td ><strong>$ 4.12</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Chile</td>
+      <td >CLP 1 = $ 0.001</td>
+      <td >CLP 4633.33</td>
+      <td ><strong>$ 4.63</strong></td>
+      <td >2025-10-10</td>
+    </tr>
+    <tr>
+      <td >Kazakhstan</td>
+      <td >₸ 1 = $ 0.0019</td>
+      <td >₸ 970.00</td>
+      <td ><strong>$ 1.84</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Kenya</td>
+      <td >KES 1 = $ 0.0077</td>
+      <td >KES 140.00</td>
+      <td ><strong>$ 1.08</strong></td>
+      <td >2025-10-10</td>
+    </tr>
+    <tr>
+      <td >Mexico</td>
+      <td >MXN 1 = $ 0.054</td>
+      <td >MXN 51.47</td>
+      <td ><strong>$ 2.78</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Russia</td>
+      <td >₽ 1 = $ 0.012</td>
+      <td >₽ 99.95</td>
+      <td ><strong>$ 1.20</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Spain</td>
+      <td >€ 1 = $ 1.16</td>
+      <td >€ 1.74</td>
+      <td ><strong>$ 2.02</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >Ukraine</td>
+      <td >₴ 1 = $ 0.024</td>
+      <td >₴ 59.14</td>
+      <td ><strong>$ 1.42</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+    <tr>
+      <td >USA</td>
+      <td >$ 1 = $ 1.00</td>
+      <td >$ 2.61</td>
+      <td ><strong>$ 2.61</strong></td>
+      <td >2025-10-07</td>
+    </tr>
+  </tbody>
+</table>
+
+        <h3>Appendix A – sample calculation and formulas used</h1>
+        <b>ATB Market (UAH)</b>
+        <ul>
+            <li>
+                <p>First sample: <strong>UAH 43.40/kg</strong> (2025-07-04).</p>
+            </li>
+            <li>
+                <p>Last sample: <strong>UAH 59.14/kg</strong> (2025-10-07).</p>
+            </li>
+            <li>
+                <p>Exchange rate used (10 Oct 2025 snapshot): <strong>1 USD = 41.4024 UAH</strong>
+
+                </p>
+            </li>
+        </ul>
+        <p>Conversion:</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>first_USD</mtext><mo>=</mo><mfrac><mrow><mn>43.40</mn><mtext>&nbsp;UAH</mtext></mrow><mrow><mn>41.4024</mn><mtext>&nbsp;UAH/USD</mtext></mrow></mfrac><mo>=</mo><mn>1.0482</mn><mtext>&nbsp;USD/kg</mtext></mrow><annotation
+                encoding="application/x-tex">\text{first\_USD} = \frac{43.40\ \text{UAH}}{41.4024\ \text{UAH/USD}} = 1.0482\ \text{USD/kg}</annotation></semantics></math></span><span
+                class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                                                                               style="height: 1.0044em; vertical-align: -0.31em;"></span><span
+                class="mord text"><span class="mord">first_USD</span></span><span class="mspace"
+                                                                                  style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 2.2963em; vertical-align: -0.936em;"></span><span
+                class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span
+                class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"
+                                                                     style="height: 1.3603em;"><span
+                style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">41.4024</span><span
+                class="mspace">&nbsp;</span><span class="mord text"><span
+                class="mord">UAH/USD</span></span></span></span><span style="top: -3.23em;"><span
+                class="pstrut" style="height: 3em;"></span><span class="frac-line"
+                                                                 style="border-bottom-width: 0.04em;"></span></span><span
+                style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">43.40</span><span class="mspace">&nbsp;</span><span
+                class="mord text"><span class="mord">UAH</span></span></span></span></span><span
+                class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist"
+                                                                           style="height: 0.936em;"><span></span></span></span></span></span><span
+                class="mclose nulldelimiter"></span></span><span class="mspace"
+                                                                 style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 1em; vertical-align: -0.25em;"></span><span
+                class="mord">1.0482</span><span class="mspace">&nbsp;</span><span class="mord text"><span
+                class="mord">USD/kg</span></span></span></span></span></span>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>last_USD</mtext><mo>=</mo><mfrac><mn>59.14</mn><mn>41.4024</mn></mfrac><mo>=</mo><mn>1.4284</mn><mtext>&nbsp;USD/kg</mtext></mrow><annotation
+                encoding="application/x-tex">\text{last\_USD} = \frac{59.14}{41.4024} = 1.4284\ \text{USD/kg}</annotation></semantics></math></span><span
+                class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                                                                               style="height: 1.0044em; vertical-align: -0.31em;"></span><span
+                class="mord text"><span class="mord">last_USD</span></span><span class="mspace"
+                                                                                 style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 2.0074em; vertical-align: -0.686em;"></span><span
+                class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span
+                class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"
+                                                                     style="height: 1.3214em;"><span
+                style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">41.4024</span></span></span><span
+                style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span
+                style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">59.14</span></span></span></span><span
+                class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist"
+                                                                           style="height: 0.686em;"><span></span></span></span></span></span><span
+                class="mclose nulldelimiter"></span></span><span class="mspace"
+                                                                 style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 1em; vertical-align: -0.25em;"></span><span
+                class="mord">1.4284</span><span class="mspace">&nbsp;</span><span class="mord text"><span
+                class="mord">USD/kg</span></span></span></span></span></span>
+        <p>Percent change:</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math
+                xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi
+                mathvariant="normal">%</mi><mi mathvariant="normal">Δ</mi><mo>=</mo><mfrac><mrow><mn>1.4284</mn><mo>−</mo><mn>1.0482</mn></mrow><mn>1.0482</mn></mfrac><mo>×</mo><mn>100</mn><mi
+                mathvariant="normal">%</mi><mo>=</mo><mn>36.27</mn><mi
+                mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">\% \Delta = \frac{1.4284 – 1.0482}{1.0482} \times 100\% = 36.27\%</annotation></semantics></math></span><span
+                class="katex-html" aria-hidden="true"><span class="base"><span class="strut"
+                                                                               style="height: 0.8056em; vertical-align: -0.0556em;"></span><span
+                class="mord">%Δ</span><span class="mspace"
+                                            style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 2.0074em; vertical-align: -0.686em;"></span><span
+                class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span
+                class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"
+                                                                     style="height: 1.3214em;"><span
+                style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">1.0482</span></span></span><span
+                style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span
+                style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span
+                class="mord"><span class="mord">1.4284</span><span class="mspace"
+                                                                   style="margin-right: 0.2222em;"></span><span
+                class="mbin">−</span><span class="mspace"
+                                           style="margin-right: 0.2222em;"></span><span
+                class="mord">1.0482</span></span></span></span><span class="vlist-s">​</span></span><span
+                class="vlist-r"><span class="vlist"
+                                      style="height: 0.686em;"><span></span></span></span></span></span><span
+                class="mclose nulldelimiter"></span></span><span class="mspace"
+                                                                 style="margin-right: 0.2222em;"></span><span
+                class="mbin">×</span><span class="mspace"
+                                           style="margin-right: 0.2222em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 0.8056em; vertical-align: -0.0556em;"></span><span
+                class="mord">100%</span><span class="mspace" style="margin-right: 0.2778em;"></span><span
+                class="mrel">=</span><span class="mspace"
+                                           style="margin-right: 0.2778em;"></span></span><span
+                class="base"><span class="strut"
+                                   style="height: 0.8056em; vertical-align: -0.0556em;"></span><span
+                class="mord">36.27%</span></span></span></span></span>
+        <p>Sample mean across N observations (from your dataset) = <strong>UAH 54.93/kg →
+            $1.3267/kg</strong> (mean of USD-converted samples). Standard deviation and CoV computed
+            with the standard sample formulas above; CoV ≈ <strong>12.67%</strong>.</p>
+
+
+<br>
+
+
+<hr>
+<h2>2. <strong>Price trend metrics</strong></h2>
+       
+            
+                <table style="width:100% !important;">
+                    <thead>
+                    <tr>
+                        <th style="width:10% !important;">Country</th>
+                        <th style="width:15% !important;">Jul → Oct price change</th>
+                        <th style="width:5% !important;">% Δ (price change)</th>
+                        <th style="width:5% !important;">Std deviation (volatility)</th>
+                        <th style="width:40% !important;">Pattern summary</th>
+                    </tr>
+                    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Austria</strong></td>
+            <td>$ 2.14 → $ 2.14<br>€ 1.98 → € 1.98</td>
+            <td ><strong>0 %</strong></td>
+                        <td >$ 0.0</td>
+                        <td>The definition of still life in economics – price didn’t move a single cent over the observable period. Austrian bread market suggests a highly stable retail environment.</td>
+        </tr>
+                    <tr>
+                        <td ><strong>Canada</strong></td>
+                        <td >$ 2.83 → $ 5.37<br>C$ 3.88 → C$ 7.50</td>
+                        <td ><strong>+93 %</strong></td>
+                        <td >$ 1.51</td>
+                        <td>A 93 % jump with a $1.51 standard deviation over just three months is abnormally high for bread, even in a turbulent market. Unless Canada suddenly experienced a supply crisis or massive currency shift (which it didn’t), such volatility likely points to inconsistent data collection – maybe product SKUs form another category, or raw data misparsed in any other way.</td>
+                    </tr>
+        <tr>
+            <td><strong>Czech</strong></td>
+                        <td >$ 3.85 → $ 3.85<br>Kč 91.60 → Kč 91.60</td>
+                        <td ><strong>0 %</strong></td>
+                        <td >$ 0.0</td>
+                        <td>Motionless prices and zero volatility, perfect price constancy over months.</td>
+        </tr>
+        <tr>
+            <td><strong>Chile</strong></td>
+                        <td >$ 4.63<br>CLP 4633</td>
+                        <td ><strong>NaN</strong></td>
+                        <td >NaN</td>
+                        <td>Single data point as of now, no conclusions can be drawn until more temporal data arrives.</td>
+        </tr>
+        <tr>
+            <td><strong>Kazakhstan</strong></td>
+                        <td >$ 2.09 → $ 2.04<br>₸ 993 → ₸ 970</td>
+                        <td ><strong>-2.35 %</strong></td>
+                        <td >$ 0.67</td>
+                        <td>A standard deviation of $0.67 indicates some mild price movement. One of the few places where bread got cheaper, roughly a 2.35 % drop, despite this does not seem as a long-term trend.</td>
+        </tr>
+        <tr>
+            <td><strong>Kenya</strong></td>
+                        <td >$ 1.08<br>KES 140</td>
+                        <td ><strong>NaN</strong></td>
+                        <td >NaN</td>
+                        <td>Another single-frame snapshot as of now. Without a more data ppoints, there’s no way to draw any conclusions.</td>
+        </tr>
+                    <tr>
+                        <td ><strong>Mexico</strong></td>
+                        <td >$ 2.66 → $ 2.83<br>MX$ 48 → MX$ 51</td>
+                        <td ><strong>+6 %</strong></td>
+                        <td >$ 0.45</td>
+                        <td >Prices increased just exactly to suggest normal inflation or seasonal adjustment, not any market panic. The volatility is low, so pricing behavior seems consistent – likely steady supply, stable demand, and no major shocks.</td>
+                    </tr>
+                    <tr>
+                        <td ><strong>Russia</strong></td>
+                        <td >$ 1.01 → $ 1.10<br>₽ 92 → ₽ 95</td>
+                        <td ><strong>+8.35 %</strong></td>
+                        <td >$ 0.3</td>
+                        <td > Mild, low-volatility increase. Prices remained mostly stable with a slight late-period uptick, suggesting market may be kept artificially stable.</td>
+                    </tr>
+        <tr>
+            <td><strong>Spain</strong></td>
+                        <td >$ 1.88 → $ 1.88<br>€ 1.74 → € 1.74</td>
+                        <td ><strong>0 %</strong></td>
+                        <td >$ 0.0</td>
+                        <td >Price stability over a three-month window. Suggests a tightly balanced retail environment.</td>
+        </tr>
+                    <tr>
+                        <td ><strong>Ukraine</strong></td>
+                        <td >$ 1.04 → $ 1.42<br>₴ 43.4 → ₴ 59.1</td>
+                        <td ><strong>+36 %</strong></td>
+                        <td >$ 0.18</td>
+                        <td > Steady, near-linear rise throughout the period. Prices climbed each month without reversals, indicating persistent upward pressure likely driven by supply constraints or inflation spillovers.</td>
+                    </tr>
+        <tr>
+            <td><strong>USA</strong></td>
+            <td>$ 2.61 → $ 2.61</td> 
+                      <td ><strong>0 %</strong></td>
+                        <td >$ 5.08</td>
+                        <td >Prices didn’t move a millimeter, yet the standard deviation was a whopping $5.08. That’s either the data reflects wild product variations during the observation period, or something went off the rails in data collection. Real markets don’t hold prices perfectly flat with that kind of volatility behind them.</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<hr>
+
+        <h2>3. <strong>Real inflation signal extraction</strong></h2>
+
+<p>This table is the heart of the analysis – it reveals how bread behaves against the backdrop of national inflation. Each country’s line tells its own economic story. The column <i>Relative movement vs CPI</i> shows whether bread is running ahead of or lagging behind general price growth. Positive values in the “Relative movement vs CPI” column indicate that bread prices increased faster than overall inflation, while negative values show that bread became cheaper in real terms, either through market competition, or sheer price inertia.</p>
+
+<p>The CPI figures in the table are taken from Global-Rates.com, which was selected as the source for a specific methodological reason. Global-Rates aggregates official inflation statistics published by national statistical offices and central banks, then updates them on a standardized monthly schedule. This ensures cross-country comparability – each country’s CPI is expressed in the same annualized, year-over-year format. For countries not covered by this source, other sources, like official statistics, were used.</p>
+            
+
+
+<table style="width:100% !important;">
+  <thead>
+    <tr>
+      <th style="width:10% !important;">Country</th>
+      <th style="width:10% !important;">Q3 2025 CPI YoY (est.)</th>
+      <th style="width:10% !important;">Bread price Δ (%)</th>
+      <th style="width:15% !important;">Relative movement vs CPI (%)</th>
+      <th style="width:45% !important;">Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Austria</strong></td>
+      <td>3.32%</td>
+      <td>0%</td>
+      <td>-3.3%</td>
+      <td>Bread flat nominally while CPI rose ≈3.3% → real decline in bread prices.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Canada</strong></td>
+      <td>1.97%</td>
+      <td>+93%</td>
+      <td>+91.0%</td>
+      <td>Massive real outperformance of bread versus CPI - likely data/sku issues. Data quality investigation needed.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Czechia</strong></td>
+      <td>2.57%</td>
+      <td>0%</td>
+      <td>-2.6%</td>
+      <td>Nominal stability vs rising CPI → small real price decline for bread.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Chile</strong></td>
+      <td>4.49%</td>
+      <td>n/a (single snapshot)</td>
+      <td>n/a</td>
+      <td>Only one bread timestamp in sample – no time series to measure real movement.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Kazakhstan</strong></td>
+      <td>12.3%</td>
+      <td>-2.35%</td>
+      <td>-14.7%</td>
+      <td>Bread fell slightly in nominal terms while CPI ran at ~12.3% → decline in bread prices.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Kenya</strong></td>
+      <td>4.4%</td>
+      <td>n/a (single snapshot)</td>
+      <td>n/a</td>
+      <td>Insufficient temporal data on bread price to declare a real trend; CPI ~4.4% in Q3.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Mexico</strong></td>
+      <td>3.86%</td>
+      <td>+6%</td>
+      <td>+2.1%</td>
+      <td>Bread grew modestly faster than CPI → mild real inflation in bread.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Russia</strong></td>
+      <td>8.4%</td>
+      <td>+8.35%</td>
+      <td>~-0.1%</td>
+      <td>Bread rose roughly in line with CPI – effectively no large real shock.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Spain</strong></td>
+     <td>2.50%</td>
+      <td>0%</td>
+      <td>-2.5%</td>
+      <td>Bread did not follow headline inflation during the period while CPI ≈2.5% → real decline in bread prices.</td>
+    </tr>
+
+    <tr>
+      <td><strong>Ukraine</strong></td>
+      <td>~13.1%</td>
+      <td>+36%</td>
+      <td>+23.0%</td>
+      <td>Substantial real bread inflation vs already high CPI - consistent with cost pass-through.</td>
+    </tr>
+
+    <tr>
+      <td><strong>USA</strong></td>
+      <td>2.65%</td>
+      <td>0%</td>
+      <td>-2.7%</td>
+      <td>Bread flat nominally while CPI rose ~2.65% → modest real decline in bread price.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Why this matters is simple: the table helps identify where food inflation is accelerating or stabilizing. Ukraine and Spain show significant real price growth, suggesting continued stress in their supply chains. By contrast, Austria, the USA, and the Czech Republic show mild real price declines, indicating relatively stable conditions. </p>
+
+
+<hr>
+
+        <h2>4. <strong>Volatility as market-efficiency indicator</strong></h2>
+
+
+<p>Price volatility, expressed as the coefficient of variation (σ / μ), captures how stable or erratic the observed retail market is over time.</p>
+
+<p>In efficient markets, bread prices fluctuate within narrow limits even under inflationary pressure, reflecting balanced supply chains, predictable logistics, and consistent consumer behavior. Conversely, high volatility often points to structural weaknesses - limited competition, fragmented distribution, irregular subsidy mechanisms, or delayed policy response. </p>
+
+<p>By comparing cross-country CoV values, we obtain an indirect indicator of how effectively each domestic market absorbs shocks and maintains price coherence.</p>
+
+<p>
+Interpreting CoV in this context: When prices move only slightly – less than about 3% - it means shoppers can trust the market. Goods cost roughly the same each week, stores restock on time, and family budgets stay predictable. A change of 3–8% feels like bareable movement: prices rise or fall a little, but it still doesn’t disrupt everyday life. Once changes go beyond 10%, people start to notice instability. Shelves may show new prices too often, paychecks stretch less, and planning household spending becomes harder.</p>
+
+
+<table style="width:100%;">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>CoV (%)</th>
+            <th>CoV-based market characteristic</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Austria</strong></td>
+            <td>0.0 %</td>
+             <td>Prices remain steady; consumers can plan purchases confidently without concern for weekly price changes.</td>
+        </tr>
+        <tr>
+            <td><strong>Canada</strong></td>
+            <td>25.76 %</td>
+            <td>Volatile; likely reflects data irregularities or SKU inconsistency rather than true market swings.</td>
+        </tr>
+        <tr>
+            <td><strong>Czechia</strong></td>
+            <td>0.0 %</td>
+            <td>Predictable and calm market; everyday shoppers see the same prices week after week.</td>
+        </tr>
+        <tr>
+            <td><strong>Chile</strong></td>
+            <td>n/a</td>
+            <td>One data point - CoV calculation impossible.</td>
+        </tr>
+        <tr>
+            <td><strong>Kazakhstan</strong></td>
+            <td>35.65 %</td>
+            <td>Strong price swings; everyday buyers likely notice frequent increases or drops, making budgeting difficult.</td>
+        </tr>
+        <tr>
+            <td><strong>Kenya</strong></td>
+            <td>n/a</td>
+            <td>One data point - CoV calculation impossible.</td>
+        </tr>
+        <tr>
+            <td><strong>Mexico</strong></td>
+            <td>15.26 %</td>
+            <td>Moderate variation; ordinary consumers experience some movement in prices but within manageable limits.</td>
+        </tr>
+        <tr>
+            <td><strong>Russia</strong></td>
+            <td>21.2 %</td>
+             <td>Prices shift often; people notice when essentials become more or less affordable within short periods.</td>
+        </tr>
+        <tr>
+            <td><strong>Spain</strong></td>
+            <td>0.0 %</td>
+            <td>Stable situation; buyers face consistent prices and minimal uncertainty at checkout.</td>
+        </tr>
+        <tr>
+            <td><strong>Ukraine</strong></td>
+            <td>14.08 %</td>
+            <td>Noticeable fluctuations; shoppers can still predict general costs despite ongoing change.</td>
+        </tr>
+        <tr>
+            <td><strong>USA</strong></td>
+            <td>72.53 %</td>
+            <td>Extremely inconsistent prices; high likelihood of data scraping problems.</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+        <hr>
+        <h2>5. <strong>Cross-regional purchasing power parity comparison</strong></h2>
+       
+<p>Cross-regional purchasing power parity (PPP) comparison is an essential analytical tool for understanding real economic welfare and cost-of-living differences between countries. While nominal prices express what consumers pay in local currency, PPP-adjusted analysis translates those costs into a common standard of living metric, showing how much purchasing power individuals truly command.</p>
+
+<p>A set of international reliable sources was used to obtain the GDP value for each country: World Bank WDI, UNdata, IMF WEO, TradingEconomics, TheGlobalEconomy.</p>
+
+<p>For numeric values calculation, the last most recent data record was utilized for each country.</p>
+
+<p>Interpretation of the table value: the higher the percentage, the more significant the purchase of 1 kg of bread is for the average person in that country. Higher values indicate tighter budgets or lower purchasing power in PPP terms.</p>
+            
+                <table >
+                    <thead>
+                    <tr>
+                        <th sty-le="width:10% !important;">Country</th>
+                        <th >Bread price (USD/kg)</th>
+                        <th >GDP per capita PPP (USD)</th>
+                        <th >Bread cost as % of daily PPP income (Daily PPP income ≈ GDP per capita / 365)</th>
+                    </tr>
+                    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Austria</strong></td>
+            <td>$ 2.13</td>
+            <td>$ 71617</td>
+             <td>1.09 %</td>
+        </tr>
+        <tr>
+            <td><strong>Canada</strong></td>
+            <td>$ 5.47</td>
+            <td>$ 65 463</td>
+             <td>3.05 %</td>
+        </tr>
+        <tr>
+            <td><strong>Czechia</strong></td>
+            <td>$ 3.84</td>
+            <td>$ 56 805</td>
+             <td>2.47 %</td>
+        </tr>
+        <tr>
+            <td><strong>Chile</strong></td>
+            <td>$ 4.63</td>
+            <td>$ 34 637</td>
+             <td>4.88 %</td>
+        </tr>
+        <tr>
+            <td><strong>Kazakhstan</strong></td>
+            <td>$ 2.03</td>
+            <td>$ 40 813</td>
+             <td>1.82 %</td>
+        </tr>
+        <tr>
+            <td><strong>Kenya</strong></td>
+            <td>$ 1.07</td>
+            <td>$ 6 619</td>
+             <td>5.94 %</td>
+        </tr>
+        <tr>
+            <td><strong>Mexico</strong></td>
+            <td>$ 2.83</td>
+            <td>$ 25 688</td>
+             <td>4.0 %</td>
+        </tr>
+        <tr>
+            <td><strong>Russia</strong></td>
+            <td>$ 1.09</td>
+            <td>$ 47 405</td>
+             <td>0.84 %</td>
+        </tr>
+        <tr>
+            <td><strong>Spain</strong></td>
+            <td>$ 1.87</td>
+            <td>$ 56 926</td>
+             <td>1.20 %</td>
+        </tr>
+        <tr>
+            <td><strong>Ukraine</strong></td>
+            <td>$ 1.41</td>
+            <td>$ 18 550</td>
+             <td>2.79 %</td>
+        </tr>
+        <tr>
+            <td><strong>USA</strong></td>
+            <td>$ 2.61</td>
+            <td>$ 85 809</td>
+             <td>1.11 %</td>
+        </tr>
+    </tbody>
+                </table>
+
+<br>
+            <p><strong>Conclusion:</strong> bread affordability varies significantly across countries, reflecting both income levels and local pricing structures. In high-income economies such as Austria, Spain, and the United States, a kilogram of bread costs barely around 1% of an average person’s daily PPP income, indicating strong purchasing power and low relative food burden.</p>
+
+<p>In contrast, middle-income countries like Chile, Mexico, and Ukraine face a notably higher bread cost burden, ranging between 3–5% of daily income, suggesting tighter food budgets relative to income levels.</p>
+
+<p>The highest relative cost is observed in Kenya, where nearly 6% of daily income is required for one kilogram of bread, highlighting acute affordability challenges.</p>
+
+<p>Interestingly, Russia and Kazakhstan show relatively low bread cost shares despite moderate GDP per capita, implying either subsidized pricing or lower production costs.</p>
+
+<hr>
+
+
+        <h2>6. <strong>Correlations</strong></h2>
+       
+<p>Bread price analysis (correlation summary) calculates Pearson coefficient as:
+ <p>
+    \[
+      r \;=\; \frac{\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}
+                    {\sqrt{\sum_{i=1}^{n}(x_i-\overline{x})^2 \;\times\; \sum_{i=1}^{n}(y_i-\overline{y})^2}}
+    \]
+  </p>
+<!--
+r = Σ[(xᵢ − x̄)(yᵢ − ȳ)] / √[Σ(xᵢ − x̄)² × Σ(yᵢ − ȳ)²]
 -->
-  </div>
+</p>
+            
+<p>The Pearson correlation coefficient, denoted r, measures the strength and direction of a linear relationship between two variables, x and y.</p>
+
+<p>The r value tells how closely two variables move together. Its value ranges between −1 and +1. The +1 is perfect positive linear correlation (as x increases, y increases proportionally). The −1 is perfect negative linear correlation (as x increases, y decreases proportionally). The 0 shows no linear relationship (the variables vary independently, or follow a non-linear pattern).</p>
 
 
 
-<div class="function-box">
-  <h2 id="priceTitle">Product Price Trend Over Time</h2>
-  <canvas id="priceTrendChart"></canvas>
+<table>
+<thead>
+<tr>
+  <th>Variables</th>
+  <th>Pearson r</th>
+  <th>Comment</th>
+</tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Local CPI vs Bread Δ</td>
+    <td>−0.07</td>
+    <td>No meaningful linear relationship detected; inflation and bread price changes were largely decoupled in Q3 2025.</td>
+  </tr>
+  <tr>
+    <td>GDP per cap (PPP) vs Bread price</td>
+    <td>+0.33</td>
+    <td>Wealthier economies tend to have slightly higher nominal bread prices, but the relationship is statistically weak.</td>
+  </tr>
+  <tr>
+    <td>GDP per cap (PPP) vs Bread cost as % of daily PPP income</td>
+    <td>−0.73</td>
+    <td>Strong and significant inverse correlation: in richer countries, bread represents a much smaller share of purchasing power.</td>
+  </tr>
+  <tr>
+</tbody>
+</table>
+
+
+<hr>
+
+
+        <h2><strong>Wrapping up</strong></h2>
+
+<p>Across eleven diverse economies, bread has once again proven its quiet precision as a mirror of economic health. This analysis confirms that even when consumer indices and official reports blur the picture, a simple loaf of bread does not lie. Its price changes proportionally, and persistently to real burden people’s wallets feel, long before aggregated statistics highlight trends.</p>
+
+<p>As of October 2025, three patterns stand out clearly. First, several developed markets – Austria, Spain, Czechia, and the United States – demonstrate remarkable retail price inertia, suggesting structural stability and efficient supply coordination.</p>
+<p>Second, economies like Mexico and Russia show mild, controlled increases consistent with moderate inflation, but without destabilizing volatility.</p>
+
+<p>Third, Ukraine’s +36 % surge in bread prices over a short period, coupled with a coefficient of variation above 12 %, signals structural stress rather than a transitory spike. It suggests that domestic productive capacity and supply chains are severely compromised (<a href="https://www.oecd.org/en/publications/oecd-economic-surveys-ukraine-2025_940cee85-en/full-report/fostering-macroeconomic-stability-and-a-sustainable-recovery_24ed81a1.html#chapter-d1e1914-59e0a98a8c" rel="nofollow">OECD Economic Survey reports 75% of small businesses stopped operating in March 2022</a>), and that macroeconomic stability today is sustained largely through external financing rather than endogenous resilience.</p> 
+
+<p>The methodology applied here – full-currency normalization, volatility analysis, and PPP adjustments – makes these comparisons quantitative. The data pipeline and computation design ensure reproducibility, enabling further time-series extensions or cross-commodity correlations.</p> 
+
+
+    </div>
+
+
 </div>
 
-<div class="function-box">
-  <h2 id="pricechangerateTitle">Product Price Change Rate Over Time</h2>
-  <canvas id="pricechangeTrendChart"></canvas>
-</div>
-
-
-</div>
-</div>
-
-        <div style="
+<div style="
             align-items: center;
 
             margin: 30px auto;
@@ -521,30 +1582,57 @@ body {
             border-radius: var(--border-radius);
             box-shadow: var(--subtle-shadow);
             max-width: 1200px;">
-<p>This dashboard represents the final deliverable of the Product Inflation Tracker project (<a href="https://github.com/Eb43/product-inflation-tracker" rel="dofollow">https://github.com/Eb43/product-inflation-tracker</a>), an automated solution for collecting grocery price data across multiple countries and retailers.</p>
+    <p>This dashboard represents the final deliverable of the Product Inflation Tracker project (<a
+            href="https://github.com/Eb43/product-inflation-tracker" rel="dofollow">https://github.com/Eb43/product-inflation-tracker</a>),
+        an automated solution for collecting grocery price data across multiple countries and
+        retailers.</p>
 
-<p>The system performs web scraping of product listings from real online stores. The list of targeted stores is configured via the project’s configuration file. Currently, the scraper gathers grocery data from major retailers in regions including Ukraine, Canada, and the EU. All data is stored in a structured SQLite database.</p>
 
-<p>The <strong>product_inflation.db</strong> database employs a <strong>relational data storage approach</strong> using the SQLite engine. It consists of three primary tables - <strong>Store</strong>, <strong>ProductType</strong>, and <strong>PriceSample</strong> - structured to support referential organization of product pricing and inflation data.</p>
+    <p>The system performs web scraping of product listings from real online stores. The list of
+        targeted stores is configured via the project’s configuration file. Currently, the scraper
+        gathers grocery data from major retailers in regions including Ukraine, Canada, and the EU.
+        All data is stored in a structured SQLite database.</p>
 
-<p>The <code>Store</code> table records identifying details for each retail source, while <code>ProductType</code> categorizes items by type. The central <code>PriceSample</code> table captures time-stamped price observations, linking each entry to its store and product type through foreign key relationships (<code>store_id</code>, <code>product_type_id</code>). It stores both numeric and textual representations of prices, packaging unit weight or volume details, and derived metrics such as <code>price_per_unit_number</code> and <code>inflation_rate</code>. This normalized schema ensures data consistency, facilitates temporal analysis of price trends, and enables scalable aggregation of inflation indicators across stores and product categories.</p>
+    <p>The <strong>product_inflation.db</strong> database employs a <strong>relational data storage
+        approach</strong> using the SQLite engine. It consists of three primary tables – <strong>Store</strong>,
+        <strong>ProductType</strong>, and <strong>PriceSample</strong> – structured to support
+        referential organization of product pricing and inflation data.</p>
 
-<p>This dashboard uses the data stored in the database to offer a visual interface for exploring the collected data, providing insights into food price inflation over time. Interactive filters enable selection by product, store, or country, facilitating dynamic analysis of pricing trends and inflation patterns across the global grocery market.</p>
+    <p>The <code>Store</code> table records identifying details for each retail source, while <code>ProductType</code>
+        categorizes items by type. The central <code>PriceSample</code> table captures time-stamped
+        price observations, linking each entry to its store and product type through foreign key
+        relationships (<code>store_id</code>, <code>product_type_id</code>). It stores both numeric
+        and textual representations of prices, packaging unit weight or volume details, and derived
+        metrics such as <code>price_per_unit_number</code> and <code>inflation_rate</code>. This
+        normalized schema ensures data consistency, facilitates temporal analysis of price trends,
+        and enables scalable aggregation of inflation indicators across stores and product
+        categories.</p>
 
-<p>Serving as a bridge between raw data and actionable market insights, this tool is designed for users interested in monitoring food price dynamics.</p>
+    <p>This dashboard uses the data stored in the database to offer a visual interface for exploring
+        the collected data, providing insights into food price inflation over time. Interactive
+        filters enable selection by product, store, or country, facilitating dynamic analysis of
+        pricing trends and inflation patterns across the global grocery market.</p>
 
-<p>The dashboard is implemented with minimal dependencies and operates entirely on the frontend using JavaScript - without any backend components. Consequently, direct querying of the SQLite database within the dashboard is not possible. Instead, a Python script converts the .DB file into a .JSON file, which the dashboard then consumes for visualization.</p>
-        </div>
+    <p>Serving as a bridge between raw data and actionable market insights, this tool is designed
+        for users interested in monitoring food price dynamics.</p>
 
-        <!-- Counters section -->
-        <div class="counters-section">
-            <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
-            <a href="https://www.free-counters.org/" style="text-decoration: none; color: var(--secondary-color);">Visit Counter</a>
-            <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
-            <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
-            <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
-        </div>
- 
+    <p>The dashboard is implemented with minimal dependencies and operates entirely on the frontend
+        using JavaScript – without any backend components. Consequently, direct querying of the
+        SQLite database within the dashboard is not possible. Instead, a Python script converts the
+        .DB file into a .JSON file, which the dashboard then consumes for visualization.</p>
+</div>
+
+
+<!-- Counters section 
+<div class="counters-section">
+    <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+    <a href="https://www.free-counters.org/" style="text-decoration: none; color: var(--secondary-color);">Visit Counter</a>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+    <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+</div>
+-->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -820,3 +1908,4 @@ function drawChart(canvasId, label, labels, data, saveChartFn, existingChart, yT
 
 </body>
 </html>
+      
