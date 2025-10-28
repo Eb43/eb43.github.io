@@ -617,9 +617,9 @@ pre {
         
         
         
-        <h3>About this MTK SP Flash Tool Readback feature file generator</h3>
+        <h3 style="margin-top:20 px;">About this MTK SP Flash Tool Readback feature file generator</h3>
 
-<p>Link to the script Github repo: https://github.com/Eb43/readbackbackup/
+<p>Link to the script Github repo: <a href="https://github.com/Eb43/readbackbackup/">https://github.com/Eb43/readbackbackup/</a>
 
 <p>Phones on MTK processors (typically Xiaomi, Poco, Redmi, Vivo, Oppo, Realme, Motorola, Nokia, Alcatel, Techno, ZTE) can be fully backed up woth the use of SP Flash Tool utility. This backup can be used for restoring phone's functionality after major problews with its firmware, including full dead brick (wrong flash of boot.img, preloader.bin) that does not react on buttons no logo, no charging sign. The NVRAM and NVDATA partitions that contain IMEI numbers, reuired for the phone operation, can be backed up.</p>
 
@@ -632,23 +632,24 @@ pre {
 <p>Note the preloader readback adress should be added manually, since it is located in other part of the phone's NAND flash.</p>
 
 <p>The readback_ui_bak.xml file is created automatically by the SP flash tool on any edit on the Readback tab. Ensure your file follows the structure. Verify the backup folder path leads to an existing folder on your disk.</p>
+
 <pre>
-<?xml version="1.0" encoding="UTF-8" ?>
-<flashtool-config version="2.0">
-    <general>
-        <chip-name>MT6765</chip-name>
-        <storage-type>EMMC</storage-type>
-    </general>
-    <commands>
-        <readback>
-            <physical-readback is-physical-readback="false" />
-            <readback-list>
-                <readback-rom-item readback-index="0" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00040000" addr-flag="NUTL_ADDR_LOGICAL" part-id="32">D:\backup\preloader</readback-rom-item>
-                <readback-rom-item readback-index="1" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00008000" addr-flag="NUTL_ADDR_LOGICAL" part-id="34">D:\backup\nvram</readback-rom-item>
-            </readback-list>
-        </readback>
-    </commands>
-</flashtool-config>
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;flashtool-config version="2.0"&gt;
+    &lt;general&gt;
+        &lt;chip-name&gt;MT6765&lt;/chip-name&gt;
+        &lt;storage-type&gt;EMMC&lt;/storage-type&gt;
+    &lt;/general&gt;
+    &lt;commands&gt;
+        &lt;readback&gt;
+            &lt;physical-readback is-physical-readback="false" /&gt;
+            &lt;readback-list&gt;
+                &lt;readback-rom-item readback-index="0" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00040000" addr-flag="NUTL_ADDR_LOGICAL" part-id="32"&gt;D:\backup\preloader&lt;/readback-rom-item&gt;
+                &lt;readback-rom-item readback-index="1" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00008000" addr-flag="NUTL_ADDR_LOGICAL" part-id="34"&gt;D:\backup\nvram&lt;/readback-rom-item&gt;
+            &lt;/readback-list&gt;
+        &lt;/readback&gt;
+    &lt;/commands&gt;
+&lt;/flashtool-config&gt;
 </pre>
     </div>
 
