@@ -7,29 +7,572 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
         }
-        textarea {
-            width: 100%;
-            font-family: monospace;
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
         }
-        button {
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
             padding: 10px 20px;
-            font-size: 16px;
-            margin-top: 10px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        .container {
-            max-width: 800px;
-            margin: auto;
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
         }
     </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
 </head>
 <body>
     <div class="container">
-        <h1>MTK SP Flash Tool Readback feature file generator</h1>
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 26 October 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/index.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> 
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+        <h1 >MTK SP Flash Tool Readback feature file generator</h1>
         
         <label for="inputData"><strong>Input Dataset:</strong></label><br>
-        <textarea id="inputData" rows="20" placeholder="Paste your Scatter file dataset here...">
+        <textarea style="width:100%;" id="inputData" rows="20" placeholder="Paste your Scatter file dataset here...">
 - partition_index: SYS20
   partition_name: md_udc
   file_name: NONE
@@ -70,7 +613,43 @@
         <button onclick="generateReadbackRomItems()">Generate</button>
         
         <h2>Generated Readback ROM Items</h2>
-        <textarea id="outputData" rows="10" readonly placeholder="Your output will appear here..."></textarea>
+        <textarea style="width:100%;" id="outputData" rows="10" readonly placeholder="Your output will appear here..."></textarea>
+        
+        
+        
+        <h3>About this MTK SP Flash Tool Readback feature file generator</h3>
+
+<p>Link to the script Github repo: https://github.com/Eb43/readbackbackup/
+
+<p>Phones on MTK processors (typically Xiaomi, Poco, Redmi, Vivo, Oppo, Realme, Motorola, Nokia, Alcatel, Techno, ZTE) can be fully backed up woth the use of SP Flash Tool utility. This backup can be used for restoring phone's functionality after major problews with its firmware, including full dead brick (wrong flash of boot.img, preloader.bin) that does not react on buttons no logo, no charging sign. The NVRAM and NVDATA partitions that contain IMEI numbers, reuired for the phone operation, can be backed up.</p>
+
+<p>In order to make SP Flash Tool functional a phone must have an unlocked bootloader. Not all smartphone vendors allow to unlock bootloader. The butloader has to be unlocked when the phone is functioning normally. Additionally, ensure your phone's MTK processor has available MTK bypass. New MTK processors are locked for low-level connection to PC.</p>
+
+<p>The script takes the data on partition's offset and partition length from the Scatter.txt file, which is unique for each smarphone model. The Scatter file can be obtained from the official firmware for the smartphone.</p>
+
+<p>Take the output of the script and paste it into the readback_ui_bak.xml file located in the the SP flash tool directory. MTK SP Flash Tool Readback feature file generator</p>
+
+<p>Note the preloader readback adress should be added manually, since it is located in other part of the phone's NAND flash.</p>
+
+<p>The readback_ui_bak.xml file is created automatically by the SP flash tool on any edit on the Readback tab. Ensure your file follows the structure. Verify the backup folder path leads to an existing folder on your disk.</p>
+<pre>
+<?xml version="1.0" encoding="UTF-8" ?>
+<flashtool-config version="2.0">
+    <general>
+        <chip-name>MT6765</chip-name>
+        <storage-type>EMMC</storage-type>
+    </general>
+    <commands>
+        <readback>
+            <physical-readback is-physical-readback="false" />
+            <readback-list>
+                <readback-rom-item readback-index="0" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00040000" addr-flag="NUTL_ADDR_LOGICAL" part-id="32">D:\backup\preloader</readback-rom-item>
+                <readback-rom-item readback-index="1" readback-enable="true" readback-flag="NUTL_READ_PAGE_ONLY" start-address="0x0000000000000000" readback-length="0x00008000" addr-flag="NUTL_ADDR_LOGICAL" part-id="34">D:\backup\nvram</readback-rom-item>
+            </readback-list>
+        </readback>
+    </commands>
+</flashtool-config>
+</pre>
     </div>
 
     <script>
