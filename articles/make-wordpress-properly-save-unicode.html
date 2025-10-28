@@ -622,7 +622,7 @@ pre {
 
 <p>The root cause of this buggy online blog behavior lays within the pipeline when WordPress passes the text through PHP and MySQL. The connection or storage layer converts every non-ASCII character into a placeholder, which is displayed in browser as ? mark.</p>
 
-<p>The correct solution is to reconfigure the pipeline to correctly process Unicode. For example, to ensure Wordpress config file <i>wp-config.php</i> defines UTF-8, or change SQL database tables encoding to <i>utf8mb4_unicode_ci</i> or <i>utf8mb4_general_ci</i>.
+<p>The correct solution is to reconfigure the pipeline to correctly process Unicode. For example, to ensure Wordpress config file <i>wp-config.php</i> defines UTF-8, or change SQL database tables encoding to <i>utf8mb4</i>.
 
 <p>This correct solution, however, has a major downfall that lays not in the technical, but in a policy realm. It can be executed only when higher supervisors and managers allow to do so.</p>
 
@@ -659,7 +659,7 @@ pre {
 
 <p>It was not viable to modify <i>functions.php</i> file directly due to lack of FTP access to the Wordpress installation. However, a plugin Code Snippets exists, which lets to add required hooks from the Wordpress admin panel.</p>
 
-<p>Installing the Code Snippets plugin is straightforward and executed from Plugins page of the Wordpress admin panel. Cllick Add New button, type Code Snippets (author: Code Snippets Pro) in the search field, and click Install Now, then click Activate.</p>
+<p>Installing the Code Snippets plugin is straightforward and executed from Plugins page of the Wordpress admin panel. Click Add New button, type Code Snippets (author: Code Snippets Pro) in the search field, and click Install Now, then click Activate.</p>
 
 <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/plugin.jpg" alt="unicode corrupted" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
 
