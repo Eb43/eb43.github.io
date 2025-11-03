@@ -1,0 +1,855 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>How to make a Windows laptop to turn off at 1% instead of 5% default critical battery level</title>
+    <meta name="description" content="Use full laptop battery capacity by setting critical battery level to 1%">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "How AI generates images? Why is an AI generation called “Diffusion”?",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-11-04",
+  "url": "https://eb43.github.io/articles/how-ai-generates-images.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 17 November 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">How AI generates images? Why is an AI generation called “Diffusion”?</h1>
+
+
+
+<p >If you have read the article &ldquo;What Does ChatGPT Do and Why Does It Work? A Look Under the Hood at the Magic of This Neural Network&rdquo;, you already understand how AI generates text. In short, AI takes a user&rsquo;s prompt and searches for the most statistically likely words related to the specified topic. For example, if you write &ldquo;black cat&rdquo;, AI will continue with &ldquo;the black cat meows&rdquo; because &ldquo;meows&rdquo; is a word that frequently appears near &ldquo;cat&rdquo; in the training texts. It will not write &ldquo;the black cat crows&rdquo; because such a combination of words does not appear often (if appears at all) in the texts of human language on which it was trained.</p>
+<p >But how does AI creates impressively detailed and realistic photos and videos from a text prompt? What set of pixels corresponds, for instance, to the phrase &ldquo;online news&rdquo;? Yet, any diffusion-based AI model can easily generate an image from that very phrase. To create multimedia content, AI systems use clever techniques &mdash; for example, they reverse the flow of time.</p>
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*A72u_nDn-IisJHEkhWnuwA.jpeg 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*A72u_nDn-IisJHEkhWnuwA.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/1*A72u_nDn-IisJHEkhWnuwA.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/1*A72u_nDn-IisJHEkhWnuwA.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/1*A72u_nDn-IisJHEkhWnuwA.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/1*A72u_nDn-IisJHEkhWnuwA.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/1*A72u_nDn-IisJHEkhWnuwA.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/1*A72u_nDn-IisJHEkhWnuwA.jpeg 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*A72u_nDn-IisJHEkhWnuwA.jpeg" alt="" width="700" height="420" /></picture></figure>
+
+<h2 >Vectors in AI: explained simply</h2>
+<p >When the conversation turns to artificial intelligence, one immediately encounters the terms <em>vectors</em> and <em>vectorization</em>. There is no need to panic if you last heard about vectors in school or university &mdash; you will not need math to understand the concept.</p>
+<p >All you need to know is that a vector is simply a line with a direction. Mathematicians draw it as an arrow.</p>
+<p >Think of it this way: all mathematics and all numbers are merely ways to measure distances between entities. You would not find it strange to say, &ldquo;The distance between Kyiv and Kharkiv is 400 kilometers.&rdquo; Someone took a ruler and converted the distance on the planet&rsquo;s surface into a short number.</p>
+<p >The same can be done for other entities. For example, what is the distance on the color spectrum between maroon and terracotta? You could place a colorimeter on each shade and get a numerical distance between the two colors.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*OClx3iah-V1XWzA78SvbZA.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*OClx3iah-V1XWzA78SvbZA.png 640w, https://miro.medium.com/v2/resize:fit:720/1*OClx3iah-V1XWzA78SvbZA.png 720w, https://miro.medium.com/v2/resize:fit:750/1*OClx3iah-V1XWzA78SvbZA.png 750w, https://miro.medium.com/v2/resize:fit:786/1*OClx3iah-V1XWzA78SvbZA.png 786w, https://miro.medium.com/v2/resize:fit:828/1*OClx3iah-V1XWzA78SvbZA.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*OClx3iah-V1XWzA78SvbZA.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*OClx3iah-V1XWzA78SvbZA.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*OClx3iah-V1XWzA78SvbZA.png" alt="" width="700" height="700" /></picture>
+</figure>
+
+<p >When AI is trained, it builds a map of distances between all the entities it encounters. For instance, the distance between the word &ldquo;cat&rdquo; and &ldquo;meows&rdquo; might be 0.1, while the distance between &ldquo;cat&rdquo; and &ldquo;crows&rdquo; might be 0.99. Since &ldquo;meows&rdquo; is much closer to &ldquo;cat&rdquo;, AI chooses it instead of &ldquo;crows&rdquo;.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*a4W0VXitsZyuBoXjGIaBRg.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*a4W0VXitsZyuBoXjGIaBRg.png 640w, https://miro.medium.com/v2/resize:fit:720/1*a4W0VXitsZyuBoXjGIaBRg.png 720w, https://miro.medium.com/v2/resize:fit:750/1*a4W0VXitsZyuBoXjGIaBRg.png 750w, https://miro.medium.com/v2/resize:fit:786/1*a4W0VXitsZyuBoXjGIaBRg.png 786w, https://miro.medium.com/v2/resize:fit:828/1*a4W0VXitsZyuBoXjGIaBRg.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*a4W0VXitsZyuBoXjGIaBRg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*a4W0VXitsZyuBoXjGIaBRg.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*a4W0VXitsZyuBoXjGIaBRg.png" alt="" width="700" height="700" /></picture>
+</figure>
+
+<blockquote class="alert-info">
+<p >Fine print with asterisk: It is just for visual representation on the image, a vector value of 0.1 is considered a close connection between entities.</p>
+<p >In actual AI systems, the distance is measured in reverse. A value close to 1 means two entities are highly related, while 0 indicates the greatest possible distance &mdash; meaning entities have nothing in common.</p>
+</blockquote>
+<p >Every word has a similar set of distances to all others. Each such set is referred to as a dimension. And in professional terms the complete collection of these sets (i.e. dimensions) for such map of distances between entities is referred to as <strong><em>vector space</em></strong>or<strong><em>embedding space.</em></strong></p>
+<p >Now we can dive into how AI turns words into pixels.</p>
+
+
+<h2 >How an AI image and video generator works</h2>
+<p >The very name <em>diffusion model</em> for AI image generators is deeply connected to physics. The generation of images and videos we see today works on a principle known as <em>diffusion</em>.</p>
+<p >This process is remarkably similar to Brownian motion observed in nature, where particles move chaotically. However, AI performs diffusion in reverse &mdash; it moves backward in time, from the end to the beginning.</p>
+
+<figure>
+
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*HpYhDuoTHYg8hZBMXNmmaQ.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*HpYhDuoTHYg8hZBMXNmmaQ.png 640w, https://miro.medium.com/v2/resize:fit:720/1*HpYhDuoTHYg8hZBMXNmmaQ.png 720w, https://miro.medium.com/v2/resize:fit:750/1*HpYhDuoTHYg8hZBMXNmmaQ.png 750w, https://miro.medium.com/v2/resize:fit:786/1*HpYhDuoTHYg8hZBMXNmmaQ.png 786w, https://miro.medium.com/v2/resize:fit:828/1*HpYhDuoTHYg8hZBMXNmmaQ.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*HpYhDuoTHYg8hZBMXNmmaQ.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*HpYhDuoTHYg8hZBMXNmmaQ.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*HpYhDuoTHYg8hZBMXNmmaQ.png" alt="" width="700" height="700" /></picture>
+</figure>
+
+<p >This link to physics is not just a poetic analogy. It directly leads to the algorithms that enable image and video generation, and it provides intuitive insight into how these models function in practice.</p>
+<p >Before exploring the physics behind it, let us look at how an actual diffusion model works.</p>
+<p >If we examine the source code of a diffusion AI generator like WAN 2.1, we find that the process of creating a video begins with generating a random number.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*gHCVGbQJ3CsiZ75B5BpmOA.jpeg" alt="" width="700" height="555" /></picture>
+</figure>
+
+<p >In other words, AI first produces a random set of pixels using that number as a seed. The image looks like pure noise.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*OELdyYng-48RXcRtphkCEQ.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*OELdyYng-48RXcRtphkCEQ.png 640w, https://miro.medium.com/v2/resize:fit:720/1*OELdyYng-48RXcRtphkCEQ.png 720w, https://miro.medium.com/v2/resize:fit:750/1*OELdyYng-48RXcRtphkCEQ.png 750w, https://miro.medium.com/v2/resize:fit:786/1*OELdyYng-48RXcRtphkCEQ.png 786w, https://miro.medium.com/v2/resize:fit:828/1*OELdyYng-48RXcRtphkCEQ.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*OELdyYng-48RXcRtphkCEQ.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*OELdyYng-48RXcRtphkCEQ.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*OELdyYng-48RXcRtphkCEQ.png" alt="" width="700" height="467" /></picture>
+</figure>
+
+<p >This noisy video is then passed through a model known as a <em>transformer</em> &mdash; the same type of model that underlies large language systems such as ChatGPT.</p>
+<p >But instead of text, the transformer outputs another video &mdash; one that already shows hints of structure. This new video is combined with the previous one, and the result is fed back into the model.</p>
+<p >This cycle repeats dozens of times. After tens or even hundreds of iterations, the pure noise gradually transforms into an astonishingly realistic video.</p>
+<p >But how does this relate to Brownian motion? And how does the model so accurately use text prompts to turn noise into a video that matches the description?</p>
+<p >To understand that, let us break diffusion models into three parts.</p>
+
+<h2 >CLIP and how AI &ldquo;understands&rdquo; meaning</h2>
+<p >The year 2020 was a turning point for language modeling. Research on scaling neural networks and the emergence of GPT-3 demonstrated that &ldquo;bigger&rdquo; really does mean &ldquo;better.&rdquo;</p>
+<p >Large AI models trained on enormous datasets began to exhibit capabilities that smaller ones simply did not possess.</p>
+<p >Researchers soon applied the same ideas to images.</p>
+<p >In February 2021, OpenAI introduced a model called CLIP, trained on 400 million &ldquo;image-caption&rdquo; pairs collected from the internet.</p>
+<p >CLIP consists of two models: one processes text, the other processes images.</p>
+<p >Each model outputs a vector of length 512, and the core idea is that the vectors for a matching image and caption should be close to each other.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*h_FU0A9ic3j5gqjIyt1zBw.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*h_FU0A9ic3j5gqjIyt1zBw.png 640w, https://miro.medium.com/v2/resize:fit:720/1*h_FU0A9ic3j5gqjIyt1zBw.png 720w, https://miro.medium.com/v2/resize:fit:750/1*h_FU0A9ic3j5gqjIyt1zBw.png 750w, https://miro.medium.com/v2/resize:fit:786/1*h_FU0A9ic3j5gqjIyt1zBw.png 786w, https://miro.medium.com/v2/resize:fit:828/1*h_FU0A9ic3j5gqjIyt1zBw.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*h_FU0A9ic3j5gqjIyt1zBw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*h_FU0A9ic3j5gqjIyt1zBw.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*h_FU0A9ic3j5gqjIyt1zBw.png" alt="" width="700" height="467" /></picture>
+</figure>
+
+<p >To achieve this, a contrastive training scheme was used.</p>
+<p >For example, a dataset might contain photos of a cat, a dog, and a man, with captions &ldquo;photo of a cat&rdquo;, &ldquo;photo of a dog&rdquo;, and &ldquo;photo of a man&rdquo;.</p>
+<p >The three images go into the visual model, and the three captions go into the text model. We get six vectors (numerical distances with direction) and want the matching pairs to be most similar &mdash; that is, to have the smallest distance.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*13FHk_Vzfjrza9Xw76As-g.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*13FHk_Vzfjrza9Xw76As-g.png 640w, https://miro.medium.com/v2/resize:fit:720/1*13FHk_Vzfjrza9Xw76As-g.png 720w, https://miro.medium.com/v2/resize:fit:750/1*13FHk_Vzfjrza9Xw76As-g.png 750w, https://miro.medium.com/v2/resize:fit:786/1*13FHk_Vzfjrza9Xw76As-g.png 786w, https://miro.medium.com/v2/resize:fit:828/1*13FHk_Vzfjrza9Xw76As-g.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*13FHk_Vzfjrza9Xw76As-g.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*13FHk_Vzfjrza9Xw76As-g.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*13FHk_Vzfjrza9Xw76As-g.png" alt="" width="700" height="467" /></picture>
+</figure>
+
+<p >Not only are matching pairs compared, but also all mismatched combinations.</p>
+<p >Imagine placing the image vectors as columns in a matrix and the text vectors as rows. The pairs on the diagonal are correct matches; those off the diagonal are incorrect ones. CLIP&rsquo;s goal is to maximize the similarity of correct pairs and minimize that of incorrect ones.</p>
+<p >This <em>contrastive learning</em> gave the model its name: <em>Contrastive Language-Image Pre-training</em> (CLIP).</p>
+<p >Similarity is measured with a familiar school formula &mdash; the cosine of the angle between two lines (vectors). If the angle between two vectors is zero, their cosine equals 1 &mdash; that is, maximum similarity.</p>
+<p >Thus, CLIP learns so that related texts and images &ldquo;look&rdquo; in the same direction in the shared space.</p>
+<p >Once AI knows the distances between entities, it can manipulate them. For example, if you take two photos of the same person &mdash; one with a hat and one without &mdash; and compute the difference between their vectors, the result represents the concept of a &ldquo;hat.&rdquo;</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*k7BlXQIjAYUEJFDfHoZl3Q.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*k7BlXQIjAYUEJFDfHoZl3Q.png 640w, https://miro.medium.com/v2/resize:fit:720/1*k7BlXQIjAYUEJFDfHoZl3Q.png 720w, https://miro.medium.com/v2/resize:fit:750/1*k7BlXQIjAYUEJFDfHoZl3Q.png 750w, https://miro.medium.com/v2/resize:fit:786/1*k7BlXQIjAYUEJFDfHoZl3Q.png 786w, https://miro.medium.com/v2/resize:fit:828/1*k7BlXQIjAYUEJFDfHoZl3Q.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*k7BlXQIjAYUEJFDfHoZl3Q.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*k7BlXQIjAYUEJFDfHoZl3Q.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*k7BlXQIjAYUEJFDfHoZl3Q.png" alt="" width="700" height="700" /></picture>
+</figure>
+
+<p >By adding or subtracting these distance vectors, AI can work with abstract concepts rather than just images.</p>
+<p >CLIP can also classify images by comparing their vector distances to those of possible captions and choosing the most similar one.</p>
+<p >In this way, CLIP creates a powerful space that links images and text. However, it only works one way: from data to vectors, not the other way around.</p>
+
+<h2 >Diffusion AI models</h2>
+<p >In 2020, a team from Berkeley published <em>Denoising Diffusion Probabilistic Models</em> (DDPM). This work demonstrated that it is possible to generate high-quality images by gradually turning noise into an image, step by step.</p>
+<p >The idea is simple: take a set of training images and progressively add noise until they are completely destroyed. Then train the network to reverse the process &mdash; to remove the noise.</p>
+<p >However, a straightforward &ldquo;step-by-step denoising&rdquo; method performs poorly. The Berkeley researchers proposed a better scheme: start with a clean image, corrupt it, and then reverse the process from noise back to the original image.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*9KGWiCF4mmRzCZV9QhcrBg.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*9KGWiCF4mmRzCZV9QhcrBg.png 640w, https://miro.medium.com/v2/resize:fit:720/1*9KGWiCF4mmRzCZV9QhcrBg.png 720w, https://miro.medium.com/v2/resize:fit:750/1*9KGWiCF4mmRzCZV9QhcrBg.png 750w, https://miro.medium.com/v2/resize:fit:786/1*9KGWiCF4mmRzCZV9QhcrBg.png 786w, https://miro.medium.com/v2/resize:fit:828/1*9KGWiCF4mmRzCZV9QhcrBg.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*9KGWiCF4mmRzCZV9QhcrBg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*9KGWiCF4mmRzCZV9QhcrBg.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*9KGWiCF4mmRzCZV9QhcrBg.png" alt="" width="700" height="222" /></picture>
+</figure>
+
+<p >This method works far better than gradual restoration.</p>
+<p >It is also important that during generation, the model reintroduces noise at each step &mdash; this helps make the results sharper.</p>
+<p >The explanation lies in the theory of Brownian motion: adding random noise helps avoid all points collapsing toward the center of the data distribution and instead preserves diversity.</p>
+<p >As a result, instead of a single blurry average image, we get a variety of realistic possibilities.</p>
+
+<h2 >How AI creates images: by running time backward</h2>
+<p >Diffusion models can be viewed as training a time-dependent vector field that tells the model in which direction to move from noise toward data.</p>
+<p >Imagine a two-dimensional example, where each point is a small two-pixel image. As we add noise, the point moves randomly &mdash; that is Brownian motion.</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*mGVQcmpE_Vb7CN22id-o8A.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*mGVQcmpE_Vb7CN22id-o8A.png 640w, https://miro.medium.com/v2/resize:fit:720/1*mGVQcmpE_Vb7CN22id-o8A.png 720w, https://miro.medium.com/v2/resize:fit:750/1*mGVQcmpE_Vb7CN22id-o8A.png 750w, https://miro.medium.com/v2/resize:fit:786/1*mGVQcmpE_Vb7CN22id-o8A.png 786w, https://miro.medium.com/v2/resize:fit:828/1*mGVQcmpE_Vb7CN22id-o8A.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*mGVQcmpE_Vb7CN22id-o8A.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*mGVQcmpE_Vb7CN22id-o8A.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*mGVQcmpE_Vb7CN22id-o8A.png" alt="" width="700" height="467" /></picture>
+</figure>
+
+<p >The model learns to &ldquo;turn back the clock,&rdquo; moving points back toward their original structure (for example, a spiral).</p>
+
+<figure>
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*KSkpUfTLvdoc16Aozf6RZw.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*KSkpUfTLvdoc16Aozf6RZw.png 640w, https://miro.medium.com/v2/resize:fit:720/1*KSkpUfTLvdoc16Aozf6RZw.png 720w, https://miro.medium.com/v2/resize:fit:750/1*KSkpUfTLvdoc16Aozf6RZw.png 750w, https://miro.medium.com/v2/resize:fit:786/1*KSkpUfTLvdoc16Aozf6RZw.png 786w, https://miro.medium.com/v2/resize:fit:828/1*KSkpUfTLvdoc16Aozf6RZw.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*KSkpUfTLvdoc16Aozf6RZw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*KSkpUfTLvdoc16Aozf6RZw.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*KSkpUfTLvdoc16Aozf6RZw.png" alt="" width="700" height="700" /></picture>
+</figure>
+
+<p >If we train it not only by coordinates but also by time <em>t</em> (the number of steps), the model learns to behave differently at different stages &mdash; coarse at first, then more detailed.</p>
+<p >This makes it far more efficient.</p>
+<p >Adding noise during generation also follows from this idea: it prevents samples from collapsing into a single average result and instead spreads them evenly across the data distribution.</p>
+<p >Without noise, the model converges toward the center &mdash; producing a bland, blurry image.</p>
+<figure>
+
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*DmPGdzTu1bKkQl4-jYSbUg.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*DmPGdzTu1bKkQl4-jYSbUg.png 640w, https://miro.medium.com/v2/resize:fit:720/1*DmPGdzTu1bKkQl4-jYSbUg.png 720w, https://miro.medium.com/v2/resize:fit:750/1*DmPGdzTu1bKkQl4-jYSbUg.png 750w, https://miro.medium.com/v2/resize:fit:786/1*DmPGdzTu1bKkQl4-jYSbUg.png 786w, https://miro.medium.com/v2/resize:fit:828/1*DmPGdzTu1bKkQl4-jYSbUg.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*DmPGdzTu1bKkQl4-jYSbUg.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*DmPGdzTu1bKkQl4-jYSbUg.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*DmPGdzTu1bKkQl4-jYSbUg.png" alt="" width="700" height="467" /></picture>
+</figure>
+
+
+<h2 >DDIM</h2>
+<p >A simplified approach soon appeared: <em>Denoising Diffusion Implicit Models</em> (DDIM), which showed that the same quality can be achieved without random steps.</p>
+<p >It relies on an analytical connection between a stochastic equation (with noise) and a deterministic differential equation (without noise).</p>
+<p >DDIM allows faster generation without sacrificing quality.</p>
+<p >Both DDPM and DDIM lead to the same distribution of results, but DDIM does it deterministically, without randomness.</p>
+<p >WAN uses a further development of this concept known as <em>flow matching</em>.</p>
+
+
+<h2 >DALL&middot;E 2 and the Fusion of CLIP with Diffusion</h2>
+<p >By 2021, it was clear that diffusion models could generate high-quality images but struggled to follow text prompts accurately.</p>
+<p >Combining CLIP and diffusion seemed natural: CLIP could link words and pictures and guide the diffusion process.</p>
+<figure>
+
+<picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*1Ocx-JvsRS1oMKLcNoINcw.png 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*1Ocx-JvsRS1oMKLcNoINcw.png 640w, https://miro.medium.com/v2/resize:fit:720/1*1Ocx-JvsRS1oMKLcNoINcw.png 720w, https://miro.medium.com/v2/resize:fit:750/1*1Ocx-JvsRS1oMKLcNoINcw.png 750w, https://miro.medium.com/v2/resize:fit:786/1*1Ocx-JvsRS1oMKLcNoINcw.png 786w, https://miro.medium.com/v2/resize:fit:828/1*1Ocx-JvsRS1oMKLcNoINcw.png 828w, https://miro.medium.com/v2/resize:fit:1100/1*1Ocx-JvsRS1oMKLcNoINcw.png 1100w, https://miro.medium.com/v2/resize:fit:1400/1*1Ocx-JvsRS1oMKLcNoINcw.png 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*1Ocx-JvsRS1oMKLcNoINcw.png" alt="" width="700" height="467" /></picture>
+
+<figcaption ><i>Visual representation of AI creating an image by text description</i></figcaption>
+</figure>
+
+<br>
+<p >In 2022, OpenAI did exactly that by creating <em>unCLIP</em>, the commercial version of which is known as <em>DALL&middot;E 2</em>.</p>
+<p >DALL&middot;E 2 learns to convert CLIP vectors into images with remarkable precision.</p>
+<p >The text vectors are passed into the diffusion model as an additional condition, which it uses to remove noise according to the textual description.</p>
+<p >This technique is called <em>conditioning</em> &mdash; conditional control.</p>
+<p >However, conditioning alone does not guarantee full alignment with the prompt. Another technique is needed.</p>
+
+
+<h2 >Guidance</h2>
+<p >Returning to the spiral example, if different parts of the spiral correspond to different classes (people, dogs, cats), conditioning helps but not perfectly &mdash; the points still mix.</p>
+<p >The solution is <em>classifier-free guidance</em>. The model is trained both with and without class conditioning.</p>
+<p >During generation, we compare the vectors for the conditional and unconditional models. The difference between them indicates the direction toward the desired class, which can be amplified by a coefficient <em>&alpha;</em> (alpha).</p>
+<p >As <em>&alpha;</em> increases, the model reproduces the desired objects more accurately &mdash; for example, a &ldquo;tree in the desert&rdquo; finally appears and becomes increasingly realistic.</p>
+<p >This principle is now standard in modern diffusion models.</p>
+<p >WAN goes even further by using <em>negative prompts</em>.</p>
+<p >This means the user can explicitly specify what they do not want to see in the image or video (for example, &ldquo;extra fingers&rdquo; or &ldquo;motion in reverse&rdquo;), and these factors are subtracted from the result.</p>
+
+<h2 >And some words before you close this page</h2>
+<p >Since the publication of DDPM in 2020, the development of diffusion models has progressed at extraordinary speed. Today&rsquo;s systems can turn text into video that seems absolutely realistic.</p>
+<p >The most impressive part is how all these elements &mdash; text encoders, vector fields, and reverse diffusion processes &mdash; fit together so precisely that they form a coherent mechanism. All of it is based on simple mathematical formulas and geometry. The result is a new kind of machine.</p>
+<p >Now, to create realistic and beautiful images or videos, you do not need a camera, an artist, or an animator. A few words of text are enough.</p>
+<p ><em>This text, compiled by eb43.github.io, is based on the story by Welch Labs.</em></p>
+
+
+
+
+
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+  
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
