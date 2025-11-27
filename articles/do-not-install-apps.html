@@ -1,0 +1,752 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>Save yourself and your wallet — do not install apps for marketplaces, taxi, delivery, discounts, rentals, tickets, loyalty programs, cashback, travel, booking</title>
+    <meta name="description" content="Save yourself and your wallet — do not install apps for marketplaces, taxi, delivery, discounts, rentals, tickets, loyalty programs, cashback, travel, booking">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Save yourself and your wallet — do not install apps for marketplaces, taxi, delivery, discounts, rentals, tickets, loyalty programs, cashback, travel, booking",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-11-14",
+  "url": "https://eb43.github.io/articles/do-not-install-apps.html.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 26 November 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">Save yourself and your wallet — do not install apps for marketplaces, taxi, delivery, discounts, rentals, tickets, loyalty programs, cashback, travel, booking</h1>
+
+<p>Security experts are sounding the alarm: “Apps are spying on us”. But you may have just installed from Google Play or AppStore an app for some service or marketplace — because it promises bonuses or cashback through the app — and nothing bad seemed to happen to you. You might think these experts are just chasing hype and fear.</p>
+
+<img class="image-container" src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*S6Sda1RtXJGEVWWS59BRvw.jpeg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>But in reality, by installing an app for an online shop, a taxi service, a ticket booking platform, a delivery service, loyalty programs, marketplace app, rental app, and so on, you did more than just give away your data. You may begin to pay more with every next order. App-based surveillance allows companies to know what is happening in your life and adjust prices so that you are likely to pay them.</p>
+
+<p>Companies want people to install their apps. They aggressively push their applications onto your smartphone. You can’t just get a loyalty card of a retail store — you need to install and sign into the store’s app. Another case: a coffee shop made it possible to order a coffee only through its mobile app.</p>
+
+<p>Without urgent need, apps heavily promoted by commercial entities should not be downloaded. Companies use various incentives: offering to place an order through the app instead of a self-service terminal, promising free bonuses or discounts if the app is installed at the time of payment.</p>
+
+<p>In practice, however, the user often gives up more than they receive, even if it is not felt immediately. This primarily concerns personal data and the digital footprint, which can be monetized far more effectively than simple advertising display.</p>
+
+<p>The first reason for caution is connected to the era of so-called surveillance capitalism. Companies aim to collect as much information as possible about consumer behavior, financial condition, daily routine, habits, and vulnerabilities, and then use this data to apply personalized influence.</p>
+
+<p>Most people think that they only receive clumsy advertising, such as when, after buying an iron, their feed fills up with ads for irons. However, one coffee chain several years ago settled a class action lawsuit for its mobile app heavy tracking. Its app recorded user movements every few minutes — even when the app was not actively used. Affected users were promised a free doughnut and a coffee as a lawsuit settlement.</p>
+
+<p>But a much more serious trend is personalized pricing. A company whose app has permission to read SMS messages — because people do not want to keep pressing buttons and prefer the app to automatically read authorization codes from SMS — can find out that a person has just received their salary, because the bank sends a SMS notification about the deposit. At that very moment, the prices inside the company’s app may slightly increase for that particular user.</p>
+
+<p>As a result, the price is not shaped by the market, but by an algorithm that evaluates the purchasing power of a specific individual at a specific moment.</p>
+
+<p>Even more alarming is the fact that such pricing gradually transfers to corporations the function of determining the value of money. The value of money is the amount of goods you can buy for the same sum today and tomorrow. For example, if today a smartphone costs $500, and tomorrow it costs $600, then money has become less valuable. Its purchasing power has decreased.</p>
+
+<p>Without personalized pricing models, everyone pays the same price for the same product, for example, an ordinary hamburger. People with higher incomes can buy more, but the price of the product itself does not change depending on the purchasing power of a particular person. A poor person and a rich person will receive the same price for a hamburger, provided companies cannot spy on them through an app.</p>
+
+<p>When companies gain the ability to set an individual price for each person, they effectively determine how much one hryvnia or one dollar in your wallet is worth to you. When a company knows that you can pay more, it will increase the price for you individually. This concentrates a disproportionate amount of power in the hands of businesses, which already wield enormous influence.</p>
+
+<p>The second reason is less obvious, but no less dangerous: mandatory arbitration. Many services include in their terms of use a clause stating that in the event of a dispute, the parties will not go to court, but will agree to a private dispute resolution procedure through a mediator.</p>
+
+<p>Unlike judges, who are paid through public taxation and are part of the public justice system, the mediators in these cases are hired by the company itself. This creates a serious conflict of interest and effectively deprives the consumer of full legal protection.</p>
+
+<p>During a normal purchase in a physical location, a consumer cannot be forced to immediately agree to legal terms containing mandatory arbitration. In contrast, installing an app almost always requires acceptance of Terms of Use, where such a clause may be hidden in long, fine-print text.</p>
+
+<p>Moreover, the scope of app terms sometimes extends even to situations that are not directly related to the use of the app itself. There have been widely discussed cases where companies attempted to apply such terms in situations involving serious bodily harm or death, citing the fact that a person had previously agreed to the terms of use of the corporation’s application.
+Become a member</p>
+
+<p>For example, in 2024, a married couple using a ride-hailing service was involved in a serious car accident. However, the court dismissed the lawsuit against the company, since the couple had previously agreed to arbitration in a separate food delivery application owned by the same corporation.</p>
+
+<p>Only public outcry forces companies to back down in such cases. And even then, this happens far from always.</p>
+
+<p>In some countries, including the United States, mandatory arbitration is supported by legal precedent, and there are almost no real mechanisms for government intervention. Therefore, the main responsibility for protecting one’s rights falls on the users themselves. The simplest and most accessible tool in this situation is to avoid unnecessary applications and not agree to questionable terms.</p>
+
+<p>Next, it is worth looking at the broader context. Personalized pricing in economic theory is often called “price discrimination” and is presented as an allegedly efficient model. The idea is that different customers pay different prices depending on their likely willingness to pay.</p>
+
+<p>If one person gets a product for two dollars and another finds the same product for one dollar, this effectively means that the value of money is different in these two cases. Economists explain this as an attempt to avoid idle resources, such as in the case of a hotel, where a room may be sold cheaply at the last minute if it would otherwise remain empty.</p>
+
+<p>However, economists tend to live in theoretical clouds — in practice, their models work in the opposite way.</p>
+
+<p>As a result, the logic of setting prices according to purchasing power for the sake of better resource allocation collapses when one considers the volume of data that corporations possess today.</p>
+
+<p>A company is not going to set a lower price. If, for example, a hotel owner can learn about a person’s financial status, health issues, urgency of travel, family circumstances, or even the presence of an emergency in the region, they can reasonably estimate how vulnerable that person is and how much more they are willing to pay. In such a model, the price is no longer the result of market forces, but the result of digital analysis of someone else’s vulnerability.</p>
+
+<p>Here is a real-world example: during a major concert of a top pop singer in a Canadian city Vancouver, rental prices increased by up to ten times. On the days of the concert, hotels offered rooms for $2,000 per night, while on regular days those same rooms cost around $240.</p>
+
+<p>Another case — Los Angeles wildfires in 2025. Rent prices skyrocketed up to 300% despite local authorities reminded that in a time of emergency goods and services — including hotel rooms and rental housing — cannot be raised more than 10%.</p>
+
+<p>Alongside emergencies or major events, price gouging happens on a daily basis with so-called “price optimization centers”. These are companies, that receive data from businesses. In return, businesses receive recommendations on increasing prices. Formally, this is presented as analytics, but in practice it leads to synchronized price growth across entire sectors. These mechanisms are already working in the housing rental market and in many other industries.</p>
+
+<p>Some regions, including certain U.S. states, have banned algorithmic rent inflation, but a law is just paper with text on it. Businesses can use their resources to attempt to overturn such laws, for example by arguing that providing algorithmic recommendations for rent increases is a form of lawful speech.</p>
+
+<p>The same tools are also used against workers by depressing their wages, sometimes lower than minimal wage. Researchers from the University of Oxford and Worker Info Exchange have shown how a major ride-hailing service pushed the wages of its gig workers down by almost 15% after introducing algorithmically determined pay.</p>
+
+<p>In gig-based employment, algorithms can assess a person’s financial difficulties through credit history and offer lower pay to those who are in a more vulnerable situation. This leads to the most vulnerable receiving the least. This approach is known as algorithmic wage discrimination.</p>
+
+<p>The combination of a company’s internal data with information purchased from data brokers further reinforces this trend. As a result, a less visible but equally dangerous problem is formed: millions of people systematically receive lower compensation based on the digital profile of their lives.</p>
+
+<p>Attempts to restrict the activities of data brokers and personalized pricing are periodically made in various countries, but politicians receive money from companies — this is politely called lobbying. As a result, initiatives that would improve the situation for ordinary people are usually canceled or frozen.</p>
+
+<p>Against this background, European and Canadian regulatory practices are becoming increasingly significant, where public authorities at least attempt to investigate the scale of the problem and involve the public in discussion. In some countries, public consultations on algorithmic pricing and its impact on competition and consumer rights have already begun.</p>
+
+<p>The overall picture looks like this: while part of the world is effectively abandoning the protection of citizens in the digital economy, other regions are only beginning to recognize the scale of the threat. Personalized pricing is being transformed into a tool through which corporations determine who is most vulnerable, and it is the poorest and least protected who ultimately pay the most.</p>
+
+<p>In such a situation, refusing unnecessary applications, paying close attention to terms of use, and minimizing one’s digital footprint are no longer paranoia, but basic measures of self-protection in the new reality.</p>
+
+
+
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+  
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
