@@ -1,0 +1,842 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>How a note taking app was optimized to start 2.3 times faster</title>
+    <meta name="description" content="How a note taking app was optimized to start 2.3 times faster">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "How a note taking app was optimized to start 2.3 times faster",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-12-01",
+  "url": "https://eb43.github.io/articles/app-launch-speed-optimization.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 01 December 2025</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">How a note taking app was optimized to start 2.3 times faster</h1>
+
+
+<p>Call me old-fashioned, but I&rsquo;d like to keep control over my own data. In the digital domain, this means swimming against the modern trend of glossy apps that trap your files in proprietary formats. It also means dealing with Android, which locks your data in app&rsquo;s folder you cannot access because you&rsquo;ve been denied full user rights on your own smartphone.</p>
+<p>To overcome these, I developed TeXeTeScribe &mdash; a note taking app for Android that wants you to have full control over your data and the ability to reliably transfer your notes between all platforms. This app makes your notes stay readable everywhere &mdash; phone, PC, TV, fridge, spaceship &mdash; because plain text doesn&rsquo;t care about operating systems. The app even decodes those ancient ANSI or CP866 encoding formats that other editors turn into hieroglyphs.</p>
+<p>Then, TeXeTeScribe utilizes microSD in an effort to save your data from smartphone hardware failure or a smartphone vendor who pushes an update that crashes the OS. Because that sends all data in the phone&rsquo;s internal storage to electronic Valhalla. Since Android 6, internal storage has been encrypted, so if any core part of the phone &mdash; OS, flash memory, or processor &mdash; fails, you can say goodbye to your data.</p>
+<p>So, the app turned out to be fulfilling its promises since day one, and already saved my notes a couple of times when my phone caught a bootloop due to a firmware crash.</p>
+<p>The only thing that bugged me was my old Samsung phone, whose Exynos processor struggled to launch the app fast enough with a collection of several hundred jotted down thoughts and notes.</p>
+<p>Since I&rsquo;m not in a position to get new hardware, I had to make the software work fast enough on the existing dinosaur-dated smartphone.</p>
+<h2>How to get your data that Android blocks access to</h2>
+<p>Android is a great OS, if all you need from a smartphone is doomscrolling. But it is a terrible OS if you want your data to be accessible. That&rsquo;s because Android forces apps to store user data in folder that user can&rsquo;t access. Unless you take special approach, there is no methods to backup your data stored in a specific app.</p>
+<h3>Approach only for super brave</h3>
+<p>Get slightly more rights on your smartphone that a default Android gives you. In plain words &mdash; get root access. But Google and phone vendors killed this. Google blocks Android functionality when it detects the phone is rooted.</p>
+<p>Phone vendors simply block you from even trying to get root access by eliminating the possibility to unlock the bootloader (its a small program that launches main OS and without unlocking bootloader only OS signed by vendor can be launched). More over, while some phone vendors are direct and just take away bootloader unlocking, others claim you can unlock bootloader, but you have to fit within such constraints that you become a monkey who tries to jump for a banana that hangs ten meters above.</p>
+<figure>
+<div tabindex="0">Press enter or click to view image in full size
+<div><picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/1*OPyABm0CQDseGRtgg1kbtQ.jpeg 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*OPyABm0CQDseGRtgg1kbtQ.jpeg" alt="" width="700" height="486" /></picture></div>
+</div>
+</figure>
+<p>For example, Xiaomi (and also its Redmi and Poco subbrands), makes its phone users to wait several days and write posts on its forum only to become eligible for asking for a permission to unlock a bootloader. Then users have to be very lucky to get approval because Xiaomi provides a daily quota of only couple of thousands of permissions for the whole planet, forcing people to click a button at exactly 23:59:59 Beijing timezone.</p>
+<p>After you are granted the permission to unlock the bootloader and unlock it, Google will do its best to make you regret it. Immediately NFC payment apps such as Google Pay or Wallet stop working. After finding a hackaway to install Magisk to get root access, Google may simply stop sending your messages in Google Messages, as the company did in 2024. Lately, Google announced it disables AI on the phones with unlocked bootloader.</p>
+<p>If you are brave enough and did all of that, you&rsquo;ll get a root access in your phone. Meaning you&rsquo;ll be finally able to copy the folder of the note taking app you use.</p>
+<p>That folder will have a SQLite database that holds your notes. Get a database editor app, learn how to use it, and voila &mdash; you can freely access your notes!</p>
+<h2>Write in most common format ever existed</h2>
+<p>But why bother with a SQLite database file, which no popular reader can open, for storing lines of simple text when you can utilize the plain text format. It is used since the 1970s and readable everywhere &mdash; phone, PC, TV, fridge, spaceship &mdash; virtually any device with a processor. Except Android, somehow: two decades of development, billions in R&amp;D, and the platform still can&rsquo;t natively handle the most primitive data format computers ever invented. Android, despite it is almost 20 years of age, still has no built-in tool to open and edit plain text files.</p>
+<p>TXT, JSON, HTML, CSV, XML, YAML, INI, MD &mdash; all these files are plain text, and, unlike SQL database file, can be easily viewed on Android, iOS, Windows, Linux, macOS, ChromeOS, Smart TVs, e-readers, gaming consoles, embedded and IoT devices, cloud storage and collaboration tools.</p>
+<h2>How Google with its tightening grip over Android pushed to write a note taking app</h2>
+<p>Personally, I was combining approaches for a decade, until Google made this impossible. Since Android 4, my notes were stored in TXT files on microSD card, and that saved my notes countless times when Android crashed due to buggy update, phone crashed due to gravity, phones changed to newer ones. I simply ejected the microSD card and reinserted it into a new phone with all my notes in place.</p>
+<p>All was good until my Samsung phone upgraded to Android 8. That version blocked apps from using microSD, and the note taking app I was using got no update. Obviously, storing critical data in phone&rsquo;s internal memory is not suitable. It is only a question of time when the phone catches OS failure, rendering all data lost for good. Plus, there access to internal phone storage is obtained via buggy MTP, which several times destroyed data while copying it to computer&rsquo;s hard drive.</p>
+<p>Luckily, Samsung allowed to get root access at that time (not anymore now). And Android 8 was still supported by Xposed (the best tool of its time to maximize root access). Xposed allowed to install XInternalSD &mdash; a small app to make Android consider microSD as internal memory.</p>
+<p>I continued to enjoy writing notes in TXT in my favorite app. Until phone updated again, breaking Xposed. Luckily, I still had remnants of root access, so I could edit files in /data/data/ folder where Android apps keep their data and settings. Fix was straightforward: I navigated to app&rsquo;s folder and manually typed in the path to microSD. And that worked, the folder with my notes became accessible!</p>
+<figure>
+<div tabindex="0">Press enter or click to view image in full size
+<div><picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/format:webp/1*5-GWRnLLUckAzyA2utibqQ.jpeg 1400w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*5-GWRnLLUckAzyA2utibqQ.jpeg 640w, https://miro.medium.com/v2/resize:fit:720/1*5-GWRnLLUckAzyA2utibqQ.jpeg 720w, https://miro.medium.com/v2/resize:fit:750/1*5-GWRnLLUckAzyA2utibqQ.jpeg 750w, https://miro.medium.com/v2/resize:fit:786/1*5-GWRnLLUckAzyA2utibqQ.jpeg 786w, https://miro.medium.com/v2/resize:fit:828/1*5-GWRnLLUckAzyA2utibqQ.jpeg 828w, https://miro.medium.com/v2/resize:fit:1100/1*5-GWRnLLUckAzyA2utibqQ.jpeg 1100w, https://miro.medium.com/v2/resize:fit:1400/1*5-GWRnLLUckAzyA2utibqQ.jpeg 1400w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 700px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1400/1*5-GWRnLLUckAzyA2utibqQ.jpeg" alt="" width="700" height="523" /></picture></div>
+</div>
+</figure>
+<p>But at that time the app I was using started to lack some important functionality:</p>
+<ul>
+<li>for example, Android apps typically believe only UTF-8 exists, turning the files in other encoding into hieroglyphs. That was critical for me as I frequently started writing notes on Windows PC (ANSI-1251 encoding is default for this OS) and transferred the TXT file to Andoid to have it on hand. Moreover, accidental press of the Save button corrupted data in the file, as it was saved in UTF-8 without proper encoding conversion.</li>
+<li>the app I was using all these years didn&rsquo;t show file metadata: file name, last modification date. That made it harder to find the exact file while browsing the folder with notes in file manager.</li>
+<li>the preview window of the app I was using was too small &mdash; only couple of dozens of letters. That made it harder to find the file needed.</li>
+</ul>
+<p>So, I decided to make my own app that offered missing features and didn&rsquo;t require root access for use with microSD. Fortunately, despite phone vendors actively removing microSD slots, finding a phone with microSD support is still possible.</p>
+<h2>TeXeTeScribe: turned to be good, but slow</h2>
+<p>The app demonstrated good performance in test environment, instantly creating a sorted listing of TXT files with their content preview. However, when pushed to production &mdash; a folder with hundreds of TXT files &mdash; the app turned to be painfully slow on first launch. But after some optimizations the app became 2.35 times faster.</p>
+<figure>
+<div><picture><source srcset="https://miro.medium.com/v2/resize:fit:640/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 640w, https://miro.medium.com/v2/resize:fit:720/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 720w, https://miro.medium.com/v2/resize:fit:750/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 750w, https://miro.medium.com/v2/resize:fit:786/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 786w, https://miro.medium.com/v2/resize:fit:828/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 828w, https://miro.medium.com/v2/resize:fit:1100/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 1100w, https://miro.medium.com/v2/resize:fit:1000/format:webp/1*MjWTja0WPv0I8MqRuaBx1g.gif 1000w" type="image/webp" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 500px" /><source srcset="https://miro.medium.com/v2/resize:fit:640/1*MjWTja0WPv0I8MqRuaBx1g.gif 640w, https://miro.medium.com/v2/resize:fit:720/1*MjWTja0WPv0I8MqRuaBx1g.gif 720w, https://miro.medium.com/v2/resize:fit:750/1*MjWTja0WPv0I8MqRuaBx1g.gif 750w, https://miro.medium.com/v2/resize:fit:786/1*MjWTja0WPv0I8MqRuaBx1g.gif 786w, https://miro.medium.com/v2/resize:fit:828/1*MjWTja0WPv0I8MqRuaBx1g.gif 828w, https://miro.medium.com/v2/resize:fit:1100/1*MjWTja0WPv0I8MqRuaBx1g.gif 1100w, https://miro.medium.com/v2/resize:fit:1000/1*MjWTja0WPv0I8MqRuaBx1g.gif 1000w" sizes="(min-resolution: 4dppx) and (max-width: 700px) 50vw, (-webkit-min-device-pixel-ratio: 4) and (max-width: 700px) 50vw, (min-resolution: 3dppx) and (max-width: 700px) 67vw, (-webkit-min-device-pixel-ratio: 3) and (max-width: 700px) 65vw, (min-resolution: 2.5dppx) and (max-width: 700px) 80vw, (-webkit-min-device-pixel-ratio: 2.5) and (max-width: 700px) 80vw, (min-resolution: 2dppx) and (max-width: 700px) 100vw, (-webkit-min-device-pixel-ratio: 2) and (max-width: 700px) 100vw, 500px" data-testid="og" /><img src="https://miro.medium.com/v2/resize:fit:1000/1*MjWTja0WPv0I8MqRuaBx1g.gif" alt="" width="500" height="426" /></picture></div>
+</figure>
+<h2>Fixing UI responsiveness</h2>
+<p>The first thing we noticed was that the app became unresponsive immediately after launch if a folder had already been selected in a previous session. App wasn&rsquo;t &ldquo;crashing&rdquo;, but for several seconds nothing moved. This happened because file enumeration, sorting, adapter creation happened right inside <code>onCreate()</code> and <code>onResume()</code>.</p>
+<p>The key suspect was this call:</p>
+<pre>displayTxtFiles(selectedFolderUri);</pre>
+<p>triggered directly on startup. The app froze here because <code>displayTxtFiles()</code> did <em>everything</em> synchronously on the main thread.</p>
+<p>Earlier builds did everything directly in <code>onCreate()</code> and early lifecycle calls:</p>
+<ul>
+<li>Listing all files in the selected directory.</li>
+<li>Opening every text file to read the preview.</li>
+<li>Detecting character encoding.</li>
+<li>Sorting files by date.</li>
+<li>Updating the UI adapter repeatedly in the middle of all that.</li>
+</ul>
+<p>That meant the UI thread was waiting for file I/O (SAF calls through <code>DocumentFile</code>) and CPU work (encoding detection, string decoding, sorting) before Android could even finish rendering the first frame.</p>
+<p>The fix: pushing everything heavy to background threads. The fix created a multi-threaded load pipeline using:</p>
+<pre>backgroundExecutor = Executors.newFixedThreadPool(8);</pre>
+<p>and a main-thread handler:</p>
+<pre>private Handler mainHandler = new Handler(Looper.getMainLooper());</pre>
+<p>All file operations now happen in background threads, while only the UI updates run on the main thread.</p>
+<p>The pipeline looks like this:</p>
+<p>Step A: <code>displayTxtFiles()</code> launches a background task</p>
+<pre>backgroundExecutor.execute(() -&gt; {<br /> // Heavy I/O happens here<br />});</pre>
+<p>Nothing inside this block touches UI widgets &mdash; it only collects metadata.</p>
+<p>Step B: After files are listed and sorted, UI is updated on the main thread</p>
+<pre>mainHandler.post(() -&gt; updateFileListUI(fileList));</pre>
+<p>This call is asynchronous. It schedules a lightweight update of the adapter and immediately returns, so the UI stays responsive.</p>
+<p>Step C: Previews load after the list appears</p>
+<p>Earlier, the preview text for each file (first 250 characters) was read before showing anything. Now the app first displays the list with &ldquo;Loading&hellip;&rdquo; placeholder and then spawns parallel preview tasks:</p>
+
+<pre>loadFilePreviewsParallel(fileList, txtFiles);</pre>
+<p>That method splits the list into batches:</p>
+<pre>final int BATCH_SIZE = 10;</pre>
+<p>and loads previews asynchronously per batch, again via <code>backgroundExecutor.execute()</code>.</p>
+<p>Each batch updates the visible list later via:</p>
+<pre>mainHandler.post(() -&gt; fileCardAdapter.notifyDataSetChanged());</pre>
+<p>This gives the illusion of streaming content &mdash; the UI stays responsive to user input, and file content previews fill in gradually. The new version also switched from reading the first 5 lines to reading the first 250 characters, making preview extraction more predictable in terms of I/O cost.</p>
+<h3>Guarding against overlapping race</h3>
+<p>Because now multiple threads operate at once, a few defensive flags were added:</p>
+<pre>private volatile boolean isLoading = false;</pre>
+<p>This prevents overlapping background loads if the user taps &ldquo;Refresh&rdquo; too quickly.</p>
+<p>Also, <code>backgroundExecutor</code> is recreated in <code>onResume()</code> if it was shut down:</p>
+<pre>if (backgroundExecutor == null || backgroundExecutor.isShutdown()) {<br /> backgroundExecutor = Executors.newFixedThreadPool(8);<br />}</pre>
+<p>That ensures resuming the app never hits a dead executor, which would otherwise stall background operations.</p>
+<h2>Making <code>DocumentFile calls "cheaper"</code></h2>
+<p>Having sorted out the UI responsiveness, the <code>DocumentFile</code> came up as the main hidden performance killer. It was because of how Android&rsquo;s Storage Access Framework (SAF) works. On modern Android the SAF is an only method to access files outside of app&rsquo;s private sandbox, especially if app has to access microSD card. For user SAF looks like a system-managed file picker.</p>
+<p>The framework wraps every filesystem access in multiple permission and content resolver layers. In practice, each <code>DocumentFile</code> operation (like <code>listFiles()</code> or <code>getUri()</code>) goes through Inter-Process Communication (IPC) calls into the system&rsquo;s media provider.</p>
+<p>Iterating over hundreds of files means each property request blocks the thread until Android&rsquo;s media provider responds. That&rsquo;s tens or hundreds of milliseconds per batch. Multiply that by hundreds of files and you get milliseconds of overhead per call, turning file listing into a second-long stall.</p>
+<p>The original code did something like this:</p>
+<pre>DocumentFile[] files = directory.listFiles();<br />for (DocumentFile file : files) {<br /> if (file.getName().endsWith(".txt")) {<br /> long lastModified = file.lastModified();<br /> ...<br /> // read metadata, open stream, etc.<br /> }<br />}</pre>
+<p>Every iteration triggered:</p>
+<ol>
+<li><code>getName()</code> &rarr; IPC roundtrip</li>
+<li><code>lastModified()</code> &rarr; IPC roundtrip</li>
+</ol>
+<p>By the time the loop finished several hundred files, the UI thread had already spent seconds waiting for Binder responses.</p>
+<p><code>DocumentFile</code> performance issues can&rsquo;t be &ldquo;fixed&rdquo; &mdash; SAF by design trades speed over the ability to block apps&rsquo; file access. But performance issues can be contained by minimizing the number and frequency of SAF calls.</p>
+<p>Here&rsquo;s how it was done:</p>
+<h3>Step A: One <code>listFiles()</code> call only</h3>
+<p><code>directory.listFiles()</code> is still used, but only once per refresh. The result is immediately copied into a local <code>ArrayList&lt;DocumentFile&gt;</code> for further work:</p>
+<pre>DocumentFile[] files = directory.listFiles();<br />if (files != null) {<br /> for (DocumentFile file : files) {<br /> if (file.getName() != null &amp;&amp; file.getName().toLowerCase().endsWith(".txt")) {<br /> tempTxtFiles.add(file);<br /> }<br /> }<br />}</pre>
+<p>No further re-querying of the directory. The app keeps that snapshot for the entire UI session.</p>
+<h3>Step B: Parallel metadata extraction</h3>
+<p>The key performance improvement was wrapping metadata reads (<code>getName()</code>, <code>lastModified()</code>) in parallel:</p>
+<pre>List&lt;Future&lt;FileMetadata&gt;&gt; futures = new ArrayList&lt;&gt;();<br />for (DocumentFile file : tempTxtFiles) {<br /> futures.add(backgroundExecutor.submit(() -&gt;<br /> new FileMetadata(file.getName(), file.lastModified(), file)<br /> ));<br />}</pre>
+<p>Each thread fetches metadata for one file, distributing SAF latency across multiple cores. This alone scythed directory scans by a lot.</p>
+<h3>Step C: Cache metadata objects</h3>
+<p><code>FileMetadata</code> (a small internal class) holds:</p>
+<pre>String fileName;<br />long lastModified;<br />DocumentFile documentFile;</pre>
+<p>This prevents repeated calls like <code>file.getName()</code> later in the preview stage - those values are reused directly from memory.</p>
+<h3>The lazy preview fetching</h3>
+<p>The app no longer opens every file via <code>DocumentFile</code> during the initial scan. Instead, preview loading (which calls <code>openInputStream(file.getUri())</code>) is deferred to later batches:</p>
+<pre>loadFilePreviewsParallel(fileList, txtFiles);</pre>
+<p>Each batch processes at most 10 files at a time. This ensures <code>ContentResolver.openInputStream()</code> is never called in a burst that saturates the SAF service.</p>
+<h2>Optimizing metadata access during sorting</h2>
+<p>The next optimization attempt was to do something with the sorting step. While analyzing the file listing flow, the sorting step revealed an inefficiency. The original code sorted DocumentFile objects directly:</p>
+<pre>Collections.sort(txtFiles, (f1, f2) -&gt; <br /> Long.compare(f2.lastModified(), f1.lastModified()));</pre>
+<p>At first glance, that looks harmless. But under the hood:</p>
+<ul>
+<li><code>f1.lastModified()</code> calls <code>ContentResolver.query()</code> for <code>f1.getUri()</code>.</li>
+<li><code>f2.lastModified()</code> calls another query for <code>f2.getUri()</code>.</li>
+<li>The comparator runs O(n log n) times (roughly 2500 calls for 300 files, 10000 for 1000 files).</li>
+<li>Each query takes 2&ndash;4 ms through the SAF layer.</li>
+</ul>
+<p>So, for 300 files, sorting could easily take <strong>up to 10 seconds</strong> of real time, entirely blocking the background thread.</p>
+<p>Sorting time scaled <strong>superlinearly</strong> with the number of files because of random access patterns and cache misses inside the <code>DocumentsProvider</code>. Also, the comparator invoked <code>getName()</code> when sorting alphabetically (in alternative sort modes), and <code>getName()</code> also hits the provider. That doubled the pain.</p>
+<h3>The optimization: parallel metadata prefetch with caching</h3>
+<p>The fix was to <strong>detach sorting from I/O entirely</strong>. Instead of sorting <code>DocumentFile</code> objects directly, the app first cached each file&rsquo;s metadata (name, timestamp, URI) in a lightweight class:</p>
+<pre>class FileMetadata {<br /> String name;<br /> long lastModified;<br /> DocumentFile documentFile;</pre>
+<pre> FileMetadata(String name, long lastModified, DocumentFile documentFile) {<br /> this.name = name;<br /> this.lastModified = lastModified;<br /> this.documentFile = documentFile;<br /> }<br />}</pre>
+<p>This cache is built immediately after listing:</p>
+<pre>for (DocumentFile file : directory.listFiles()) {<br /> if (file.isFile() &amp;&amp; file.getName() != null) {<br /> fileMetadataList.add(<br /> new FileMetadata(file.getName(), file.lastModified(), file)<br /> );<br /> }<br />}</pre>
+<p>All SAF calls happen <strong>once per file</strong>, in a controlled batch, not inside sorting.</p>
+<p>Now sorting operates purely in memory:</p>
+<pre>Collections.sort(fileMetadataList, <br /> (f1, f2) -&gt; Long.compare(f2.lastModified, f1.lastModified));</pre>
+<p>Here both <code>f1.lastModified</code> and <code>f2.lastModified</code> are primitive <code>long</code>s stored in RAM. This executes in microseconds, regardless of the number of files.</p>
+<p>More importantly, the metadata itself is now gathered using parallel futures. Instead of sequential SAF calls that accumulate latency, multiple threads fetch getName() and lastModified() concurrently, distributing the IPC overhead across CPU cores.</p>
+<p>Then, once sorted, the display or preview stage references <code>metadata.documentFile</code> only for visible items.</p>
+<h3>Secondary improvements</h3>
+<p><strong>A. Pre-sorting at scan time</strong></p>
+<p>Instead of re-sorting every time the user reopens the app or returns to the file list, the cached metadata is reused unless the folder content actually changes (detected by comparing last scan time and number of files).</p>
+
+<p><strong>B. Optional sorting modes</strong></p>
+<p>Alphabetical sorting was switched to use cached <code>name</code> fields (already read once). This avoids <code>getName()</code> calls inside the comparator loop.</p>
+<p><strong>C. UI thread offload</strong></p>
+<p>The sorting now happens fully inside a background executor:</p>
+<pre>backgroundExecutor.execute(() -&gt; {<br /> Collections.sort(fileMetadataList, comparator);<br /> runOnUiThread(() -&gt; updateUI(fileMetadataList));<br />});</pre>
+<p>This ensures the main thread remains responsive even if sorting is triggered repeatedly.</p>
+<h2 data-selectable-paragraph="">Observing the result</h2>
+<p data-selectable-paragraph="">After these steps, manual testing with folders containing several hundred <code>.txt</code> files showed that app has become much faster without losing any of its computation-heavy functionality (encoding detection, preview organization, sorting by last modified date).</p>
+<p data-selectable-paragraph="">The engineering lesson here isn&rsquo;t &ldquo;use threads&rdquo; or &ldquo;cache things&rdquo;. It&rsquo;s the order of thinking:</p>
+<ol>
+<li data-selectable-paragraph="">Identify the exact blocking points.</li>
+<li data-selectable-paragraph="">Eliminate or postpone what isn&rsquo;t strictly needed for first render.</li>
+<li data-selectable-paragraph="">Let the user see <em>something</em> fast, even if background data continues loading.</li>
+</ol>
+<p data-selectable-paragraph="">In this project, the optimization path followed a logical, reproducible pattern.</p>
+<p data-selectable-paragraph="">The TeXeTeScribe app is available from its <a href="https://eb43.github.io/txtnotes-android-app-notes-in-txt-files.html" target="_blank" rel="noopener ugc nofollow">Github page on EB43 Github</a>, or from F-Droid.</p>
+</div>
+
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+  
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
