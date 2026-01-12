@@ -1,0 +1,773 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        .database-table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>Scarlet Pimpernel. The Devil Plays – The Devil Wins</title>
+    <meta name="description" content="What if the Devil in Tenacious D’s Pick of Destiny took a little longer than 40 seconds for his tasty riff?">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Scarlet Pimpernel. The Devil Plays – The Devil Wins",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2025-12-19",
+  "url": "https://eb43.github.io/articles/scarlet-pimpernel-the-devil-plays-the-devil-wins.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 12 January 2026</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">Blade Pitch Control: Why Helicopters Can&rsquo;t Fly Without It While Multirotor Drones Get Away With Fixed Propellers</h1>
+
+
+<p >At a casual glance, helicopters and multirotor drones, such as quadcopters, look like variations on the same idea. A propeller spins fast, its twisted and curved blades push air downward, defying gravity at that moment, allowing the machine to stay in the air.</p>
+<p >But closer examination highlights major technical differences. Helicopter relies on an elaborate mechanical contraption full of joints, bearings, and parts that spin fast while experiencing insane amounts of mechanical force. The multirotor drone relies on fixed propeller, making it much simpler mechanically and cheaper.</p>
+<figure tabindex="0" contenteditable="false">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*aMnmNI5g8tymiakQ9D24OQ.png" alt="" data-image-id="1*aMnmNI5g8tymiakQ9D24OQ.png" data-width="1536" data-height="1024" />
+</div>
+
+</figure>
+<p >The obvious question is why. Why does a helicopter need blades that constantly change their angle of attack while spinning, even to remain stable, while a quadcopter flies just fine with rigid, fixed-pitch propellers?</p>
+<p >To understand why, and what is actually going on, we need to talk about airflow, motion, and geometry.</p>
+<h3 data-testid="editorHeadingText">Basics on the principles of&nbsp;flying</h3>
+<p >If you stand on a skateboard and throw a heavy object forward, you roll backward.</p>
+<p >Air is a physical substance with mass, and it is heavy. If air is pushed downward, the reaction force on the object doing the pushing is upward.</p>
+<p >When a solid surface (rotating rotor blade) moves through air, its geometry forces air to change direction and speed. Below the rotor, the air is being pushed downward, so it pushes upward on the rotor more strongly, which we call higher pressure. Above the rotor, the air is being pulled into the rotor disk and redirected, so it pushes on the rotor more weakly, which we call lower pressure.</p>
+<p >You can feel this effect by spinning a flat plate, a paddle, or a shovel above yourself (be careful with hard fast moving objects). If the plane of the spinning object is parallel to ground, a negligible net lift will be created. When the plane is slightly angled, you may feel some lift force.</p>
+<p >A flat surface is highly inefficient as a rotor blade, so airfoil shapes are used to produce the pressure difference more efficiently, with less airflow resistance.</p>
+<figure tabindex="0" contenteditable="false">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*kMUyc7TLpG5R0C6ZB5KyAw.png" alt="" data-image-id="1*kMUyc7TLpG5R0C6ZB5KyAw.png" data-width="1536" data-height="1524" />
+</div>
+
+</figure>
+<p >You may want to throw in a some math to shift from vague words into the area of precision.</p>
+<p >Engineers often express the lift produced by a small section of a blade using an equation that separates these effects. Written in differential form, it is</p>
+<figure tabindex="0" contenteditable="false">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*d6qGEV6n2DMM5GTIDVmiRQ.jpeg" alt="" data-image-id="1*d6qGEV6n2DMM5GTIDVmiRQ.jpeg" data-width="391" data-height="120" />
+</div>
+
+</figure>
+<p >Each symbol in this expression corresponds to a measurable physical quantity. The term <em>dL</em> is the small lift force produced by a short segment of the blade with length <em>dr</em>. The symbol <em>&rho;</em> represents air density (approximately 1.225 kg/m&sup3; at sea level). The symbol <em>V</em> represents the speed of the airflow relative to that blade segment. The symbol <em>CL</em> is a dimensionless coefficient that depends on the blade&rsquo;s shape and its angle of attack. The symbol <em>c</em> is the chord length, which is the width of the blade measured from leading edge to trailing edge.</p>
+<p >This formula shows that lift depends strongly on velocity. For a rotating blade, the dominant component of velocity comes from rotation. This rotational velocity exists regardless of whether the aircraft is hovering or moving forward.</p>
+<h3 data-testid="editorHeadingText">Angle of attack &mdash; a key to the magic of&nbsp;flying</h3>
+<p >The symbol <em>CL</em>, which is a part of the formula for the lift, depends on the angle of attack. What is the angle of attack exactly?</p>
+<p >Angle of attack is simply the angle at which a moving surface meets the air that flows toward it.</p>
+<p >It is the important variable that determines whether a rotor blade or airplane wing merely slips through air or actively pushes it downward to create higher lift.</p>
+<p >To understand the angle of attack, imagine air as a stream of tiny particles moving past an object; if the object meets that stream edge-on, the particles are gently displaced and continue almost unchanged, but if the object is tilted slightly, those particles are forced to change direction, and that change in direction requires force.</p>
+<p >The angle of attack describes exactly how much the surface is tilted relative to the incoming airflow, not relative to the ground, the horizon, or the aircraft itself.</p>
+<figure tabindex="0" contenteditable="false">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*0d_fOZuK9SStnU8dKNXbbg.png" alt="" data-image-id="1*0d_fOZuK9SStnU8dKNXbbg.png" data-width="1536" data-height="1024" />
+</div>
+
+</figure>
+<p >When the angle is small, the surface deflects only a little air downward and produces little lift; when the angle increases, more air is redirected downward, increasing lift; when the angle becomes too large, the airflow can no longer follow the surface smoothly, the redirection becomes inefficient, and lift decreases.</p>
+<p >In helicopters and quadcopters alike, the blades do not lift the aircraft by spinning alone, but by maintaining an appropriate angle of attack, ensuring that an upward reaction force is produced.</p>
+<h3 data-testid="editorHeadingText">Why a helicopter needs blade pitch control, and quadcopter &mdash; does&nbsp;not</h3>
+<p >In a helicopter, several large blades act as a rotating wing, and as these blades move through the air they are set at an angle of attack relative to the oncoming airflow.</p>
+<p >In ideally static environment (such an environment does not exist in reality) a fixed-pitch rotor could, in principle, produce vertical lift without additional corrections. However, if rotor tilts slightly, the lift force tilts with it. Once tilted, part of the lift force points sideways instead of upward, causing the aircraft to accelerate in that direction and tilt further. Without a way to actively control the direction of the lift force, the aircraft will not remain upright.</p>
+<p >Helicopter controls the angle of attack for each of its rotor blades continuously (cycling) to avoid crashing in horizontal flight and manually by the pilot to control total lift amount and direction.</p>
+<p >This can be clearly seen when a camera is fixed on the blade. On the video below the helicopter is in horizontal flight, and it automatically decreases the angle of attack (blade is rotated to &ldquo;look downward&rdquo; into ground) to decrease the lift generated by the blade that moves in the same direction as the direction of the flight. Without this automated cycling, the helicopter would become uncontrollable in horizontal flight.</p>
+<figure tabindex="0" contenteditable="false">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*souTXxGb3IitwoAahTL5ig.gif" alt="" data-image-id="1*souTXxGb3IitwoAahTL5ig.gif" data-width="828" data-height="527" />
+</div>
+
+</figure>
+<p >At this point, it becomes clear that a helicopter requires a complex mechanical system to continuously control the angle of attack of its rotor blades, allowing it to control both the magnitude and the direction of the lift force produced by the rotating rotor disk and thereby maintain stable, controlled flight.</p>
+<p >A quadcopter operates on exactly the same physical principle, but here is the catch: its rotor has a fixed blade pitch, meaning the blade position in relation to the quadcopter&rsquo;s frame does not change. Design of a fixed pitch rotor is mechanically significantly simpler that helicopter&rsquo;s rotor.</p>
+<p >How does a quadcopter maintain stable, controlled flight if its rotors cannot actively change their blade pitch?</p>
+<p >Instead of one large rotor with variable blade pitch a quadcopter uses four smaller rotors with fixed blade pitch, and lift is controlled by changing the rotational speed of each rotor. As the propellers spin faster, they move more air downward per unit time and increase the downward momentum of that air, which increases the upward force on the vehicle.&nbsp;</p>
+<figure tabindex="0" contenteditable="false" data-testid="editorImageParagraph">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*qBxl3CCf6zk5hJMEXhZngA.jpeg" alt="" data-image-id="1*qBxl3CCf6zk5hJMEXhZngA.jpeg" data-width="600" data-height="479" data-delayed-src="https://cdn-images-1.medium.com/max/1600/1*qBxl3CCf6zk5hJMEXhZngA.jpeg" />
+</div>
+
+</figure>
+<p >Each propeller produces a column of downward-moving air, and the combined effect of the four rotors provides enough upward force to balance weight during hover or to exceed it to gain altitude.&nbsp;</p>
+<p >Directional control is achieved by creating deliberate differences in lift and torque between the rotors rather than by mechanically changing blade angles as in a traditional helicopter.</p>
+<p >Because the quadcopter has multiple rotors placed at different positions on a rigid frame, changing the lift produced by one rotor or by a pair of rotors creates a controlled momentum in relation to the center of the mass.&nbsp;</p>
+<p >This imbalance is executed continuously multiple times per second. Stability is achieved through rapid electronic feedback: onboard sensors measure the quadcopter&rsquo;s orientation and motion, and a flight controller adjusts motor speeds many times per second to counteract disturbances before they grow catastrophically.&nbsp;</p>
+<h4 data-testid="editorHeadingText">How helicopter and quadcopter turn in a&nbsp;spot?</h4>
+<p >Rotation in place, meaning turning left or right without moving sideways or forward, is achieved differently in helicopters and quadcopters. But in both cases it follows directly from conservation of angular momentum.&nbsp;</p>
+<p >When a helicopter&rsquo;s main rotor spins, it applies a counter rotational force to the helicopter&rsquo;s body. This torque would cause the helicopter&rsquo;s fuselage to rotate in the opposite direction of the rotor if nothing counteracted it. If this torque were not counteracted, the fuselage would rotate in the opposite direction of the rotor.&nbsp;</p>
+<p >To prevent this, a counter-torque must be generated. In most helicopters this is achieved using a smaller auxiliary rotor mounted on a tail boom, which produces sideways thrust. Although the tail rotor is small and generates much less thrust than the main rotor, it is positioned far from the main rotor axis, so the resulting torque is sufficient to balance the main rotor torque. An alternative solution uses two large rotors rotating in opposite directions, typically arranged coaxially or in proximity, allowing their torques to cancel each other without the need for a tail rotor.&nbsp;</p>
+<p >By decreasing or increasing the counter torque, helicopter can rotate its fuselage about its vertical axis.</p>
+<figure tabindex="0" contenteditable="false" data-testid="editorImageParagraph">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*dbPhA6-wKHusIRmcbvcoXQ.png" alt="" data-image-id="1*dbPhA6-wKHusIRmcbvcoXQ.png" data-width="1403" data-height="857" data-delayed-src="https://cdn-images-1.medium.com/max/1600/1*dbPhA6-wKHusIRmcbvcoXQ.png" />
+</div>
+
+</figure>
+<p >A quadcopter solves the same problem by arranging its propellers to spin in opposite directions. Typically, two rotors spin clockwise and two spin counterclockwise. In steady hover, the twisting forces produced by these opposing rotations cancel each other out, resulting in no net torque on the frame.&nbsp;</p>
+<figure tabindex="0" contenteditable="false" data-testid="editorImageParagraph">
+<div>
+<img src="https://cdn-images-1.medium.com/max/1600/1*xAR9Skcpw9dPSpiBQRO0gA.png" alt="" data-image-id="1*xAR9Skcpw9dPSpiBQRO0gA.png" data-width="835" data-height="721" data-delayed-src="https://cdn-images-1.medium.com/max/1600/1*xAR9Skcpw9dPSpiBQRO0gA.png" />
+</div>
+
+</figure>
+<p >To rotate in place, the quadcopter slightly increases the speed of the rotors spinning in one direction while decreasing the speed of the rotors spinning in the opposite direction. The balance of rotational forces is disturbed, causing the entire aircraft to rotate around its vertical axis. As with all other aspects of quadcopter control, this adjustment is handled by rapid electronic feedback.</p>
+
+
+
+</div>
+</div>
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+  
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
