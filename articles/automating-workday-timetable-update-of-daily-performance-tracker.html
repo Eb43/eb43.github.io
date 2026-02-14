@@ -1,0 +1,879 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>Automating workday timetable update of daily performance tracker</title>
+    <meta name="description" content="Automating workday timetable update of daily performance tracker">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Automating workday timetable update of daily performance tracker",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2026-02-14",
+  "url": "https://eb43.github.io/articles/automating-workday-timetable-update-of-daily-performance-tracker.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 15 February 2026</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">How to stop manually typing dates in Excel: Automating workday timetable update of Excel spreadsheet daily performance tracker</h1>
+
+    <p>We’ve all been there - sitting in front of a glowing screen at 8:55 AM, coffee in hand, performing the same ritualistic setup of daily performance tracker. It feels productive for exactly three seconds, and then it feels like a heavy, invisible tax on your creativity. Filling the today’s date manually eventually leads to errors like mistyped "Feb 2" instead "Feb 22", ruining the accuracy of a master tracking sheet.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-insert-automatic-button-in-action.gif" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Luckily, Microsoft Excel has functionality to automate current date insertion when a new row for a fresh workday is added. The solution allows to avoid mistyped dates, mistyped weekdays dates as work dates, and supports holidays.</p>
+
+<p>Whether you are a project manager or a lab tech, this is for anyone who wants their data to respect the rhythm of the workweek.</p>
+
+    <h2>Where Excel can help you start the work day: 5 real-world scenarios</h2>
+
+<p>We often underestimate the "micro-stresses" of manual repetitive entry. It is monotone and boring, leading to errors and that tiny, nagging doubt in the back of your mind wondering if you correctly added a new piece of information in a sea of cells. Automating, even partially, workday routine protects data's integrity and your own peace of mind. Let’s look at a few situations where this small shift in logic makes a world of difference.</p>
+
+    <h3>1. The high-stakes of content agency</h3>
+    <p>Imagine you’re managing a fleet of twenty freelance writers. Every single morning, you insert a new column to track their daily productivity. If you miss a day or accidentally label a column with an incorrect timestamp, the work rhythm is ruined and that may trigger someone's paycheck problems. </p>
+
+    <p>By automating the date logic at column insertion, you ensure that even if you’re logging in half-asleep from a hotel lobby, the timeline remains unbroken.</p>
+
+    <h3>2. The lab researcher’s precise timetracker</h3>
+    <p>Researchers typically daily track the parameters of some process, regardless of the discipline. An electronics engineer may be daily tracking the degradation of the designed system during extensive lifespan testing. On weekends, the lab is locked, and no measurements taken. Their Excel sheet may be a mess of manual dates where they constantly had to jump over Saturdays and Sundays. One wrong date meant the parameter curve analysis was scientifically invalid.</p>
+
+    <h3>3. The industrial quality control log</h3>
+    <p>Imagine a bustling manufacturing plant floor where heavy machinery hums 24 hours a day, but the Quality Control (QC) office only operates Monday through Friday. Every morning, the QC lead opens a massive spreadsheet that tracks batch rejection rates. Her first task of the day is to insert a new column for a new workday to record the stats from production run.</p>
+    
+    <p>In this high-pressure environment, QC lead doesn't have time to check a calendar. If QC lead manually types the date for Saturday by mistake, the automated charts that report to the plant manager will show a "zero-production" dip that triggers a false alarm.</p>
+
+    <h3>4. The freelance project milestone tracker</h3>
+    <p>Consider a freelance web developer managing three complex client builds simultaneously. He uses a "Daily Progress Tracker" where each column represents a day of billable work. He inserts a new column every morning to log his hours and the specific modules he completed. Since he doesn't work weekends, his timeline needs to jump from Friday to Monday automatically.</p>
+    
+    <p>For this freelancer, a "date drift" is a real threat to his invoicing. If he manually enters dates and accidentally scrambles the dates, his clients might raise questions. For example if the freelancer accidentally sets a date that corresponds to Saturday, his clients might ask why they are being billed for a weekend. Alternatively, if he loses track of and labels a Tuesday as a Monday, his entire project timeline shifts, making him look disorganized or, worse, late on a milestone.</p>
+   
+    <h3>5. The biology research</h3>
+    <p>In a medical laboratory, a research team is tracking the stability of a new compound. The protocol requires a daily check-in on the sample's appearance. The researcher maintains a tracker where Column B is always the "Current Observation Day".</p>
+    
+    <p>The technical challenge here is that putting incorrect dates by accident may ruin the research integrity’</p>
+    
+    <h3>6. The coffee boutique inventory tracking</h3>
+    <p>Small business owners, are often execute the responsibility of data analysts. For example, a business owner who runs a boutique coffee roastery, tracks his inventory of green beans daily. Every time she roasts a new batch, she inserts a new data cell for that day to record the weight used. Since the roastery is a small operation, they don't roast on weekends or during major holidays like New Year's Day.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-main-img.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+    
+    <p>For small businesses a spreadsheet may be its lifeline; it tells when to order more stock. If dates are wrong, her calculation is wrong. If business owner manually types a date during a busy roast session, he’s likely to make a mistake.</p>
+    
+
+    <h3>7. The corporate attendance tracker</h3>
+    <p>In a large department, tracking daily attendance or "Daily Stand-up" notes is a grind. For an admin of this spreadsheet, manually typing the current date every morning is a repetitive strain injury waiting to happen. More importantly, it's boring.</p>
+
+    <h3>8. The financial trader's journal</h3>
+    <p>Markets don't trade on Saturdays. If you’re tracking your daily P&L (Profit and Loss), your timeline needs to skip the weekend entirely. One may us a simple <code>+1</code> formula, only to find his profit charts looking "flat" every weekend because there was no data.</p>
+    <p>Implementing a holiday-aware workday formula means charts stay crisp and relevant. It gives the technical edge he needed to analyze the financial performance accurately.</p>
+
+
+    <h2>The problem: headache of manually adding the current date each day</h2>
+   <p>The goal is simple: you have a row or column of dates. Let’s say it is a row of dates (Row 1). Every time you start a new day of tracking, you insert a new column as the most left column (column A). This shifts the old column A to Column B. Cell <strong>A1</strong> is always "Today" work day. Cell <strong>B1</strong> is "Yesterday" work day. </p>
+
+<p class="highlight">In the examples below the column B was set as today and column C – as yesterday. The column A contains time of the record or its ID.</p>
+
+<p>When a new day starts, you select Column A and click "Insert". You want to fill the new A1 with today’s date, but only if it’s a workday. If it’s a weekend, you want the date to jump to the next available Monday.</p>
+<p>Most people try to use <code>TODAY()</code> function, but that leads to a "Volatility Trap".</p>
+
+    <h2>Why the obvious "IF" condition formula fails</h2>
+    <p>You might have tried using this formula:</p>
+    <pre class="code-block"><code>=IF(AND(WEEKDAY(TODAY(), 2)>=1, WEEKDAY(TODAY(), 2)<=5), TODAY(), "")</code></pre>
+
+    <p>On the surface, it looks smart. It checks if today is a weekday (Monday-Friday) and returns today's date. But there are <strong>three major flaws</strong> that will break this mentally ideal formula:</p>
+    <ul>
+        <li><strong>The Volatility Trap:</strong> The <code>TODAY()</code> function is "volatile". This means if you open the sheet tomorrow, <em>every</em> cell containing this formula will update to tomorrow's date. Your historical data will vanish!</li>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-if-formula-not-suited.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+        <li><strong>The Weekend Blindness:</strong> If you are preparing your sheet on a Sunday for the week ahead, this formula will return a blank string (<code>""</code>), leaving you with an empty header.</li>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-if-formula-weekend-blindness.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+        <li><strong>No "Chain" Logic:</strong> It doesn't look at what happened yesterday. It doesn't know that if C1 says "Friday", B1 should say "Monday".</li>
+    </ul>
+
+
+    <h2>The solution for a robust timeline</h2>
+    <p>Instead of <code>TODAY()</code>, we use the <code>WORKDAY</code> function. This Excel function is designed to "jump" over weekends. In cell <strong>B1</strong>, enter:</p>
+    <pre class="code-block"><code>=IF(AND(ISNUMBER(C1), ABS(C1-TODAY())<7, COUNTIF(1:1, C1)>0), WORKDAY(C1, 1), "")</code></pre>
+
+<p>The formula above always looks at the date that was just "Today" work day to find "Tomorrow" work day.</p>
+
+    <p><strong>Why this is technically superior:</strong></p>
+    <ul>
+        <li><code>ISNUMBER(C1)</code>: Makes sure C1 is actually a date, not a random word.</li>
+        <li><code>ABS(C1-TODAY())<7</code>: A safety check. It only calculates a date if C1 is within a week of today, preventing the formula from running on empty columns far to the right.</li>
+        <li><code>WORKDAY(C1, 1)</code>: This is the heart of the solution. It looks at the date in C1 and adds <strong>one date of a workday</strong>, automatically skipping Saturday and Sunday.</li>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-use-workday-function.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+    </ul>
+
+
+
+    <h3>Adding holiday support</h3>
+    <p>To make the timeline tracker truly robust, you want to skip Christmas, New Year, and other statutory national holidays. Create a list of these dates in an unused range of cells (let's say cells range from Z1 to Z10) and name that range <strong>"Holidays"</strong>. Update your formula to:</p>
+
+    <pre class="code-block"><code>=WORKDAY(C1, 1, $Z$1:$Z$10)</code></pre>
+
+If you don't have a holiday list yet, you can leave this blank: <code>WORKDAY(C1, 1)</code>
+
+    <h2>One-click automation with VBA script</h3>
+    <p>If you want to feel like a pro, you can automate the <em>entire</em> process: inserting the column, moving the formula, and formatting. All is executed on a button press. </p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-one-click-auto-date-button.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+Here is the code to use daily. It's written to be robust even for beginners.</p>
+
+<p>In Excel, press Alt + F11 in Excel to open the VBA editor. In the Project Explorer, find your sheet (e.g., Sheet1) under VBAProject. Double-click the sheet and paste the above code into the code window. Close the VBA editor. Save your workbook as a Macro-Enabled Workbook (.xlsm).</p>
+
+<pre class="code-block"><code>
+Sub InsertNewWorkdayColumn()
+    ' 1. Insert a new column at Column B
+    Columns("B:B").Insert Shift:=xlToRight
+    
+    ' 2. Place the WORKDAY formula in cell B1
+    ' It looks at C1 (the previous most recent date) and adds 1 workday
+    Range("B1").Formula = "=WORKDAY(C1, 1)"
+    
+    ' 3. Optional: Copy formatting from the old B1 (now C1) to the new B1
+    Range("C1").Copy
+    Range("B1").PasteSpecial Paste:=xlPasteFormats
+    Application.CutCopyMode = False
+    
+    ' 4. Select B1 so you're ready to work
+    Range("B1").Select
+End Sub
+</code></pre>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-insert-new-column-and-date-vba.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+    <p><strong>To add this VBA script:</strong> Press <code>Alt + F11</code>, go to <code>Insert > Module</code>, paste the code, and save as a <strong>.xlsm</strong> file.</p>
+
+   <p>To get a button for column auto insert and automatic filling of the date, in Excel go to the Developer Tab. If you don't see this tab, right-click any ribbon tab and select "Customize the Ribbon", and select the Developer tab to enable it.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/automating-workday-timetable-update-of-daily-performance-tracker/excel-daily-performance-tracker-insert-automatic-button.jpg" alt="" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Next, insert control. Click Insert button on the Ribbon and choose the Button icon under "Form Controls". Assign Macro: Draw the button on your sheet. A window will pop up automatically, and you have to select your previously added InsertNewWorkdayColumn script. Finally, click OK.</p>
+<p>Additional checks:</p>
+<ul>
+<li>File must be .xlsm with macros enabled</li>
+<li>Macro must sit in a standard module, not inside the sheet or ThisWorkbook object. Otherwise button assignment sometimes fails or triggers compilation errors.</li>
+<li>Remove all leading or trailing quotes that may be copied</li>
+<li>Additional technical checks
+   <li>WORKDAY function availability. Older installations of Microsoft Excel required the Analysis ToolPak add-in for WORKDAY. If Excel reports the formula as unknown, enable that add-in through <i>File -> Options -> Add-ins -> Manage Excel Add-ins -> Go</i>. Tick Analysis ToolPak.</li>
+</li>
+</ul>
+
+<p>When macros run from buttons, the active sheet may differ from what you expect. You may want to upgrade the macro to:</p>
+<pre class="code-block"><code>
+With ActiveSheet
+    .Columns("B:B").Insert Shift:=xlToRight
+    .Range("B1").Formula = "=WORKDAY(C1, 1)"
+    .Range("C1").Copy
+    .Range("B1").PasteSpecial Paste:=xlPasteFormats
+End With
+Application.CutCopyMode = False
+</code>
+</pre>
+
+    <h2>Global compatibility: international versions of the work day date formula</h2>
+    <p>Excel is a polyglot. If you or your colleagues are using Excel in another language, the formula name and the separators (commas vs. semicolons) change. Here is the quick-reference table for the formula of the work day date:</p>
+
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <tr style="background-color: #f2f2f2;">
+            <th>Language</th>
+            <th>Formula for Cell B1</th>
+        </tr>
+        <tr>
+            <td>English</td>
+            <td><code>=WORKDAY(C1, 1)</code></td>
+        </tr>
+        <tr>
+            <td>Russian</td>
+            <td><code>=РАБДЕНЬ(C1; 1)</code></td>
+        </tr>
+        <tr>
+            <td>French</td>
+            <td><code>=SERIE.JOUR.OUVRE(C1; 1)</code></td>
+        </tr>
+        <tr>
+            <td>German</td>
+            <td><code>=ARBEITSTAG(C1; 1)</code></td>
+        </tr>
+        <tr>
+            <td>Spanish</td>
+            <td><code>=DIA.LAB(C1; 1)</code></td>
+        </tr>
+    </table>
+
+<p>To get the formula in the language you use for your Excel, you may want to read about official Excel Functions Translator add-in. https://learn.microsoft.com/en-us/answers/questions/5046333/formulas-breaking-in-different-languages.</p>
+
+    <p>For the VBA macro, Excel usually handles the translation automatically</p>
+
+<h2>Conclusion</h2>
+    <p>I hope this guide helps you reclaim those few minutes of your morning. There is a profound sense of peace that comes from knowing your tools are working <em>for</em> you, rather than you working for them. Now, go grab that second cup of coffee - you’ve earned the time.</p>
+
+
+
+</div>
+</div>
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
