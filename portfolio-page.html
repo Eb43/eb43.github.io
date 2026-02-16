@@ -1144,9 +1144,10 @@
         document.addEventListener("DOMContentLoaded", function () {
             const channelId = "UCx40bJIQeHEaGliHL0mELiQ"; // Replace with the actual YouTube Channel ID
             const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCx40bJIQeHEaGliHL0mELiQ`;
-            //const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: https://api.allorigins.win/raw?url= or https://thingproxy.freeboard.io/fetch/
-            const proxyUrl = `https://cors.isomorphic-git.org/${rssUrl}`;
-
+            //const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: 
+            const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`;
+            
+            
             fetch(proxyUrl)
                 .then(response => response.text())
                 .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
