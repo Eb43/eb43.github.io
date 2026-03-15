@@ -1,0 +1,803 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>12-year-old brand new Li-Ion battery. How much capacity left? Can deeply discharged 18650 cells be revived?</title>
+    <meta name="description" content="What Happens to an Unused Lithium-Ion Battery After 11 Years on a Shelf?">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "What Happens to an Unused Lithium-Ion Battery After 11 Years on a Shelf?",
+  "author": {
+    "@type": "Person",
+    "name": "Eugen Barilyuk"
+  },
+  "datePublished": "2026-03-15",
+  "url": "https://eb43.github.io/articles/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left.html"
+}
+</script>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 120%;">Published: 15 March 2026</p>
+<p><strong>Total Word Count:</strong> <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1 class="main-title">12-year-old brand new Li-Ion battery. How much capacity left? Can deeply discharged 18650 cells be revived?</h1>
+
+<p>Most lithium-ion batteries fail in a predictable way. They get used, slowly lose capacity, and eventually end up replaced. This battery followed a completely different path. It was purchased new around the end of 2014 and then forgotten on a shelf for more than a decade. No power tool ever used it. No charger was connected to it.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/general-battery-pack-view.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>When this battery finally resurfaced in 2026 the pack was fully discharged. No one knew how long it had been sitting at that level. Under normal conditions lithium-ion cells should never drop that low, because deep discharge can permanently damage them.</p> 
+
+<p>Instead of sending the pack straight to recycling, it made sense to open it and check what actually happened inside. The battery uses standard 18650 lithium-ion cells, which are still widely used in modern electronics. If those cells survived the long storage period, they could still be reused in other projects. The only way to know was to measure them, recharge them carefully, and test how much capacity remained.</p>
+
+<p>The power tool system that used this pack is no longer relevant. The battery connector format has effectively disappeared from the market. However, the internal cells remain very interesting. The pack is built from the classic 18650 cylindrical lithium-ion cells. This format has been widely used for years in laptops, power banks, flashlights, portable electronics, automotive jump starters, and even electric vehicles.</p> 
+
+<p>This raises a practical question. If lithium-ion cells sit unused for more than a decade, including an unknown period of deep discharge, can they still deliver usable capacity?</p> 
+
+<p>Externally the battery still looks almost new. The plastic housing shows no signs of tool use. There are no scratches, dents, or worn surfaces. The only visible change is a thin layer of dust that accumulated during more than ten years of storage.</p> 
+
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/untouched-pastic-housing-on-battery.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+<p>The manufacturing date marking indicates production at the end of 2014. The inspection and testing described here took place at the beginning of 2026. In other words, the battery is slightly more than eleven years old.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/battery-manufacture-date.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>At the moment of discovery the pack showed zero usable charge. That was expected. Any battery, including Lithium-ion cells, slowly self-discharge over time. The Li-ion internal battery management system also consumes a small amount of power. Over a long enough period the combined effect drains the pack far below its normal operating voltage, leading to inability of normal charging with designated charger. A so-called jump start is required - charging cells directly with bare electricity and no clever circuitry in between.</p> 
+
+<p>The battery is rated at 160 watt-hours and is labeled as a 40 volt pack. This labeling reflects a regional marketing style. In North America lithium battery packs are often labeled using the maximum charged voltage, which is slightly above 4 volts per cell.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/battery-rating.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>In Europe the exact same battery hardware would typically be labeled as a 36 volt pack. European labeling usually uses nominal cell voltage, which is approximately 3.6 volts per cell. Both numbers refer to the same internal configuration.</p> 
+
+<p>Obviously, 40 is greater than 36, and is better in the eyes of a customer, and that helps the business.</p>
+
+<p>The next step was to measure the actual voltage remaining inside the pack. A digital multimeter showed approximately 10.5 volts across the battery terminals.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/battery-overdiscgarged-voltage.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Under normal conditions this type of battery should measure somewhere between 30 volts and 42 volts depending on its state of charge. A reading slightly above 10 volts confirms that the pack has experienced extremely deep discharge.</p> 
+
+<h2>A Sherlock Holmes moment for the battery</h2>
+
+<p>A minute of Sherlock Holmes style to determine what we have here. Based on the rated capacity of 4 ampere hours and battery manufacturing date, the internal construction can be inferred fairly accurately.</p> 
+
+<p>At the time this battery was manufactured, the 18650 format dominated the market, especially the market of power hungry battery operated applications. High current cells of that era commonly had nominal capacities around 2 ampere hours.</p> 
+
+<p>A label of 4 ampere hours tells us this battery uses two cells connected in parallel. That configuration doubles the available capacity from 2 ampere hours to 4 ampere hours.</p>
+
+<p>Ten of these parallel pairs are then connected in series to raise the voltage. Each cell has 4.2 volts in fully charged state, making 42 volts in total. Which is equivalent of 40 volts in marketing terms.</p> 
+
+<p>Irony aside, this configuration is usually described as a 10S2P battery pack: ten groups connected in series with two cells in parallel in each group.</p> 
+
+<p>Multiplying voltage by ampere hours produces watt-hours, which is the real measure of stored energy. 40x4=160 W*h. Watt-hours allow direct comparison between batteries with different voltages and capacities. </p>
+
+<p>For example, typical laptop battery has 4,4 ampere hours. Seems larger that the discussed battery of 4 ampere hours. But laptop's battery has nominal voltage of 11 volts, making in total 11x4,4=48 Watt-hours of stored capacity. So, laptop's battery has almost three times less capacity than the discussed battery of 40x4=160 Watt-hours.</p>
+
+<h2>Disassembling the battery pack</h2>
+
+<p>Opening the pack required removing a series of Torx screws equipped with tamper-resistant centers. These screws include a small pin in the middle that requires a matching driver with a hole in the tip. Everything was good until one screw with a wider center pin, preventing for the screwdriver to engage. A few minutes on this problem, and the disassemble continues.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/antitamper-screw.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>After removing roughly a dozen screws, the plastic housing could finally be separated. The battery management board inside the pack is sealed with silicone compound during assembly. Once cured, the silicone acts almost like adhesive and slightly bonds the housing components together.</p> 
+
+<p>With careful prying the cover eventually separated from the main body, exposing the structure and the battery management electronics.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/battery-cover-off.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Individual cell group voltages were then measured directly. The first parallel pair measured approximately 1.3 volts per cell. This value is far below the normal safe minimum voltage for nickel-manganese-cobalt lithium-ion chemistry (Li-ion NMC), which is generally considered to be around 2.5 volts.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/overdischarged-li-ion-cell.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Another measurement showed 2.18 volts across two cells connected in series. That corresponds to roughly one volt per cell. <p>Additional measurements produced readings such as 2.35 volts across two series cells and approximately 2.0 volts for another pair.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/overdischarged-li-ion-cell-2.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>These numbers confirm extremely deep discharge. However, one important observation stands out. All cell groups show very similar voltage levels. None of the cells are at zero volts and none deviate significantly from the rest.</p> 
+
+<p>This uniform discharge pattern indicates that the cells themselves remained electrically balanced during storage. In practical terms this suggests that the pack originally used high quality cells.</p> 
+
+<p>The cells inside the pack are lithium-ion cells based on nickel-manganese-cobalt chemistry, commonly abbreviated as NMC. They were manufactured by Samsung and are rated for a continuous discharge current of approximately 20 amperes.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/li-ion-cell-manufacturer.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Because two cells operate in parallel within each group, the battery pack can theoretically deliver about 40 amperes of current with almost no "sweating".</p> 
+
+<p>Before performing any capacity test, the deeply discharged cells needed to be recharged carefully. A laboratory power supply was configured for controlled charging.</p> 
+
+  <p>The voltage limit was set to 4.2 volts, which corresponds to the standard fully charged voltage for lithium-ion cells. The initial charging current was limited to 0.1 amperes because the cells were in an extremely depleted state.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/charging-voltage.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+  <p>Charging began by connecting the power supply leads directly to the cell group, after carefully verifying correct polarity.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/charging-current.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+  <p>Once the voltage rose to approximately 2.5 volts per cell, the charging current was increased to 1 ampere. This allowed the cells to return gradually to a normal operating region without applying excessive stress.</p> 
+
+  <p>Given the combined capacity of two parallel cells totaling 4 ampere hours, a charging current of 1 ampere implies roughly four hours of charging time. An additional hour was required for the initial low-current recovery stage.</p> 
+
+  <p>After roughly five hours the cells reached full charge.</p> 
+
+  <p>The next step involved measuring the actual usable capacity. This requires a controlled discharge test. A constant discharge current of 1 ampere was selected for the experiment.</p> 
+
+  <p>This current level is significantly higher than the very small currents sometimes used by manufacturers during laboratory capacity measurements. Lower discharge currents often produce slightly larger measured capacities. Testing at 1 ampere produces a more realistic estimate of real-world performance.</p> 
+
+  <p>The discharge process lasted nearly four hours. When the cell voltage dropped to the predefined cutoff level of 3.0 volts, the test automatically stopped.</p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/12-year-old-brand-new-li-Ion-battery-how-much-capacity-left/measured-capacity-left.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+  <p>The total delivered capacity measured slightly above 3500 milliampere hours.</p> 
+
+  <p>Compared to the nominal 4000 milliampere hour rating, this result represents roughly a 12 percent reduction in capacity.</p> 
+
+  <p>Considering that the cells spent more than a decade in storage and experienced extremely deep discharge, this result is unexpectedly strong. Many consumer electronics batteries lose a similar percentage of capacity within a year of regular use.</p> 
+
+  <p>The conclusion is straightforward. Despite its unusual history, the cells inside this battery pack remain functional and useful.</p> 
+
+  <p>Although the original power tool system is obsolete, the individual 18650 cells can easily find new roles. They are well suited for flashlights, DIY power banks, laptop battery rebuilding projects, portable electronics, and small energy storage systems.</p> 
+
+  <p>In this particular case the recovered cells will be reused to build several power bank units. Instead of ending its life as electronic waste, the battery will continue working in a completely different form.</p> 
+
+  <p>For a piece of hardware that spent more than a decade forgotten on a shelf, that outcome is surprisingly respectable.</p>
+
+
+
+</div>
+</div>
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
