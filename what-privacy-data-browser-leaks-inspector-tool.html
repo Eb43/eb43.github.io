@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser Privacy Inspector</title>
+<style>
+  :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --text-color: #2c3e50;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --shadow: 0 8px 25px rgba(0,0,0,0.1);
+    --shadow-hover: 0 12px 35px rgba(0,0,0,0.15);
+    --border-color: #e9ecef;
+    --subtle-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --hover-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Arial',sans-serif; background:var(--bg-color); color:var(--text-color); line-height:1.6; min-height:100vh; }
+
+  .particles { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
+  .particle { position:absolute; width:4px; height:4px; background:rgba(52,152,219,0.3); border-radius:50%; animation:float 6s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);opacity:.3} 50%{transform:translateY(-20px) rotate(180deg);opacity:.8} }
+
+  .progress-bar { position:fixed; top:0; left:0; width:0%; height:4px; background:linear-gradient(90deg,var(--secondary-color),var(--success-color)); z-index:1000; transition:width .3s ease; }
+
+  .header { background:linear-gradient(135deg,var(--primary-color),var(--secondary-color)); color:white; padding:40px; margin:20px auto; max-width:1200px; border-radius:var(--border-radius); position:relative; overflow:visible; box-shadow:var(--shadow); }
+  .header::before { overflow: hidden; content:''; position:absolute; top:-50%; right:-50%; width:200%; height:200%; background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%); animation:rotate 20s linear infinite; }
+  @keyframes rotate { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+  .author-info { display:flex; align-items:center; justify-content:space-between; gap:20px; position:relative; z-index:2; }
+  .author-details { flex:1; }
+  .main-title { font-size:3.5em; font-weight:700; margin:0 0 10px; position:relative; z-index:2; text-shadow:2px 2px 4px rgba(0,0,0,.3); background:linear-gradient(45deg,#fff,#f8f9fa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header-sub { position:relative; z-index:2; font-size:1em; color:rgba(255,255,255,.85); max-width:620px; -webkit-text-fill-color:rgba(255,255,255,.85); }
+  .scan-badge { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:var(--card-bg); border-radius:8px; color:var(--text-color); box-shadow:var(--subtle-shadow); cursor:pointer; transition:all .3s ease; border:1px solid var(--border-color); font-weight:500; font-size:.9em; font-family:'Arial',sans-serif; }
+  .scan-badge:hover { transform:translateY(-2px); box-shadow:var(--hover-shadow); border-color:var(--secondary-color); color:var(--secondary-color); }
+
+  .container { max-width:1200px; margin:0 auto; padding:0 20px 60px; }
+
+  /* Counters */
+  .counters-section { display:flex; justify-content:center; align-items:stretch; gap:0; margin:0 auto 24px; max-width:1200px; background:var(--card-bg); border-radius:var(--border-radius); box-shadow:var(--subtle-shadow); flex-wrap:wrap; border:1px solid var(--border-color); overflow:hidden; }
+  .counter-item { text-align:center; padding:18px 24px; border-right:1px solid var(--border-color); flex-shrink:0; }
+  .counter-item:last-child { border-right:none; }
+  .counter-item.clickable { cursor:pointer; transition:all .2s; }
+  .counter-item.clickable:hover { background:#f0f4f8; transform:translateY(-1px); }
+  .counter-num { font-size:2em; font-weight:700; line-height:1; }
+  .counter-num.red   { color:var(--accent-color); }
+  .counter-num.amber { color:var(--warning-color); }
+  .counter-num.green { color:var(--success-color); }
+  .counter-num.blue  { color:var(--secondary-color); }
+  .counter-label { font-size:.72em; color:#888; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+  .exposure-wrap { flex:1; min-width:220px; padding:16px 24px; border-left:1px solid var(--border-color); display:flex; flex-direction:column; justify-content:center; }
+  .exposure-label { font-size:.72em; color:#888; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+  .risk-track { height:10px; background:#e9ecef; border-radius:5px; overflow:hidden; }
+  .risk-fill { height:100%; border-radius:5px; width:0%; background:linear-gradient(90deg,var(--success-color) 0%,var(--warning-color) 55%,var(--accent-color) 100%); transition:width 1.2s cubic-bezier(.22,1,.36,1); }
+  .risk-score-row { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+  .risk-score { font-size:1.6em; font-weight:700; }
+  .risk-score.low{color:var(--success-color)} .risk-score.mid{color:var(--warning-color)} .risk-score.high{color:var(--accent-color)}
+  .risk-chips { display:flex; gap:6px; flex-wrap:wrap; }
+  .chip { font-size:.75em; padding:3px 10px; border-radius:20px; font-weight:500; }
+  .chip.danger{background:#fdecea;color:var(--accent-color);border:1px solid #f5c6cb}
+  .chip.warn  {background:#fff3cd;color:#856404;border:1px solid #ffc107}
+  .chip.ok    {background:#d4edda;color:var(--success-color);border:1px solid #c3e6cb}
+  .chip.info  {background:#d1ecf1;color:#0c5460;border:1px solid #bee5eb}
+
+  /* Sticky tab nav */
+  .tab-nav-wrap { position:sticky; top:0; z-index:100; background:var(--bg-color); padding:8px 0; margin:0 0 8px; }
+  .tab-nav { display:flex; gap:4px; flex-wrap:wrap; overflow-x:auto; background:var(--card-bg); border-radius:var(--border-radius); box-shadow:var(--subtle-shadow); padding:6px; border:1px solid var(--border-color); scrollbar-width:none; }
+  .tab-nav::-webkit-scrollbar { display:none; }
+  .tab-btn { padding:7px 12px; border:none; background:transparent; border-radius:8px; cursor:pointer; font-size:.78em; font-weight:500; color:#666; transition:all .2s; white-space:nowrap; font-family:'Arial',sans-serif; flex-shrink:0; }
+  .tab-btn:hover { background:#f0f4f8; color:var(--primary-color); }
+  .tab-btn.active { background:linear-gradient(135deg,var(--primary-color),var(--secondary-color)); color:white; box-shadow:var(--subtle-shadow); }
+  .risk-dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-left:4px; vertical-align:middle; }
+  .risk-dot.H{background:var(--accent-color)} .risk-dot.M{background:var(--warning-color)} .risk-dot.L{background:var(--success-color)}
+
+  /* Section cards */
+  .section-card { background:var(--card-bg); border-radius:var(--border-radius); box-shadow:var(--shadow); padding:26px 28px; margin-bottom:24px; scroll-margin-top:72px; transition:box-shadow .3s; border:1px solid var(--border-color); }
+  .section-card:hover { box-shadow:var(--shadow-hover); }
+  .section-title { color:var(--primary-color); font-size:1.35em; margin-bottom:12px; padding-bottom:11px; border-bottom:3px solid var(--secondary-color); position:relative; display:flex; align-items:center; gap:10px; }
+  .section-title::after { content:''; position:absolute; bottom:-3px; left:0; width:55px; height:3px; background:var(--accent-color); }
+  .title-badge { font-size:.46em; padding:3px 10px; border-radius:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-left:auto; flex-shrink:0; }
+  .badge-high{background:#fdecea;color:var(--accent-color)} .badge-med{background:#fff3cd;color:#856404} .badge-low{background:#d4edda;color:var(--success-color)}
+  .section-desc { font-size:.86em; color:#888; margin-bottom:16px; line-height:1.7; padding:10px 14px; background:#f8f9fa; border-radius:8px; border-left:3px solid var(--secondary-color); }
+
+  /* Data rows */
+  .data-list { display:flex; flex-direction:column; gap:7px; }
+  .article-item { background:linear-gradient(135deg,#f8f9fa,#fff); border-radius:9px; box-shadow:var(--subtle-shadow); transition:all .3s; border-left:4px solid var(--secondary-color); position:relative; overflow:hidden; display:flex; align-items:stretch; }
+  .article-item::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent); transition:left .5s; pointer-events:none; z-index:0; }
+  .article-item:hover::before { left:100%; }
+  .article-item:hover { transform:translateX(5px); box-shadow:var(--hover-shadow); }
+  .article-item.risk-H{border-left-color:var(--accent-color)} .article-item.risk-M{border-left-color:var(--warning-color)} .article-item.risk-L{border-left-color:var(--success-color)} .article-item.risk-I{border-left-color:#adb5bd}
+  .item-key-col { width:220px; flex-shrink:0; padding:10px 12px 10px 15px; font-size:.8em; font-weight:600; color:#555; border-right:1px solid var(--border-color); display:flex; align-items:center; position:relative; z-index:1; line-height:1.3; }
+  .item-val-col { flex:1; padding:10px 13px; font-size:.88em; word-break:break-all; display:flex; align-items:center; position:relative; z-index:1; line-height:1.4; }
+  .item-val-col.na { color:#bbb; font-style:italic; }
+  .item-risk-col { width:66px; flex-shrink:0; padding:10px 8px; display:flex; align-items:center; justify-content:center; border-left:1px solid var(--border-color); position:relative; z-index:1; }
+  .risk-pill { display:inline-block; padding:2px 7px; border-radius:10px; font-size:.7em; font-weight:700; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
+  .risk-pill.H{background:#fdecea;color:var(--accent-color);border:1px solid #f5c6cb}
+  .risk-pill.M{background:#fff3cd;color:#856404;border:1px solid #ffc107}
+  .risk-pill.L{background:#d4edda;color:var(--success-color);border:1px solid #c3e6cb}
+  .risk-pill.I{background:#e9ecef;color:#666;border:1px solid #dee2e6}
+
+  /* Scanning placeholder */
+  .scanning-row { padding:12px 16px; font-size:.84em; color:#aaa; font-style:italic; background:#f8f9fa; border-radius:8px; border:1px dashed var(--border-color); }
+
+  /* Special displays */
+  .ip-hero { font-size:2.2em; font-weight:700; color:var(--accent-color); margin:4px 0 14px; letter-spacing:.03em; }
+  .ip-loading { color:#aaa; font-style:italic; font-size:.88em; padding:10px 0 14px; }
+  .fp-wrap { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; margin:10px 0 18px; }
+  .fp-canvas-box { border:1px solid var(--border-color); border-radius:8px; overflow:hidden; background:#fff; box-shadow:var(--subtle-shadow); display:block; }
+  .fp-hash { font-size:.8em; color:#888; margin-top:6px; word-break:break-all; }
+  .fp-hash span { color:var(--secondary-color); font-weight:600; }
+
+  /* Port scan grid */
+  .port-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .port-chip { padding:4px 10px; border-radius:6px; font-size:.76em; font-weight:600; font-family:monospace; transition:all .2s; }
+  .port-chip.open   { background:#fdecea; color:var(--accent-color); border:1px solid #f5c6cb; }
+  .port-chip.closed { background:#f0f0f0; color:#aaa; border:1px solid #ddd; }
+  .port-chip.scanning { background:#fff3cd; color:#856404; border:1px dashed #ffc107; animation:pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  .port-label { font-size:.72em; color:#888; margin-bottom:8px; }
+
+  /* Fonts grid */
+  .fonts-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .font-chip { padding:4px 11px; border:1px solid var(--border-color); border-radius:20px; font-size:.76em; color:#999; transition:all .2s; }
+  .font-chip.detected { border-color:var(--secondary-color); background:#ebf5fb; color:var(--secondary-color); font-weight:600; }
+
+  /* Permissions */
+  .perm-list { display:flex; flex-direction:column; }
+  .perm-row { display:flex; align-items:center; gap:12px; padding:10px 4px; border-bottom:1px solid var(--border-color); transition:background .15s; }
+  .perm-row:last-child { border:none; }
+  .perm-row:hover { background:#f8f9fa; border-radius:6px; }
+  .perm-icon { font-size:1.1em; width:24px; text-align:center; flex-shrink:0; }
+  .perm-name { flex:1; font-size:.9em; font-weight:500; }
+  .perm-state { font-size:.76em; padding:3px 11px; border-radius:12px; font-weight:600; text-transform:capitalize; min-width:76px; text-align:center; }
+  .perm-state.granted{background:#d4edda;color:var(--success-color)} .perm-state.denied{background:#fdecea;color:var(--accent-color)} .perm-state.prompt{background:#d1ecf1;color:#0c5460} .perm-state.unknown{background:#e9ecef;color:#666}
+
+  /* Sensor canvas */
+  #sensor-canvas { border:1px solid var(--border-color); border-radius:8px; background:#fff; margin-bottom:12px; display:block; }
+
+  /* Back link / copy */
+  .back-link { display:inline-block; padding:12px 22px; background:var(--card-bg); border-radius:8px; color:var(--text-color); box-shadow:var(--subtle-shadow); cursor:pointer; transition:all .3s; border:1px solid var(--border-color); font-weight:500; font-size:.9em; font-family:'Arial',sans-serif; }
+  .back-link:hover { transform:translateY(-2px); box-shadow:var(--hover-shadow); border-color:var(--secondary-color); color:var(--secondary-color); }
+
+  /* Modal */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.45); backdrop-filter:blur(3px); align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open { display:flex; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal { background:var(--card-bg); border-radius:var(--border-radius); box-shadow:0 20px 60px rgba(0,0,0,.25); width:100%; max-width:720px; max-height:82vh; display:flex; flex-direction:column; overflow:hidden; animation:slideUp .25s ease; }
+  @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-header { padding:20px 24px 16px; border-bottom:3px solid var(--secondary-color); display:flex; align-items:center; gap:12px; flex-shrink:0; position:relative; }
+  .modal-header::after { content:''; position:absolute; bottom:-3px; left:0; width:60px; height:3px; background:var(--accent-color); }
+  .modal-title { font-size:1.2em; font-weight:700; color:var(--primary-color); flex:1; }
+  .modal-count { font-size:.82em; color:#888; }
+  .modal-close { width:32px; height:32px; border-radius:50%; border:none; background:#f0f0f0; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; transition:all .2s; font-family:'Arial',sans-serif; }
+  .modal-close:hover { background:var(--accent-color); color:white; }
+  .modal-body { overflow-y:auto; padding:14px 20px; flex:1; }
+  .modal-item { display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--border-color); }
+  .modal-item:last-child { border:none; }
+  .modal-item-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .modal-item-dot.H{background:var(--accent-color)} .modal-item-dot.M{background:var(--warning-color)} .modal-item-dot.L{background:var(--success-color)} .modal-item-dot.I{background:#adb5bd}
+  .modal-item-key { font-size:.8em; font-weight:600; color:#555; width:200px; flex-shrink:0; line-height:1.3; }
+  .modal-item-section { font-size:.7em; color:#aaa; margin-top:2px; }
+  .modal-item-val { flex:1; font-size:.88em; word-break:break-all; line-height:1.4; }
+
+  /* Toast */
+  #toast { visibility:hidden; min-width:250px; background:linear-gradient(135deg,var(--success-color),#2ecc71); color:white; text-align:center; border-radius:var(--border-radius); padding:15px 20px; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:600; font-size:16px; box-shadow:var(--shadow); }
+  #toast.show { visibility:visible; animation:slideIn .5s ease-out, slideOut .5s ease-out 2.5s; }
+  @keyframes slideIn { from{bottom:0;opacity:0;transform:translateX(-50%) translateY(100%)} to{bottom:30px;opacity:1;transform:translateX(-50%) translateY(0)} }
+  @keyframes slideOut { from{bottom:30px;opacity:1;transform:translateX(-50%) translateY(0)} to{bottom:0;opacity:0;transform:translateX(-50%) translateY(100%)} }
+
+  /* Two-col layout */
+  .two-col { display:flex; gap:22px; }
+  .two-col > .col { flex:1; min-width:0; }
+
+  @media (max-width:768px) {
+    .author-info{flex-direction:column} .main-title{font-size:2em} .container{padding:0 10px 40px} .header{margin:10px;padding:24px}
+    .two-col{flex-direction:column} .item-key-col{width:140px} .counter-item{padding:14px 16px} .modal{max-height:90vh} .modal-item-key{width:130px}
+  }
+  
+      .image-container {
+        display: block; 
+        width: 100%;
+        height: auto;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto; 
+        margin-top: 20px; 
+        margin-bottom: 20px;  
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    
+        display: flex;
+        justify-content: center; 
+        align-items: center;     
+    }
+    
+    
+    .image-container:hover {
+        transform: scale(1.02);
+    }
+    
+    .image-container img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        height: auto;
+        transition: filter 0.3s ease;
+    }
+    
+    
+            h1 {
+                margin: 20px 0;
+                padding-bottom: 40px;
+            }
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+<div class="progress-bar" id="progress-bar"></div>
+
+
+
+
+<div class="header">
+  <div style="display:flex; align-items:stretch; justify-content:space-between; gap:20px; position:relative; z-index:2; min-height:160px;">
+
+    <!-- LEFT: avatar + author + meta + button -->
+    <div style="display:flex; flex-direction:column; justify-content:center; gap:10px; flex:1;">
+      
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:20px; position:relative; z-index:2;">
+        <div>
+          <h1 class="main-title" style="width:80%; font-size:320%; margin:0 0 2px;">What privacy data your browser leaks</h1>
+          <h2>Browser Privacy Inspector tool</h2>
+                    <p class="header-sub">A comprehensive audit tool of everything your browser leaks to every website you visit. Browser shares this data with web sites without any notification to you.</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img
+          src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg"
+                        alt="Eugen Barilyuk EB43 Monkey Writer"
+                        class="author-avatar"
+          style="width:72px; height:72px; border-radius:50%; border:3px solid rgba(255,255,255,0.3); object-fit:cover; flex-shrink:0;"
+        >
+      <h2 style="font-size:150%; font-weight:700; color:#fff; -webkit-text-fill-color:#fff; text-shadow:2px 2px 4px rgba(0,0,0,0.3); margin:4px 0 0;">by Eugen Barilyuk EB43</h2>
+</div>
+      <a href="https://eb43.github.io/" class="back-link" style="align-self:flex-start; margin-top:4px;">
+        ←🏠 Back to <i><b>eb43.github.io</b></i> projects list
+      </a>
+
+    </div>
+
+<!-- RIGHT: illustration pinned to bottom-right -->
+<div style="position:absolute; bottom:-30px; right:-20px; z-index:1; pointer-events:none;">
+  <img
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"
+    alt="Terminal and Pen"
+    style="width:660px; height:660px; object-fit:contain; opacity:0.92; display:block;"
+  >
+</div>
+
+  </div>
+</div>
+
+
+<div style="display:flex; justify-content:center; align-items:stretch; gap:0; margin:0 auto 24px; max-width:1200px;  border-radius:var(--border-radius); box-shadow:var(--subtle-shadow); flex-wrap:wrap; border:1px solid var(--border-color); overflow:hidden; text-align:center; padding:18px 24px; border-right:1px solid var(--border-color); flex-shrink:0; ">
+<div>
+<button class="scan-badge" onclick="runScan()" style="font-size:200%; margin:0 0 2px;">↺ Re-scan browser</button>
+</div>
+</div>
+
+
+<!-- COUNTERS -->
+<div class="counters-section">
+  <div class="counter-item clickable" onclick="openModal('H')" title="Click to see all high-risk leaks">
+    <div class="counter-num red" id="cnt-H">—</div>
+    <div class="counter-label">High Risk ↗</div>
+  </div>
+  <div class="counter-item clickable" onclick="openModal('M')" title="Click to see all medium-risk leaks">
+    <div class="counter-num amber" id="cnt-M">—</div>
+    <div class="counter-label">Medium Risk ↗</div>
+  </div>
+  <div class="counter-item clickable" onclick="openModal('L')" title="Click to see low/info fields">
+    <div class="counter-num green" id="cnt-L">—</div>
+    <div class="counter-label">Low / Info ↗</div>
+  </div>
+  <div class="counter-item">
+    <div class="counter-num blue" id="cnt-total">—</div>
+    <div class="counter-label">Total Fields</div>
+  </div>
+  <div class="exposure-wrap">
+    <div class="exposure-label">Exposure Score</div>
+<details style="margin-top:6px;">
+  <summary style="font-size:0.72em;color:#aaa;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:6px;">
+    <span style="font-size:0.9em;opacity:0.6">--> how calculated?</span>
+  </summary>
+  <div style="margin-top:8px;padding:12px 14px;background:#f8f9fa;border-radius:8px;border-left:3px solid #e9ecef;font-size:0.75em;color:#888;line-height:1.9;">
+    <span style="font-family:monospace;font-size:2.5em;">
+      score = min(100, round((<span style="color:#e74c3c;font-weight:600">H</span>×3 + <span style="color:#f39c12;font-weight:600">M</span>×1) / 120 × 100))
+    </span>
+    <div>● &nbsp;<span style="color:#e74c3c;font-weight:600;font-family:monospace;font-size:1.5em;">H</span> &nbsp;Each <strong>High risk</strong> field counts as <strong>3 points</strong></div>
+    <div>● &nbsp;<span style="color:#f39c12;font-weight:600;font-family:monospace;font-size:1.5em;">M</span> &nbsp;Each <strong>Medium risk</strong> field counts as <strong>1 point</strong></div>
+    <div>● &nbsp;<span style="color:#aaa;font-family:monospace;font-size:1.5em;">L</span> &nbsp;Low / Info fields count as <strong>0 points</strong></div>
+    <div style="margin-top:6px;padding-top:6px;border-top:1px solid #e9ecef;">● &nbsp;Raw score divided by <strong>120</strong> (hardcoded maximum ceiling)</div>
+    <div>● &nbsp;Multiplied by <strong>100</strong>, then capped at <strong>100</strong></div>
+  </div>
+</details>
+    <div class="risk-track"><div class="risk-fill" id="risk-fill"></div></div>
+    <div class="risk-score-row">
+      <div class="risk-chips" id="risk-chips"><span class="chip info">Scanning…</span></div>
+      <span class="risk-score" id="risk-score">—</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- STICKY TAB NAV -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" onclick="navTo('s-identity',this)">🪪 Identity<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-hardware',this)">💻 Hardware<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-screen',this)">🖥 Screen<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-network',this)">🌐 Network<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-location',this)">📍 Location<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-browser',this)">🧭 Browser<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-canvas',this)">🎨 Canvas FP<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-audio',this)">🔊 Audio FP<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-webgl',this)">🖱 WebGL FP<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-timing',this)">⏱ Timing<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-sensors',this)">📡 Sensors<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-codecs',this)">🎬 Codecs<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-protocols',this)">🔗 Protocols<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-ports',this)">🔌 Ports<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-css',this)">🎨 CSS/Render<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-automation',this)">🤖 Automation<span class="risk-dot H"></span></button>
+    <button class="tab-btn" onclick="navTo('s-fonts',this)">🔡 Fonts<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-media',this)">📷 Devices<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-storage',this)">🗄 Storage<span class="risk-dot L"></span></button>
+    <button class="tab-btn" onclick="navTo('s-perms',this)">🔐 Permissions<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-battery',this)">🔋 Battery<span class="risk-dot M"></span></button>
+    <button class="tab-btn" onclick="navTo('s-webrtc',this)">📻 WebRTC<span class="risk-dot H"></span></button>
+  </div>
+</div>
+
+<!-- ═══ IDENTITY ═══ -->
+<div class="section-card" id="s-identity">
+  <div class="section-title">🪪 Identity &amp; Fingerprint <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Readable by every website. Combined, these values form a stable browser fingerprint that tracks you across sites and incognito sessions — no permission needed.</p>
+  <div class="data-list" id="g-identity"></div>
+</div>
+
+<!-- ═══ HARDWARE ═══ -->
+<div class="section-card" id="s-hardware">
+  <div class="section-title">💻 Hardware <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Browser APIs expose hardware characteristics that narrow down your device model — CPU core count, memory class, and touch capability.</p>
+  <div class="data-list" id="g-hardware"></div>
+</div>
+
+<!-- ═══ SCREEN ═══ -->
+<div class="section-card" id="s-screen">
+  <div class="section-title">🖥 Screen &amp; Display <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Resolution, pixel density, colour depth, and system UI preferences fingerprint your specific monitor and OS configuration.</p>
+  <div class="data-list" id="g-screen"></div>
+</div>
+
+<!-- ═══ NETWORK ═══ -->
+<div class="section-card" id="s-network">
+  <div class="section-title">🌐 Network <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Your public IP reveals city-level location and ISP. Connection type and speed are also exposed without any prompt.</p>
+  <div class="ip-loading" id="ip-loading">Fetching your public IP…</div>
+  <div class="ip-hero" id="ip-hero" style="display:none"></div>
+  <div class="data-list" id="g-network"></div>
+</div>
+
+<!-- ═══ LOCATION ═══ -->
+<div class="section-card" id="s-location">
+  <div class="section-title">📍 Location &amp; Timezone <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Your IANA timezone narrows location to a city or region instantly — zero GPS, zero permission.</p>
+  <div class="data-list" id="g-location"></div>
+</div>
+
+<!-- ═══ BROWSER ═══ -->
+<div class="section-card" id="s-browser">
+  <div class="section-title">🧭 Browser &amp; OS <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Capabilities, referrer, and history give detailed OS and software version data as well as your browsing trail within a session.</p>
+  <div class="data-list" id="g-browser"></div>
+</div>
+
+<!-- ═══ CANVAS FP ═══ -->
+<div class="section-card" id="s-canvas">
+  <div class="section-title">🎨 Canvas Fingerprint <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">A hidden canvas renders text and shapes off-screen. GPU and driver differences produce a unique pixel hash — stable across sessions with no permission.</p>
+  <div class="fp-wrap">
+    <div>
+      <canvas id="fp-canvas" width="300" height="64" class="fp-canvas-box"></canvas>
+      <p class="fp-hash">Hash: <span id="canvas-hash">Computing…</span></p>
+    </div>
+  </div>
+  <div class="data-list" id="g-canvas"></div>
+</div>
+
+<!-- ═══ AUDIO FP ═══ -->
+<div class="section-card" id="s-audio">
+  <div class="section-title">🔊 Audio Fingerprint <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">AudioContext processes a sine wave via your CPU and OS audio stack. The floating-point output hash is unique per machine — and completely silent.</p>
+  <div class="data-list" id="g-audio"></div>
+</div>
+
+<!-- ═══ WEBGL FP ═══ -->
+<div class="section-card" id="s-webgl">
+  <div class="section-title">🖱 WebGL Fingerprint <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">WebGL exposes your exact GPU model, vendor, driver version, and rendering capabilities — one of the most unique fingerprinting signals available.</p>
+  <div class="data-list" id="g-webgl"></div>
+</div>
+
+<!-- ═══ TIMING ═══ -->
+<div class="section-card" id="s-timing">
+  <div class="section-title">⏱ Timing &amp; Side-Channel <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Clock precision, performance timer resolution, and WASM execution timing reveal your CPU architecture and OS. Reduced timer precision itself signals privacy mode.</p>
+  <div class="data-list" id="g-timing"></div>
+</div>
+
+<!-- ═══ SENSORS ═══ -->
+<div class="section-card" id="s-sensors">
+  <div class="section-title">📡 Hardware Sensors <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">On mobile devices, accelerometer, gyroscope, and magnetometer data is readable without permission in many browsers. Unique noise patterns fingerprint the physical hardware.</p>
+  <canvas id="sensor-canvas" width="300" height="80"></canvas>
+  <div class="data-list" id="g-sensors"></div>
+</div>
+
+<!-- ═══ CODECS ═══ -->
+<div class="section-card" id="s-codecs">
+  <div class="section-title">🎬 Codec &amp; Media Capabilities <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">The exact set of supported audio/video codecs, image formats, and DRM systems narrows down your browser version, OS, and hardware decoder capabilities.</p>
+  <div class="data-list" id="g-codecs"></div>
+</div>
+
+<!-- ═══ PROTOCOL HANDLERS ═══ -->
+<div class="section-card" id="s-protocols">
+  <div class="section-title">🔗 Protocol Handlers &amp; Installed Apps <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Registered URI scheme handlers reveal which apps are installed on your device — Spotify, Slack, VS Code, Zoom, and others are detectable without permission.</p>
+  <div class="data-list" id="g-protocols"></div>
+</div>
+
+<!-- ═══ PORT SCAN ═══ -->
+<div class="section-card" id="s-ports">
+  <div class="section-title">🔌 Localhost Port Scan <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">By timing WebSocket connections to localhost, sites detect which software is running on your machine — dev servers, databases, proxies, and apps all listen on known ports.</p>
+  <div class="port-label" id="port-status">Scanning common ports… (this takes ~5 seconds)</div>
+  <div class="port-grid" id="port-grid"></div>
+  <div class="data-list" style="margin-top:14px" id="g-ports"></div>
+</div>
+
+<!-- ═══ CSS/RENDER ═══ -->
+<div class="section-card" id="s-css">
+  <div class="section-title">🎨 CSS &amp; Rendering Quirks <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Supported CSS features precisely pin your browser version. Scrollbar width, system font metrics, and sub-pixel rendering differ by OS and reveal platform details.</p>
+  <div class="data-list" id="g-css"></div>
+</div>
+
+<!-- ═══ AUTOMATION ═══ -->
+<div class="section-card" id="s-automation">
+  <div class="section-title">🤖 Automation &amp; Bot Detection <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">Sites fingerprint whether your browser is controlled by Selenium, Puppeteer, or other automation tools by checking for missing properties, inconsistent values, and driver flags.</p>
+  <div class="data-list" id="g-automation"></div>
+</div>
+
+<!-- ═══ FONTS ═══ -->
+<div class="section-card" id="s-fonts">
+  <div class="section-title">🔡 Font Detection <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Text rendering width differences reveal installed fonts without any permission. <strong>Highlighted</strong> = detected on your device.</p>
+  <div class="fonts-grid" id="g-fonts"></div>
+</div>
+
+<!-- ═══ MEDIA DEVICES ═══ -->
+<div class="section-card" id="s-media">
+  <div class="section-title">📷 Media Devices <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Camera, mic, and speaker counts are readable without permission. Model names are exposed after any permission grant on the device.</p>
+  <div class="data-list" id="g-media"></div>
+</div>
+
+<!-- ═══ STORAGE ═══ -->
+<div class="section-card" id="s-storage">
+  <div class="section-title">🗄 Storage &amp; Capabilities <span class="title-badge badge-low">Low Risk</span></div>
+  <p class="section-desc">Available storage mechanisms and browser capabilities used for persistent tracking or as fingerprinting signals.</p>
+  <div class="data-list" id="g-storage"></div>
+</div>
+
+<!-- ═══ PERMISSIONS ═══ -->
+<div class="section-card" id="s-perms">
+  <div class="section-title">🔐 Permissions Status <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Sites silently query permission states — revealing prior camera, mic, or location grants — without triggering any new prompt.</p>
+  <div class="perm-list" id="g-perms"></div>
+</div>
+
+<!-- ═══ BATTERY ═══ -->
+<div class="section-card" id="s-battery">
+  <div class="section-title">🔋 Battery Status <span class="title-badge badge-med">Medium Risk</span></div>
+  <p class="section-desc">Battery level and timing were precise enough to track users across incognito sessions. Most browsers have now removed or restricted this API.</p>
+  <div class="data-list" id="g-battery"></div>
+</div>
+
+<!-- ═══ WEBRTC ═══ -->
+<div class="section-card" id="s-webrtc">
+  <div class="section-title">📻 WebRTC IP Leak <span class="title-badge badge-high">High Risk</span></div>
+  <p class="section-desc">WebRTC ICE candidates reveal your real local and public IPs — even behind a VPN — with no user prompt.</p>
+  <div class="data-list" id="g-webrtc"></div>
+</div>
+
+<div style="text-align:center;padding:24px 0 10px">
+  <button class="back-link" onclick="copyAll()">⎘ Copy all data as JSON</button>
+  <p style="margin-top:10px;font-size:.8em;color:#aaa">All data collected entirely in your browser. Nothing is sent to any server.</p>
+</div>
+
+</div><!-- /container -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title"></span>
+      <span class="modal-count" id="modal-count"></span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div id="toast">✓ Copied to clipboard!</div>
+<canvas id="measure-canvas" style="display:none" width="1" height="1"></canvas>
+
+<script>
+// ── Particles ──
+const pC=document.getElementById('particles');
+for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*6}s;animation-duration:${4+Math.random()*6}s`;pC.appendChild(p);}
+
+const collected={};
+const allRows=[];
+
+function safe(fn,fb='N/A'){try{const v=fn();return(v!==undefined&&v!==null)?v:fb;}catch(e){return fb;}}
+function setProgress(p){document.getElementById('progress-bar').style.width=p+'%';}
+
+function mkItem(gridId,key,val,risk,section,tip){
+  const vs=(val===null||val===undefined||val==='')?'<em style="color:#bbb">N/A</em>':String(val);
+  const d=document.createElement('div');
+  d.className='article-item risk-'+risk;
+  if(tip) d.title=tip;
+  d.innerHTML=`<div class="item-key-col">${key}</div><div class="item-val-col">${vs}</div><div class="item-risk-col"><span class="risk-pill ${risk}">${risk==='H'?'High':risk==='M'?'Med':risk==='L'?'Low':'Info'}</span></div>`;
+  const g=document.getElementById(gridId);
+  if(g) g.appendChild(d);
+  allRows.push({key,val:(val!==null&&val!==undefined&&val!=='')?String(val):'N/A',risk,section});
+}
+function appendItems(gridId,section,rows){rows.forEach(r=>mkItem(gridId,r[0],r[1],r[2],section,r[3]||''));}
+
+// Tab nav
+function navTo(id,btn){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const SECTION_IDS=['s-identity','s-hardware','s-screen','s-network','s-location','s-browser','s-canvas','s-audio','s-webgl','s-timing','s-sensors','s-codecs','s-protocols','s-ports','s-css','s-automation','s-fonts','s-media','s-storage','s-perms','s-battery','s-webrtc'];
+window.addEventListener('scroll',()=>{
+  let cur=0;
+  SECTION_IDS.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<130)cur=i;});
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===cur));
+},{passive:true});
+
+// Modal
+function openModal(risk){
+  const filtered=allRows.filter(r=>r.risk===risk||(risk==='L'&&r.risk==='I'));
+  const labels={H:'High Risk Leaks',M:'Medium Risk Leaks',L:'Low Risk / Info Fields'};
+  document.getElementById('modal-title').textContent=labels[risk]||'Fields';
+  document.getElementById('modal-count').textContent=filtered.length+' fields';
+  const body=document.getElementById('modal-body');body.innerHTML='';
+  if(!filtered.length){body.innerHTML='<p style="color:#aaa;text-align:center;padding:24px 0">No fields yet — try re-scanning.</p>';}
+  else filtered.forEach(r=>{
+    const d=document.createElement('div');d.className='modal-item';
+    d.innerHTML=`<div class="modal-item-dot ${r.risk}"></div><div class="modal-item-key">${r.key}<div class="modal-item-section">${r.section}</div></div><div class="modal-item-val">${r.val}</div>`;
+    body.appendChild(d);
+  });
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ── CANVAS FP ──
+function canvasFingerprint(){
+  const c=document.getElementById('fp-canvas'),ctx=c.getContext('2d');
+  ctx.fillStyle='#f4f4f4';ctx.fillRect(0,0,300,64);
+  ctx.font='15px Georgia,serif';ctx.fillStyle='#2c3e50';ctx.fillText('BrowserFingerprint ☁ 2024',6,24);
+  ctx.font='11px monospace';ctx.fillStyle='#e74c3c';ctx.fillText('Cwm fjordbank glyphs vext quiz',6,46);
+  ctx.beginPath();ctx.arc(278,34,18,0,Math.PI*2);ctx.fillStyle='rgba(52,152,219,.55)';ctx.fill();
+  ctx.fillStyle='rgba(231,76,60,.55)';ctx.fillRect(255,14,28,28);
+  const data=c.toDataURL();let h=0;
+  for(let i=0;i<data.length;i++){h=((h<<5)-h)+data.charCodeAt(i);h|=0;}
+  const full=Math.abs(h).toString(16).padStart(8,'0').repeat(4);
+  document.getElementById('canvas-hash').textContent=full;
+  collected.canvas_fingerprint=full;
+  mkItem('g-canvas','Canvas hash',full,'H','Canvas Fingerprint','Unique pixel output per GPU/driver');
+}
+
+// ── AUDIO FP ──
+async function audioFingerprint(){
+  try{
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx){mkItem('g-audio','AudioContext','Not available','I','Audio Fingerprint');return;}
+    const ctx=new Ctx(),osc=ctx.createOscillator(),analyser=ctx.createAnalyser(),gain=ctx.createGain();
+    gain.gain.value=0;osc.type='triangle';osc.frequency.value=10000;
+    osc.connect(analyser);analyser.connect(gain);gain.connect(ctx.destination);osc.start(0);
+    const buf=new Float32Array(analyser.frequencyBinCount);analyser.getFloatFrequencyData(buf);osc.stop();ctx.close();
+    let hash=0;for(let i=0;i<buf.length;i++)if(!isNaN(buf[i]))hash+=Math.abs(buf[i]);
+    const af=hash.toFixed(6);collected.audio_fingerprint=af;
+    mkItem('g-audio','Audio fingerprint hash',af,'H','Audio Fingerprint','Unique per CPU/OS audio stack');
+    mkItem('g-audio','Sample rate',ctx.sampleRate+' Hz','M','Audio Fingerprint');
+    mkItem('g-audio','Max channel count',ctx.destination.maxChannelCount,'L','Audio Fingerprint');
+    mkItem('g-audio','Base latency',ctx.baseLatency?ctx.baseLatency.toFixed(4)+' s':'N/A','L','Audio Fingerprint');
+  }catch(e){mkItem('g-audio','AudioContext','Blocked or unavailable','I','Audio Fingerprint');}
+}
+
+// ── WEBGL FP ──
+function webglFingerprint(){
+  try{
+    const cvs=document.createElement('canvas');
+    const gl=cvs.getContext('webgl')||cvs.getContext('experimental-webgl');
+    if(!gl){mkItem('g-webgl','WebGL','Not available','I','WebGL Fingerprint');return;}
+    const di=gl.getExtension('WEBGL_debug_renderer_info');
+    if(di){
+      const ren=gl.getParameter(di.UNMASKED_RENDERER_WEBGL);
+      const vnd=gl.getParameter(di.UNMASKED_VENDOR_WEBGL);
+      mkItem('g-webgl','GPU renderer model',ren,'H','WebGL Fingerprint','Most unique: exact GPU model');
+      mkItem('g-webgl','GPU vendor',vnd,'H','WebGL Fingerprint');
+      collected.webgl_renderer=ren;collected.webgl_vendor=vnd;
+    }else{mkItem('g-webgl','Debug renderer info','Extension unavailable','I','WebGL Fingerprint');}
+    mkItem('g-webgl','WebGL version',gl.getParameter(gl.VERSION),'M','WebGL Fingerprint');
+    mkItem('g-webgl','GLSL version',gl.getParameter(gl.SHADING_LANGUAGE_VERSION),'L','WebGL Fingerprint');
+    mkItem('g-webgl','Max texture size',gl.getParameter(gl.MAX_TEXTURE_SIZE)+' px','M','WebGL Fingerprint');
+    mkItem('g-webgl','Max vertex attribs',gl.getParameter(gl.MAX_VERTEX_ATTRIBS),'L','WebGL Fingerprint');
+    mkItem('g-webgl','Antialiasing',gl.getContextAttributes()?.antialias?'Yes':'No','M','WebGL Fingerprint');
+    const exts=gl.getSupportedExtensions();
+    mkItem('g-webgl','Supported extensions count',exts?exts.length:'N/A','M','WebGL Fingerprint','Extension list is unique per driver');
+  }catch(e){mkItem('g-webgl','WebGL','Error','I','WebGL Fingerprint');}
+}
+
+// ── TIMING SIDE-CHANNEL ──
+function timingFingerprint(){
+  // Timer resolution test
+  const samples=[];
+  for(let i=0;i<20;i++){const t1=performance.now();for(let j=0;j<1e4;j++){}samples.push(performance.now()-t1);}
+  const avgTime=(samples.reduce((a,b)=>a+b,0)/samples.length).toFixed(4);
+  // Clock resolution: smallest observable difference
+  let minDiff=Infinity;
+  for(let i=0;i<50;i++){const a=performance.now(),b=performance.now();if(b-a>0&&b-a<minDiff)minDiff=b-a;}
+  const resolution=isFinite(minDiff)?minDiff.toFixed(4)+' ms':'≤0.001 ms (high-precision)';
+  // WASM timing fingerprint
+  let wasmTime='N/A';
+  try{
+    const t1=performance.now();
+    // small compute loop as WASM proxy
+    let s=0;for(let i=0;i<1e6;i++)s+=Math.sqrt(i);
+    wasmTime=(performance.now()-t1).toFixed(2)+' ms';
+  }catch(e){}
+  const privacyMode=minDiff>1?'Likely (timer reduced)':'Not detected (full precision)';
+  appendItems('g-timing','Timing',[
+    ['performance.now() resolution', resolution, 'H', 'Reduced precision reveals privacy/incognito mode'],
+    ['JS compute benchmark (10k loops avg)', avgTime+' ms', 'M', 'Reveals CPU speed class and architecture'],
+    ['CPU-heavy benchmark (1M sqrt)', wasmTime, 'M', 'Used to fingerprint CPU architecture (x86 vs ARM vs Apple Silicon)'],
+    ['Privacy/Incognito mode hint', privacyMode, 'H', 'Browsers reduce timer precision in privacy mode'],
+    ['performance.timing available', typeof performance.timing!=='undefined'?'Yes':'No', 'L'],
+    ['performance.memory available', typeof performance.memory!=='undefined'?'Yes':'No (or hidden)', 'M', 'Exposes JS heap size — can fingerprint RAM'],
+    ['JS heap size limit', safe(()=>performance.memory?Math.round(performance.memory.jsHeapSizeLimit/1e6)+' MB':'N/A'), 'M', 'Reveals device memory tier'],
+    ['Date.now() precision', new Date().toISOString(), 'I'],
+  ]);
+  collected.timing={resolution,avgTime,wasmTime};
+}
+
+// ── SENSORS ──
+function setupSensors(){
+  const canvas=document.getElementById('sensor-canvas');
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#f8f9fa';ctx.fillRect(0,0,300,80);
+  ctx.font='11px Arial';ctx.fillStyle='#aaa';ctx.fillText('Waiting for sensor data…',10,45);
+
+  let hasAny=false;
+  const sensorData={};
+
+  function drawSensor(label,x,y,z){
+    ctx.clearRect(0,0,300,80);
+    ctx.fillStyle='#f8f9fa';ctx.fillRect(0,0,300,80);
+    ctx.fillStyle='#2c3e50';ctx.font='11px Arial';
+    ctx.fillText(label,10,16);
+    ctx.fillStyle='#e74c3c';ctx.fillText('X: '+x.toFixed(3),10,34);
+    ctx.fillStyle='#27ae60';ctx.fillText('Y: '+y.toFixed(3),110,34);
+    ctx.fillStyle='#3498db';ctx.fillText('Z: '+z.toFixed(3),210,34);
+    // mini bar chart
+    const bars=[{v:x,c:'#e74c3c'},{v:y,c:'#27ae60'},{v:z,c:'#3498db'}];
+    bars.forEach((b,i)=>{
+      const bh=Math.min(30,Math.abs(b.v)*5);
+      ctx.fillStyle=b.c;
+      ctx.fillRect(20+i*40,70-bh,28,bh);
+    });
+  }
+
+  // Accelerometer
+  if('Accelerometer' in window){
+    try{
+      const acc=new Accelerometer({frequency:10});
+      acc.addEventListener('reading',()=>{
+        hasAny=true;sensorData.accelerometer={x:acc.x,y:acc.y,z:acc.z};
+        drawSensor('Accelerometer (m/s²)',acc.x,acc.y,acc.z);
+        mkItem('g-sensors','Accelerometer X',acc.x.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Accelerometer Y',acc.y.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Accelerometer Z',acc.z.toFixed(4),'M','Sensors');
+        acc.stop();
+      });
+      acc.start();
+    }catch(e){}
+  }
+  if('Gyroscope' in window){
+    try{
+      const gyro=new Gyroscope({frequency:10});
+      gyro.addEventListener('reading',()=>{
+        hasAny=true;sensorData.gyroscope={x:gyro.x,y:gyro.y,z:gyro.z};
+        mkItem('g-sensors','Gyroscope X',gyro.x.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Gyroscope Y',gyro.y.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Gyroscope Z',gyro.z.toFixed(4),'M','Sensors');
+        gyro.stop();
+      });
+      gyro.start();
+    }catch(e){}
+  }
+  if('Magnetometer' in window){
+    try{
+      const mag=new Magnetometer({frequency:10});
+      mag.addEventListener('reading',()=>{
+        hasAny=true;sensorData.magnetometer={x:mag.x,y:mag.y,z:mag.z};
+        mkItem('g-sensors','Magnetometer X',mag.x.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Magnetometer Y',mag.y.toFixed(4),'M','Sensors');
+        mkItem('g-sensors','Magnetometer Z',mag.z.toFixed(4),'M','Sensors');
+        mag.stop();
+      });
+      mag.start();
+    }catch(e){}
+  }
+  // Legacy motion API
+  window.addEventListener('devicemotion',function handler(e){
+    if(e.acceleration&&(e.acceleration.x||e.acceleration.y||e.acceleration.z)){
+      hasAny=true;
+      drawSensor('DeviceMotion (m/s²)',e.acceleration.x||0,e.acceleration.y||0,e.acceleration.z||0);
+      mkItem('g-sensors','DeviceMotion X',safe(()=>e.acceleration.x.toFixed(4)),'M','Sensors','Legacy motion API');
+      mkItem('g-sensors','DeviceMotion Y',safe(()=>e.acceleration.y.toFixed(4)),'M','Sensors');
+      mkItem('g-sensors','DeviceMotion Z',safe(()=>e.acceleration.z.toFixed(4)),'M','Sensors');
+    }
+    window.removeEventListener('devicemotion',handler);
+  },{once:true});
+  window.addEventListener('deviceorientation',function handler(e){
+    if(e.alpha!==null){
+      hasAny=true;
+      mkItem('g-sensors','Device orientation α (compass)',safe(()=>e.alpha.toFixed(2)+'°'),'M','Sensors');
+      mkItem('g-sensors','Device orientation β (front/back)',safe(()=>e.beta.toFixed(2)+'°'),'M','Sensors');
+      mkItem('g-sensors','Device orientation γ (left/right)',safe(()=>e.gamma.toFixed(2)+'°'),'M','Sensors');
+    }
+    window.removeEventListener('deviceorientation',handler);
+  },{once:true});
+
+  // Ambient light
+  if('AmbientLightSensor' in window){
+    try{
+      const light=new AmbientLightSensor();
+      light.addEventListener('reading',()=>{
+        hasAny=true;
+        mkItem('g-sensors','Ambient light level',light.illuminance.toFixed(1)+' lux','M','Sensors','Reveals environment context');
+        light.stop();
+      });
+      light.start();
+    }catch(e){}
+  }
+
+  setTimeout(()=>{
+    const g=document.getElementById('g-sensors');
+    if(!g.children.length){
+      ctx.clearRect(0,0,300,80);ctx.fillStyle='#f8f9fa';ctx.fillRect(0,0,300,80);
+      ctx.font='11px Arial';ctx.fillStyle='#aaa';ctx.fillText('No sensor data available (desktop browser)',10,45);
+      mkItem('g-sensors','Sensors','Not available — desktop browser or permission denied','I','Sensors');
+    }
+    collected.sensors=sensorData;
+  },2500);
+}
+
+// ── CODECS ──
+async function checkCodecs(){
+  const rows=[];
+  // Video codecs via canPlayType
+  const v=document.createElement('video');
+  const videoCodecs=[
+    ['H.264 (AVC)','video/mp4; codecs="avc1.42E01E"'],
+    ['H.265 (HEVC)','video/mp4; codecs="hev1.1.6.L93.90"'],
+    ['VP8','video/webm; codecs="vp8"'],
+    ['VP9','video/webm; codecs="vp9"'],
+    ['AV1','video/mp4; codecs="av01.0.05M.08"'],
+    ['Theora','video/ogg; codecs="theora"'],
+  ];
+  videoCodecs.forEach(([name,type])=>{
+    const r=v.canPlayType(type)||'no';
+    rows.push([name+' video',r,r==='probably'?'M':r==='maybe'?'L':'I','Video codec support']);
+  });
+  // Audio codecs
+  const a=document.createElement('audio');
+  const audioCodecs=[
+    ['AAC','audio/mp4; codecs="mp4a.40.2"'],
+    ['MP3','audio/mpeg'],
+    ['Opus','audio/ogg; codecs="opus"'],
+    ['Vorbis','audio/ogg; codecs="vorbis"'],
+    ['FLAC','audio/flac'],
+    ['WAV PCM','audio/wav; codecs="1"'],
+  ];
+  audioCodecs.forEach(([name,type])=>{
+    const r=a.canPlayType(type)||'no';
+    rows.push([name+' audio',r,r==='probably'?'M':r==='maybe'?'L':'I','Audio codec support']);
+  });
+  // Image formats (via Image decode)
+  const imgFormats=[
+    ['WebP','data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA=='],
+    ['AVIF','data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQ=='],
+    ['HEIC','data:image/heic;base64,'],
+  ];
+  for(const [name,src] of imgFormats){
+    const result=await new Promise(res=>{
+      if(!src.includes('base64,A')){res('Unknown');return;}
+      const img=new Image();
+      img.onload=()=>res('Supported');img.onerror=()=>res('Not supported');
+      img.src=src;
+    });
+    rows.push([name+' image format',result,result==='Supported'?'M':'L','Image format support']);
+  }
+  // EME / DRM
+  rows.push(['Encrypted Media (EME)',typeof navigator.requestMediaKeySystemAccess!=='undefined'?'Supported':'Not supported','M','DRM — reveals OS/browser tier']);
+  // MediaCapabilities
+  rows.push(['MediaCapabilities API',typeof navigator.mediaCapabilities!=='undefined'?'Available':'Not available','I']);
+  // MIME types
+  rows.push(['Supported MIME types (MSE)',typeof MediaSource!=='undefined'?(MediaSource.isTypeSupported('video/mp4; codecs="avc1"')?'MP4/AVC supported':'Limited'):'Not available','M']);
+
+  appendItems('g-codecs','Codecs',rows);
+  collected.codecs=rows.map(r=>({name:r[0],support:r[1]}));
+}
+
+// ── PROTOCOL HANDLERS ──
+function checkProtocols(){
+  const schemes=[
+    ['mailto:','Email client (default mail app)'],
+    ['spotify:','Spotify desktop app'],
+    ['slack:','Slack desktop app'],
+    ['zoom:','Zoom app'],
+    ['vscode:','Visual Studio Code'],
+    ['obsidian:','Obsidian notes'],
+    ['notion:','Notion app'],
+    ['discord:','Discord app'],
+    ['skype:','Skype'],
+    ['teams:','Microsoft Teams'],
+    ['steam:','Steam gaming client'],
+    ['git:','Git / Git GUI'],
+    ['svn:','Subversion'],
+  ];
+  // isProtocolHandlerRegistered is limited; use try/catch on registerProtocolHandler
+  // Better: use timing to detect custom URI scheme launch (not perfect cross-browser)
+  // We test what we can report definitively
+  const iframe_check=(scheme)=>{
+    return new Promise(resolve=>{
+      // Try to navigate hidden iframe to scheme and detect timing difference
+      const start=performance.now();
+      const a=document.createElement('a');a.href=scheme+'test';
+      try{
+        // Some browsers allow checking via isProtocolHandlerRegistered (non-standard)
+        if(navigator.isProtocolHandlerRegistered){
+          const r=navigator.isProtocolHandlerRegistered('web+'+scheme.replace(':',''),scheme+'%s');
+          resolve(r==='registered'?'Registered':'Unknown');return;
+        }
+      }catch(e){}
+      resolve('Cannot detect (browser restricted)');
+    });
+  };
+  // Report which ones we know are likely given platform
+  const platform=safe(()=>navigator.userAgentData?.platform||navigator.platform||'');
+  schemes.forEach(([scheme,label])=>{
+    iframe_check(scheme).then(result=>{
+      mkItem('g-protocols',scheme.replace(':','')+' — '+label,result,'H','Protocol Handlers','Custom URI schemes reveal installed desktop apps');
+    });
+  });
+  // What we CAN detect: which handlers are registered via navigator
+  mkItem('g-protocols','isProtocolHandlerRegistered API',typeof navigator.isProtocolHandlerRegistered!=='undefined'?'Available':'Not available (Firefox/Chrome blocked)','I','Protocol Handlers');
+  mkItem('g-protocols','registerProtocolHandler API',typeof navigator.registerProtocolHandler!=='undefined'?'Available':'Not available','I','Protocol Handlers');
+  collected.protocols={platform};
+}
+
+// ── LOCALHOST PORT SCAN ──
+const PORT_MAP={
+  80:'HTTP server',443:'HTTPS/local TLS',3000:'React dev / Node.js',3001:'Alt dev server',
+  4000:'Rails / Phoenix',4200:'Angular dev',5000:'Flask / .NET',5173:'Vite dev',
+  5432:'PostgreSQL',5900:'VNC',6379:'Redis',8000:'Python HTTP / Django',
+  8080:'Alt HTTP / Tomcat',8443:'Alt HTTPS',8888:'Jupyter Notebook',
+  9000:'PHP-FPM / SonarQube',9200:'Elasticsearch',9229:'Node.js debugger',
+  27017:'MongoDB',3306:'MySQL',1433:'MSSQL',5984:'CouchDB',
+};
+function scanPorts(){
+  const portGrid=document.getElementById('port-grid');
+  const ports=Object.keys(PORT_MAP).map(Number);
+  let scanned=0;const open=[];
+
+  ports.forEach(port=>{
+    const chip=document.createElement('div');
+    chip.className='port-chip scanning';
+    chip.textContent=port;chip.title=PORT_MAP[port];
+    portGrid.appendChild(chip);
+
+    const ws=new WebSocket('ws://localhost:'+port);
+    const timer=setTimeout(()=>{
+      ws.close();chip.className='port-chip closed';chip.title=port+' — '+PORT_MAP[port]+' (closed/filtered)';
+      scanned++;if(scanned===ports.length)finalizePorts();
+    },1200);
+    ws.onopen=()=>{
+      clearTimeout(timer);ws.close();
+      chip.className='port-chip open';chip.title=port+' — '+PORT_MAP[port]+' (OPEN!)';
+      open.push(port);scanned++;if(scanned===ports.length)finalizePorts();
+    };
+    ws.onerror=()=>{
+      // Error is normal for closed ports — but connection error vs timeout differ
+      clearTimeout(timer);chip.className='port-chip closed';
+      scanned++;if(scanned===ports.length)finalizePorts();
+    };
+  });
+
+  function finalizePorts(){
+    document.getElementById('port-status').textContent=open.length?'Open ports detected: '+open.length+' (shown in red above)':'Scan complete — no open ports detected on tested addresses.';
+    collected.open_ports=open;
+    if(open.length){
+      open.forEach(p=>mkItem('g-ports','Open port '+p,PORT_MAP[p]+' — likely running','H','Port Scan','Software listening on this port'));
+    }else{
+      mkItem('g-ports','Port scan result','No open ports found on tested localhost addresses','L','Port Scan');
+    }
+    computeRisk();
+  }
+}
+
+// ── CSS / RENDER QUIRKS ──
+function checkCSS(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:-999px;left:-999px;width:100px;overflow-y:scroll';
+  document.body.appendChild(el);
+  const scrollbarW=el.offsetWidth-el.clientWidth;
+  document.body.removeChild(el);
+
+  // System accent color
+  const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent-color')||'N/A';
+
+  // Computed font metrics (baseline shift)
+  const tEl=document.createElement('span');
+  tEl.style.cssText='position:fixed;top:-999px;font-family:serif;font-size:72px;visibility:hidden';
+  tEl.textContent='Hg';document.body.appendChild(tEl);
+  const fontH=tEl.offsetHeight;document.body.removeChild(tEl);
+
+  // CSS feature detection
+  const features=[
+    ['container-type','CSS Container Queries'],
+    ['color-mix','CSS color-mix()'],
+    ['animation-timeline','CSS scroll-driven animations'],
+    [':has()','CSS :has() selector'],
+    ['text-wrap: balance','CSS text-wrap: balance'],
+  ];
+  const featureResults=features.map(([f,label])=>{
+    try{const div=document.createElement('div');div.style.cssText=f+':normal';return[label,div.style.length>0?'Supported':'Not supported'];}
+    catch(e){return[label,'Not supported'];}
+  });
+
+  appendItems('g-css','CSS & Rendering',[
+    ['Scrollbar width',scrollbarW+'px','M','0px = macOS/overlay scrollbars; 15–17px = Windows'],
+    ['System serif font height',fontH+'px','M','Differs by OS font rendering (ClearType vs CoreText vs FreeType)'],
+    ['CSS forced-colors (high contrast)',window.matchMedia('(forced-colors: active)').matches?'Active':'Inactive','I'],
+    ['CSS inverted-colors',window.matchMedia('(inverted-colors: inverted)').matches?'Inverted':'Normal','I'],
+    ['CSS pointer: coarse',window.matchMedia('(pointer: coarse)').matches?'Yes (touch device)':'No','M'],
+    ['CSS hover capability',window.matchMedia('(hover: hover)').matches?'Yes':'No','L'],
+    ['CSS prefers-contrast',window.matchMedia('(prefers-contrast: more)').matches?'High contrast':'Normal','I'],
+    ['Subpixel rendering (devicePixelRatio)',window.devicePixelRatio%1!==0?'Non-integer (HiDPI)':'Integer DPI','M'],
+    ...featureResults.map(([l,v])=>[l,v,'L','CSS feature support narrows browser version']),
+  ]);
+  collected.css={scrollbarWidth:scrollbarW,fontHeight:fontH};
+}
+
+// ── AUTOMATION DETECTION ──
+function checkAutomation(){
+  const rows=[];
+  // webdriver flag
+  rows.push(['navigator.webdriver',navigator.webdriver?'TRUE — automation detected!':'false',navigator.webdriver?'H':'L','Set to true by Selenium/Puppeteer/Playwright']);
+  // Phantom / Nightmare
+  rows.push(['window._phantom / callPhantom',('_phantom' in window||'callPhantom' in window)?'Detected!':'Not found',('_phantom'in window||'callPhantom'in window)?'H':'L']);
+  // Selenium indicators
+  rows.push(['$cdc_ / $wdc_ (ChromeDriver)',Object.keys(window).some(k=>k.startsWith('$cdc_')||k.startsWith('$wdc_'))?'Detected!':'Not found',Object.keys(window).some(k=>k.startsWith('$cdc_')||k.startsWith('$wdc_'))?'H':'L','ChromeDriver artifact']);
+  // Missing browser features that automation often lacks
+  rows.push(['window.chrome present',('chrome' in window)?'Yes':'No — suspicious',('chrome' in window)?'L':'M','Real Chrome always has window.chrome']);
+  rows.push(['navigator.plugins count',navigator.plugins.length+' plugins',navigator.plugins.length===0?'M':'L','Automation tools often have 0 plugins']);
+  rows.push(['navigator.languages count',(navigator.languages||[]).length+' languages',(navigator.languages||[]).length===0?'M':'L','Bots often have 0 or 1 language']);
+  // Permission consistency
+  rows.push(['Notification.permission',safe(()=>Notification.permission),'I']);
+  // Screen vs window size consistency (headless often has mismatches)
+  const outerEqInner=window.outerWidth===window.innerWidth&&window.outerHeight===window.innerHeight;
+  rows.push(['outer/inner window size match (headless hint)',`outer:${window.outerWidth}×${window.outerHeight} inner:${window.innerWidth}×${window.innerHeight}`,outerEqInner?'M':'L','Headless browsers often have equal outer/inner size']);
+  // Connection roundtrip anomaly
+  rows.push(['Error stack trace style',safe(()=>{try{null.x}catch(e){return e.stack?e.stack.split('\n')[0].substring(0,60):'N/A';}}),'I','Stack format reveals JS engine version']);
+  rows.push(['Function.prototype.toString',safe(()=>Function.prototype.toString.toString().includes('[native code]')?'Native (normal)':'Patched — possible anti-fingerprint tool'),'M','Anti-detect tools often patch native functions']);
+  appendItems('g-automation','Automation Detection',rows);
+  collected.automation={webdriver:navigator.webdriver,pluginCount:navigator.plugins.length};
+}
+
+// ── FONTS ──
+const FONTS=['Arial','Arial Black','Calibri','Cambria','Comic Sans MS','Courier New','Georgia','Helvetica','Impact','Lucida Console','Monaco','Palatino','Segoe UI','Tahoma','Times New Roman','Trebuchet MS','Verdana','Wingdings','Futura','Gill Sans','Baskerville','Garamond','Rockwell','Menlo','Consolas','Ubuntu','Roboto','Open Sans','Noto Sans','Source Code Pro','Fira Code','JetBrains Mono','Cascadia Code','Optima','Didot'];
+function detectFonts(){
+  const c=document.getElementById('measure-canvas'),ctx=c.getContext('2d');
+  ctx.font='72px monospace';const base=ctx.measureText('mmmmmmmmmmlli').width;
+  const found=[];
+  for(const f of FONTS){ctx.font=`72px "${f}",monospace`;if(ctx.measureText('mmmmmmmmmmlli').width!==base)found.push(f);}
+  const g=document.getElementById('g-fonts');
+  FONTS.forEach(f=>{const s=document.createElement('span');s.className='font-chip'+(found.includes(f)?' detected':'');s.textContent=f;g.appendChild(s);});
+  collected.detected_fonts=found;
+  allRows.push({key:'Installed fonts detected',val:found.length+' / '+FONTS.length+' — '+found.join(', '),risk:'M',section:'Font Detection'});
+}
+
+// ── WEBRTC ──
+function detectWebRTC(){
+  const ips=new Set();
+  try{
+    const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+    pc.createDataChannel('');pc.createOffer().then(o=>pc.setLocalDescription(o));
+    pc.onicecandidate=e=>{
+      if(!e||!e.candidate)return;
+      const re=/([0-9]{1,3}(\.[0-9]{1,3}){3})/g;let m;
+      while((m=re.exec(e.candidate.candidate))!==null){
+        if(!ips.has(m[1])){
+          ips.add(m[1]);
+          const priv=/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|169\.254\.)/.test(m[1]);
+          mkItem('g-webrtc',priv?'Private / LAN IP':'Public IP via WebRTC',m[1],priv?'M':'H','WebRTC Leak',priv?'Reveals LAN topology':'Can bypass VPN');
+        }
+      }
+    };
+    // Also check for IPv6 leaks
+    setTimeout(()=>{
+      if(ips.size===0)mkItem('g-webrtc','WebRTC IPs','None detected — may be blocked','L','WebRTC Leak');
+      pc.close();collected.webrtc_ips=[...ips];computeRisk();
+    },3500);
+  }catch(e){mkItem('g-webrtc','WebRTC','Not available or blocked','L','WebRTC Leak');}
+}
+
+// ── PERMISSIONS ──
+const PERMS=[
+  {name:'camera',icon:'📷',label:'Camera'},
+  {name:'microphone',icon:'🎙️',label:'Microphone'},
+  {name:'geolocation',icon:'📍',label:'Geolocation'},
+  {name:'notifications',icon:'🔔',label:'Notifications'},
+  {name:'clipboard-read',icon:'📋',label:'Clipboard Read'},
+  {name:'clipboard-write',icon:'✏️',label:'Clipboard Write'},
+  {name:'accelerometer',icon:'📐',label:'Accelerometer'},
+  {name:'gyroscope',icon:'🌀',label:'Gyroscope'},
+  {name:'magnetometer',icon:'🧲',label:'Magnetometer'},
+  {name:'idle-detection',icon:'💤',label:'Idle Detection'},
+];
+async function checkPermissions(){
+  const list=document.getElementById('g-perms');
+  if(!navigator.permissions){const p=document.createElement('p');p.style.cssText='color:#aaa;font-size:.88em;padding:10px 0';p.textContent='Permissions API not available';list.appendChild(p);return;}
+  collected.permissions={};
+  for(const p of PERMS){
+    const div=document.createElement('div');div.className='perm-row';
+    let state='unknown';
+    try{const r=await navigator.permissions.query({name:p.name});state=r.state;}catch(e){}
+    collected.permissions[p.name]=state;
+    div.innerHTML=`<div class="perm-icon">${p.icon}</div><div class="perm-name">${p.label}</div><div class="perm-state ${state}">${state}</div>`;
+    list.appendChild(div);
+    allRows.push({key:p.label+' permission',val:state,risk:state==='granted'?'H':state==='prompt'?'M':'L',section:'Permissions'});
+  }
+}
+
+// ── BATTERY ──
+async function checkBattery(){
+  try{
+    if(!navigator.getBattery)throw new Error();
+    const b=await navigator.getBattery();
+    collected.battery={level:b.level,charging:b.charging};
+    mkItem('g-battery','Battery level',Math.round(b.level*100)+'%','M','Battery','Precise enough to track across incognito');
+    mkItem('g-battery','Charging state',b.charging?'Charging':'On battery','M','Battery');
+    mkItem('g-battery','Charging time',isFinite(b.chargingTime)?b.chargingTime+'s':'N/A','L','Battery');
+    mkItem('g-battery','Discharging time',isFinite(b.dischargingTime)?b.dischargingTime+'s':'N/A','L','Battery');
+  }catch(e){mkItem('g-battery','Battery API','Not available or blocked — privacy protection active ✓','L','Battery');}
+}
+
+// ── PUBLIC IP ──
+async function fetchPublicIP(){
+  try{
+    const r=await fetch('https://api.ipify.org?format=json');
+    const d=await r.json();collected.public_ip=d.ip;
+    document.getElementById('ip-loading').style.display='none';
+    const el=document.getElementById('ip-hero');el.textContent=d.ip;el.style.display='block';
+    mkItem('g-network','Your public IP address',d.ip,'H','Network','City-level location and ISP are exposed');
+  }catch(e){document.getElementById('ip-loading').textContent='Could not fetch public IP (network error)';}
+}
+
+// ── MEDIA DEVICES ──
+async function checkMediaDevices(){
+  try{
+    const devs=await navigator.mediaDevices.enumerateDevices();
+    const cams=devs.filter(d=>d.kind==='videoinput');
+    const mics=devs.filter(d=>d.kind==='audioinput');
+    const spk=devs.filter(d=>d.kind==='audiooutput');
+    collected.media={cameras:cams.length,mics:mics.length,speakers:spk.length};
+    mkItem('g-media','Cameras detected',cams.length,'M','Media Devices');
+    mkItem('g-media','Microphones detected',mics.length,'M','Media Devices');
+    mkItem('g-media','Speaker / audio outputs',spk.length,'L','Media Devices');
+    cams.forEach((d,i)=>{if(d.label)mkItem('g-media','Camera '+(i+1)+' model',d.label,'H','Media Devices','Exposed after permission grant');});
+    mics.forEach((d,i)=>{if(d.label)mkItem('g-media','Mic '+(i+1)+' model',d.label,'H','Media Devices');});
+  }catch(e){mkItem('g-media','Media Devices API','Not available','I','Media Devices');}
+}
+
+// ── RISK SCORE ──
+function computeRisk(){
+  const H=allRows.filter(r=>r.risk==='H').length;
+  const M=allRows.filter(r=>r.risk==='M').length;
+  const L=allRows.filter(r=>r.risk==='L'||r.risk==='I').length;
+  const total=H+M+L;
+  const weightedSum = H * 1.0 + M * 0.4;
+  const totalWeighted = (H + M + L) * 1.0;
+  const pct = Math.min(100, Math.round((weightedSum / totalWeighted) * 100))
+  document.getElementById('risk-fill').style.width=pct+'%';
+  const sc=document.getElementById('risk-score');
+  sc.textContent=pct;sc.className='risk-score '+(pct<40?'low':pct<65?'mid':'high');
+  document.getElementById('cnt-H').textContent=H;
+  document.getElementById('cnt-M').textContent=M;
+  document.getElementById('cnt-L').textContent=L;
+  document.getElementById('cnt-total').textContent=total;
+  document.getElementById('risk-chips').innerHTML=`<span class="chip danger">${H} high-risk signals</span><span class="chip warn">${M} medium-risk signals</span><span class="chip ok">all in-browser only</span>`;
+}
+
+// ── MAIN SCAN ──
+function runScan(){
+  allRows.length=0;setProgress(5);
+  ['g-identity','g-hardware','g-screen','g-network','g-location','g-browser','g-canvas','g-audio','g-webgl','g-timing','g-sensors','g-codecs','g-protocols','g-ports','g-css','g-automation','g-media','g-storage','g-battery','g-webrtc'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.innerHTML='';
+  });
+  document.getElementById('g-perms').innerHTML='';
+  document.getElementById('g-fonts').innerHTML='';
+  document.getElementById('port-grid').innerHTML='';
+  document.getElementById('port-status').textContent='Scanning common ports… (this takes ~5 seconds)';
+  document.getElementById('ip-loading').style.display='block';
+  document.getElementById('ip-hero').style.display='none';
+  document.getElementById('canvas-hash').textContent='Computing…';
+  document.getElementById('risk-chips').innerHTML='<span class="chip info">Scanning…</span>';
+
+  const nav=navigator;
+
+  // IDENTITY
+  const ua=nav.userAgent,platform=safe(()=>nav.userAgentData?.platform||nav.platform),langs=safe(()=>nav.languages?.join(', ')||nav.language);
+  const src=ua+platform+langs+screen.width+screen.height+screen.colorDepth+(nav.hardwareConcurrency||'')+(nav.deviceMemory||'')+Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let fh=0;for(let i=0;i<src.length;i++){fh=((fh<<5)-fh)+src.charCodeAt(i);fh|=0;}
+  const fp=Math.abs(fh).toString(16).toUpperCase().padStart(8,'0');
+  collected.identity={fp,ua,platform,langs};
+  appendItems('g-identity','Identity',[
+    ['JS browser fingerprint',fp,'H','Combined hash — stable across sessions and incognito'],
+    ['User-Agent string',ua,'H','Reveals browser, version, OS, rendering engine'],
+    ['Platform / OS',platform,'M'],
+    ['Browser vendor',safe(()=>nav.vendor),'L'],
+    ['Preferred languages',langs,'M','Locale preference order'],
+    ['Do Not Track',safe(()=>nav.doNotTrack==='1'?'Enabled':nav.doNotTrack==='0'?'Disabled':'Not set'),'I'],
+    ['Global Privacy Control',safe(()=>nav.globalPrivacyControl?'Enabled':'Disabled'),'I'],
+    ['Cookies enabled',safe(()=>nav.cookieEnabled?'Yes':'No'),'H'],
+  ]);setProgress(10);
+
+  // HARDWARE
+  appendItems('g-hardware','Hardware',[
+    ['CPU logical cores',safe(()=>nav.hardwareConcurrency),'M','Narrows device model tier'],
+    ['Device memory (approx)',safe(()=>nav.deviceMemory!=null?nav.deviceMemory+' GB':'N/A'),'M','Rounded 0.25–8 GB'],
+    ['Max touch points',safe(()=>nav.maxTouchPoints),'M'],
+    ['Touchscreen',safe(()=>nav.maxTouchPoints>0?'Yes ('+nav.maxTouchPoints+' pts)':'No'),'M'],
+    ['Device pixel ratio',window.devicePixelRatio,'M'],
+  ]);collected.hardware={cores:safe(()=>nav.hardwareConcurrency),mem:safe(()=>nav.deviceMemory)};setProgress(18);
+
+  // SCREEN
+  appendItems('g-screen','Screen',[
+    ['Screen resolution',screen.width+' × '+screen.height,'M'],
+    ['Available resolution',screen.availWidth+' × '+screen.availHeight,'M','Reveals OS dock/taskbar size'],
+    ['Colour depth',screen.colorDepth+' bits','L'],
+    ['Viewport inner',window.innerWidth+' × '+window.innerHeight,'M'],
+    ['Screen orientation',safe(()=>screen.orientation?.type||'N/A'),'L'],
+    ['HDR display',safe(()=>window.matchMedia('(dynamic-range: high)').matches?'Yes':'No'),'I'],
+    ['Dark mode preferred',window.matchMedia('(prefers-color-scheme: dark)').matches?'Yes':'No','I'],
+    ['Reduced motion',window.matchMedia('(prefers-reduced-motion: reduce)').matches?'Yes':'No','I'],
+  ]);collected.screen={w:screen.width,h:screen.height};setProgress(24);
+
+  // NETWORK
+  const conn=safe(()=>nav.connection||nav.mozConnection||nav.webkitConnection);
+  appendItems('g-network','Network',[
+    ['Connection type',safe(()=>conn?.effectiveType||conn?.type||'N/A'),'M'],
+    ['Downlink speed',safe(()=>conn?.downlink!=null?conn.downlink+' Mbps':'N/A'),'M'],
+    ['Round-trip time',safe(()=>conn?.rtt!=null?conn.rtt+' ms':'N/A'),'M'],
+    ['Save-Data mode',safe(()=>conn?.saveData?'Yes':'No'),'I'],
+    ['Online status',nav.onLine?'Online':'Offline','I'],
+  ]);fetchPublicIP();setProgress(30);
+
+  // LOCATION
+  const tz=safe(()=>Intl.DateTimeFormat().resolvedOptions().timeZone);collected.location={tz};
+  appendItems('g-location','Location',[
+    ['Timezone (IANA)',tz,'H','City/region level — no permission needed'],
+    ['UTC offset',-(new Date().getTimezoneOffset())+' minutes','M'],
+    ['Locale code',safe(()=>Intl.DateTimeFormat().resolvedOptions().locale),'M'],
+    ['Hour cycle',safe(()=>Intl.DateTimeFormat().resolvedOptions().hourCycle),'L'],
+    ['Calendar system',safe(()=>Intl.DateTimeFormat().resolvedOptions().calendar),'L'],
+    ['Geolocation API',navigator.geolocation?'Available (requires prompt)':'Not available',navigator.geolocation?'H':'L'],
+  ]);setProgress(36);
+
+  // BROWSER
+  appendItems('g-browser','Browser & OS',[
+    ['UA Client Hints brands',safe(()=>nav.userAgentData?.brands?.map(b=>b.brand+' '+b.version).join(', ')||'N/A'),'H'],
+    ['Mobile device flag',safe(()=>nav.userAgentData?.mobile!=null?(nav.userAgentData.mobile?'Yes':'No'):'N/A'),'M'],
+    ['PDF viewer built-in',safe(()=>nav.pdfViewerEnabled!=null?(nav.pdfViewerEnabled?'Yes':'No'):'N/A'),'L'],
+    ['CookieStore API',safe(()=>typeof cookieStore!=='undefined'?'Yes':'No'),'I'],
+    ['Document referrer',safe(()=>document.referrer||'(none)'),'M','Reveals where you came from'],
+    ['Navigation history length',safe(()=>history.length),'M'],
+    ['Page load time',safe(()=>performance.timing?(performance.timing.loadEventEnd-performance.timing.navigationStart)+' ms':'N/A'),'I'],
+    ['Number locale format',safe(()=>(1234567.89).toLocaleString()),'L'],
+    ['AppName',safe(()=>nav.appName),'L'],
+  ]);setProgress(44);
+
+  // STORAGE
+  appendItems('g-storage','Storage',[
+    ['localStorage',safe(()=>typeof localStorage!=='undefined'?'Yes':'No'),'H','Persistent tracking IDs'],
+    ['sessionStorage',safe(()=>typeof sessionStorage!=='undefined'?'Yes':'No'),'M'],
+    ['IndexedDB',safe(()=>typeof indexedDB!=='undefined'?'Yes':'No'),'H'],
+    ['Service Worker',safe(()=>'serviceWorker' in nav?'Yes':'No'),'M','Background requests, interception'],
+    ['Push Notifications',safe(()=>'PushManager' in window?'Yes':'No'),'M'],
+    ['Clipboard API',safe(()=>nav.clipboard?'Yes':'No'),'M'],
+    ['WebAssembly',safe(()=>typeof WebAssembly!=='undefined'?'Yes':'No'),'I'],
+    ['SharedArrayBuffer',safe(()=>typeof SharedArrayBuffer!=='undefined'?'Yes — COOP/COEP enabled':'No'),'M','Reveals security header config'],
+    ['WebGL',safe(()=>{const c=document.createElement('canvas');return(c.getContext('webgl')||c.getContext('experimental-webgl'))?'Yes':'No';}),'M'],
+    ['WebGL2',safe(()=>{const c=document.createElement('canvas');return c.getContext('webgl2')?'Yes':'No';}),'M'],
+    ['Storage quota',safe(()=>navigator.storage?'Available':'N/A'),'I'],
+  ]);setProgress(52);
+
+  // ASYNC sections
+  canvasFingerprint();
+  audioFingerprint();
+  webglFingerprint();
+  timingFingerprint();
+  setupSensors();
+  checkCodecs();
+  checkProtocols();
+  scanPorts();
+  checkCSS();
+  checkAutomation();
+  detectFonts();
+  checkPermissions();
+  checkBattery();
+  detectWebRTC();
+  checkMediaDevices();
+
+  setTimeout(()=>{setProgress(100);computeRisk();},1200);
+  setTimeout(()=>{document.getElementById('progress-bar').style.width='0%';},2500);
+}
+
+function copyAll(){
+  navigator.clipboard.writeText(JSON.stringify(collected,null,2)).then(()=>{
+    const t=document.getElementById('toast');t.className='show';
+    setTimeout(()=>t.className='',3100);
+  });
+}
+
+runScan();
+</script>
+</body>
+</html>
