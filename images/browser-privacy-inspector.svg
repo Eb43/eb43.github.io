@@ -1,71 +1,21 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="width:100%;height:auto;display:block;">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a2535"/>
-      <stop offset="100%" stop-color="#2c3e50"/>
-    </linearGradient>
-    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#27ae60"/>
-      <stop offset="55%" stop-color="#f39c12"/>
-      <stop offset="100%" stop-color="#e74c3c"/>
-    </linearGradient>
-    <clipPath id="eyeClip">
-      <ellipse cx="400" cy="200" rx="200" ry="110"/>
-    </clipPath>
-  </defs>
-
-  <!-- Background -->
-  <rect width="800" height="450" fill="url(#bg)"/>
-
-  <!-- ── BIG EYE ── -->
-  <!-- white of eye -->
-  <ellipse cx="400" cy="200" rx="210" ry="118" fill="#ecf0f1"/>
-  <!-- iris -->
-  <circle cx="400" cy="200" r="88" fill="#2980b9"/>
-  <!-- iris depth ring -->
-  <circle cx="400" cy="200" r="72" fill="#1a6fa8"/>
-  <!-- pupil -->
-  <circle cx="400" cy="200" r="44" fill="#0d1b2a"/>
-  <!-- browser window reflected in pupil -->
-  <rect x="372" y="178" width="56" height="38" rx="4" fill="#3498db" opacity="0.9"/>
-  <rect x="372" y="178" width="56" height="10" rx="4" fill="#2471a3"/>
-  <circle cx="380" cy="183" r="2.5" fill="#e74c3c"/>
-  <circle cx="387" cy="183" r="2.5" fill="#f39c12"/>
-  <circle cx="394" cy="183" r="2.5" fill="#27ae60"/>
-  <!-- highlight glint -->
-  <ellipse cx="370" cy="174" rx="16" ry="9" fill="white" opacity="0.18"/>
-  <!-- eye outline -->
-  <ellipse cx="400" cy="200" rx="210" ry="118" fill="none" stroke="#3498db" stroke-width="4"/>
-
-  <!-- ── LEFT: HIGH badge ── -->
-  <rect x="60" y="170" width="120" height="52" rx="12" fill="#e74c3c"/>
-  <text x="120" y="191" font-family="Arial" font-size="13" font-weight="700" fill="white" text-anchor="middle">HIGH</text>
-  <text x="120" y="212" font-family="Arial" font-size="22" font-weight="900" fill="white" text-anchor="middle">32</text>
-  <!-- connector line to eye -->
-  <line x1="180" y1="200" x2="190" y2="200" stroke="#e74c3c" stroke-width="3" stroke-dasharray="4 3"/>
-
-  <!-- ── RIGHT: MED badge ── -->
-  <rect x="620" y="148" width="120" height="52" rx="12" fill="#f39c12"/>
-  <text x="680" y="169" font-family="Arial" font-size="13" font-weight="700" fill="white" text-anchor="middle">MED</text>
-  <text x="680" y="190" font-family="Arial" font-size="22" font-weight="900" fill="white" text-anchor="middle">57</text>
-  <line x1="610" y1="172" x2="620" y2="172" stroke="#f39c12" stroke-width="3" stroke-dasharray="4 3"/>
-
-  <!-- ── RIGHT LOWER: LOW badge ── -->
-  <rect x="620" y="222" width="120" height="52" rx="12" fill="#27ae60"/>
-  <text x="680" y="243" font-family="Arial" font-size="13" font-weight="700" fill="white" text-anchor="middle">LOW</text>
-  <text x="680" y="264" font-family="Arial" font-size="22" font-weight="900" fill="white" text-anchor="middle">63</text>
-  <line x1="610" y1="248" x2="620" y2="248" stroke="#27ae60" stroke-width="3" stroke-dasharray="4 3"/>
-
-  <!-- ── TITLE top ── -->
-  <text x="400" y="44" font-family="Arial" font-size="22" font-weight="900" fill="#ecf0f1" text-anchor="middle" letter-spacing="1">BROWSER PRIVACY INSPECTOR</text>
-  <line x1="160" y1="52" x2="640" y2="52" stroke="#3498db" stroke-width="2"/>
-
-  <!-- ── EXPOSURE BAR bottom ── -->
-  <text x="400" y="348" font-family="Arial" font-size="13" fill="#7f8c8d" text-anchor="middle">EXPOSURE SCORE</text>
-  <rect x="160" y="358" width="480" height="22" rx="11" fill="#1a252f"/>
-  <rect x="160" y="358" width="384" height="22" rx="11" fill="url(#barGrad)"/>
-  <text x="400" y="374" font-family="Arial" font-size="12" font-weight="700" fill="white" text-anchor="middle">80 / 100</text>
-
-  <!-- ── TAGLINE bottom ── -->
-  <text x="400" y="420" font-family="Arial" font-size="13" fill="#5d6d7e" text-anchor="middle">150+ signals · no server · runs in your browser</text>
+﻿Here's the final paste-ready code:
+html<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="width:100%;height:auto;display:block;">
+  <rect width="800" height="450" fill="#1b2838"/>
+  <circle cx="0"   cy="0"   r="340" fill="#111a24" opacity="0.6"/>
+  <circle cx="800" cy="450" r="340" fill="#111a24" opacity="0.6"/>
+  <path d="M272 218 Q272 100 400 100 Q528 100 528 218" fill="none" stroke="#ecf0f1" stroke-width="44" stroke-linecap="round"/>
+  <path d="M304 218 Q304 142 400 142 Q496 142 496 218" fill="none" stroke="#1b2838" stroke-width="18" stroke-linecap="round"/>
+  <rect x="228" y="210" width="344" height="230" rx="28" fill="#ecf0f1"/>
+  <polyline points="396,210 422,272 385,308 418,370 398,440" fill="none" stroke="#e74c3c" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="418" cy="374" rx="13" ry="13" fill="#e74c3c"/>
+  <ellipse cx="400" cy="408" rx="9"  ry="9"  fill="#e74c3c" opacity="0.75"/>
+  <ellipse cx="412" cy="434" rx="6"  ry="6"  fill="#e74c3c" opacity="0.5"/>
+  <circle cx="400" cy="296" r="32" fill="#2c3e50"/>
+  <rect   x="386" y="318" width="28" height="40" rx="7" fill="#2c3e50"/>
+  <rect x="64"  y="358" width="38" height="58"  rx="6" fill="#27ae60"/>
+  <rect x="114" y="328" width="38" height="88"  rx="6" fill="#f39c12"/>
+  <rect x="164" y="288" width="38" height="128" rx="6" fill="#e74c3c"/>
+  <polygon points="660,50 740,190 580,190" fill="#e74c3c"/>
+  <rect x="654" y="100" width="12" height="56" rx="4" fill="#1b2838"/>
+  <circle cx="660" cy="175" r="8" fill="#1b2838"/>
 </svg>
