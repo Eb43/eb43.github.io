@@ -1,5 +1,4 @@
-﻿Here's the final paste-ready code:
-html<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="width:100%;height:auto;display:block;">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="width:100%;height:auto;display:block;">
   <rect width="800" height="450" fill="#1b2838"/>
   <circle cx="0"   cy="0"   r="340" fill="#111a24" opacity="0.6"/>
   <circle cx="800" cy="450" r="340" fill="#111a24" opacity="0.6"/>
