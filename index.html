@@ -430,23 +430,39 @@ margin-bottom: 3px;
     
     
 <style>
-#video-row {
+#video-module {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.player-wrapper {
+    margin-bottom: 12px;
+}
+
+.controls {
     display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 10px;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-.video-item {
-    min-width: 300px;
-    flex: 0 0 auto;
-}
-
-.video-item iframe {
-    width: 100%;
-    height: 170px;
-    border: 0;
+.controls button {
+    padding: 8px 14px;
+    cursor: pointer;
     border-radius: 6px;
+    border: none;
+    background: #333;
+    color: white;
+}
+
+.controls button:hover {
+    background: #555;
+}
+
+#status {
+    font-size: 13px;
+    color: #666;
 }
 </style>
 </head>
@@ -492,46 +508,78 @@ margin-bottom: 3px;
 <div class="category">
 <div class="card-container">
 <div class="card">
-<div id="video-row"></div>
+
+<div id="video-module">
+
+    <!-- Player -->
+    <div class="player-wrapper">
+        <iframe
+            id="player"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button id="prev-btn">Previous</button>
+        <button id="random-btn">Random</button>
+        <button id="next-btn">Next</button>
+    </div>
+
+    <!-- Status -->
+    <div id="status"></div>
+
+</div>
 
 </div>
 </div>
 </div>
 <script>
 const playlistId = "UUTXRw3r3kLpZw9SjNEUbveQ";
-const playlistLength = 50;     // keep realistic
-const visibleCount = 5;
+const playlistLength = 50; // adjust if known more accurately
 
-const container = document.getElementById("video-row");
+const player = document.getElementById("player");
+const status = document.getElementById("status");
 
-if (!container) {
-    console.error("video-row not found");
-} else {
-    container.innerHTML = "";
+let currentIndex = 0;
 
-    const startIndex = Math.floor(Math.random() * (playlistLength - visibleCount));
+// Load video by index
+function loadVideo(index) {
+    // clamp index safely
+    if (index < 0) index = 0;
+    if (index >= playlistLength) index = playlistLength - 1;
 
-    for (let i = 0; i < visibleCount; i++) {
-        setTimeout(() => {
-            const index = startIndex + i;
+    currentIndex = index;
 
-            const wrapper = document.createElement("div");
-            wrapper.className = "video-item";
+    player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${currentIndex}`;
 
-            const iframe = document.createElement("iframe");
-
-            // combined perturbation
-            iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}&start=${i}`;
-
-            iframe.allowFullscreen = true;
-            iframe.loading = "lazy";
-
-            wrapper.appendChild(iframe);
-            container.appendChild(wrapper);
-
-        }, i * 250); // slightly increased delay for better separation
-    }
+    status.textContent = `Showing video ${currentIndex + 1} of ~${playlistLength}`;
 }
+
+// Random load
+function loadRandom() {
+    const index = Math.floor(Math.random() * playlistLength);
+    loadVideo(index);
+}
+
+// Controls
+document.getElementById("next-btn").onclick = () => {
+    loadVideo(currentIndex + 1);
+};
+
+document.getElementById("prev-btn").onclick = () => {
+    loadVideo(currentIndex - 1);
+};
+
+document.getElementById("random-btn").onclick = () => {
+    loadRandom();
+};
+
+// Initial load
+loadRandom();
 </script>
 
 
