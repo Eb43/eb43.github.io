@@ -433,8 +433,15 @@ margin-bottom: 3px;
 #video-row {
     display: flex;
     gap: 12px;
-    overflow-x: auto;
     padding: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.video-track {
+    display: flex;
+    gap: 12px;
+    animation: scrollVideos 40s linear infinite;
 }
 
 .video-item {
@@ -446,6 +453,16 @@ margin-bottom: 3px;
     width: 100%;
     height: 170px;
     border: 0;
+}
+
+/* continuous left movement */
+@keyframes scrollVideos {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 </style>
 </head>
@@ -518,11 +535,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const videoRow = document.getElementById("video-row");
             videoRow.innerHTML = "";
 
-            // STRICT: only 5 videos
-            for (let i = 0; i < Math.min(entries.length, 5); i++) {
-                const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
+            // create moving track
+            const track = document.createElement("div");
+            track.className = "video-track";
 
-                // wrapper div (this is what enables horizontal layout)
+            const videos = [];
+
+            // get 20 videos
+            for (let i = 0; i < Math.min(entries.length, 20); i++) {
+                const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
+                videos.push(videoId);
+            }
+
+            // duplicate list for seamless loop
+            const fullList = [...videos, ...videos];
+
+            fullList.forEach(videoId => {
                 const videoItem = document.createElement("div");
                 videoItem.className = "video-item";
 
@@ -531,8 +559,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 iframe.allowFullscreen = true;
 
                 videoItem.appendChild(iframe);
-                videoRow.appendChild(videoItem);
-            }
+                track.appendChild(videoItem);
+            });
+
+            videoRow.appendChild(track);
         })
         .catch(error => {
             console.error("Error fetching YouTube RSS feed:", error);
@@ -540,7 +570,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 </script>
-
 
         
         <div class="category">
