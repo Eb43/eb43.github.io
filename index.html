@@ -492,42 +492,67 @@ margin-bottom: 3px;
 <div class="category">
 <div class="card-container">
 <div class="card">
-    <div id="video-row">
+<div id="video-section">
+    <!-- Main player -->
+    <div class="player-wrapper">
         <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UUTXRw3r3kLpZw9SjNEUbveQ"
+            id="main-player"
             width="100%"
             height="400"
-            allowfullscreen
-            style="border:0; display:block; margin:30px auto 20px;">
+            style="border:0;"
+            allowfullscreen>
         </iframe>
     </div>
+
+    <!-- Fake preview row -->
+    <div id="preview-row"></div>
+</div>
 
 </div>
 </div>
 </div>
 <script>
 const playlistId = "UUTXRw3r3kLpZw9SjNEUbveQ";
-const playlistLength = 50; // keep realistic
+const playlistLength = 50;
 const visibleCount = 5;
 
-// random starting point
+const player = document.getElementById("main-player");
+const previewRow = document.getElementById("preview-row");
+
+// random starting index
 const startIndex = Math.floor(Math.random() * (playlistLength - visibleCount));
 
-const container = document.getElementById("video-row");
-container.innerHTML = "";
+// set initial video
+player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${startIndex}`;
 
+// create preview cards
 for (let i = 0; i < visibleCount; i++) {
     const index = startIndex + i;
 
-    const wrapper = document.createElement("div");
-    wrapper.className = "video-item";
+    const card = document.createElement("div");
+    card.className = "preview-card";
 
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}`;
-    iframe.allowFullscreen = true;
+    // fake thumbnail (not exact video, but visually acceptable)
+    const img = document.createElement("img");
 
-    wrapper.appendChild(iframe);
-    container.appendChild(wrapper);
+    // using a placeholder thumbnail pattern
+    img.src = `https://img.youtube.com/vi/default/hqdefault.jpg`;
+
+    // OPTIONAL: add label so user sees difference
+    const label = document.createElement("div");
+    label.textContent = "Video " + (index + 1);
+    label.style.fontSize = "12px";
+    label.style.textAlign = "center";
+
+    card.appendChild(img);
+    card.appendChild(label);
+
+    // click behavior
+    card.onclick = () => {
+        player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}`;
+    };
+
+    previewRow.appendChild(card);
 }
 </script>
 
