@@ -509,79 +509,57 @@ margin-bottom: 3px;
 <div class="card-container">
 <div class="card">
 
-<div id="video-module">
-
-    <!-- Player -->
-    <div class="player-wrapper">
+    <div id="video-container">
         <iframe
-            id="player"
+            src="https://www.youtube.com/embed/videoseries?list=UUx40bJIQeHEaGliHL0mELiQ"
             width="100%"
             height="400"
-            style="border:0;"
-            allowfullscreen>
+            allowfullscreen
+            style="border:0; display:block; margin:30px auto 20px;">
         </iframe>
     </div>
-
-    <!-- Controls -->
-    <div class="controls">
-        <button id="prev-btn">Previous</button>
-        <button id="random-btn">Random</button>
-        <button id="next-btn">Next</button>
-    </div>
-
-    <!-- Status -->
-    <div id="status"></div>
-
-</div>
 
 </div>
 </div>
 </div>
 <script>
-const playlistId = "UUTXRw3r3kLpZw9SjNEUbveQ";
-const playlistLength = 50; // adjust if known more accurately
+        // YouTube videos loading
+        document.addEventListener("DOMContentLoaded", function () {
+            const channelId = "UCx40bJIQeHEaGliHL0mELiQ"; // Replace with the actual YouTube Channel ID
+            const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCx40bJIQeHEaGliHL0mELiQ`;
+            //const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: 
+            const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`;
+            
+            
+            fetch(proxyUrl)
+                .then(response => response.text())
+                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+                .then(data => {
+                    const entries = data.querySelectorAll("entry");
+                    const videoContainer = document.getElementById("video-container");
+                    videoContainer.innerHTML = ""; // Clear loading text
 
-const player = document.getElementById("player");
-const status = document.getElementById("status");
+                    // Loop through the newest 5 videos
+                    for (let i = 0; i < Math.min(entries.length, 10); i++) {
+                        const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
 
-let currentIndex = 0;
+                        // Create an iframe to embed the video
+                        const iframe = document.createElement("iframe");
+                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                        iframe.allowFullscreen = true;
+                        iframe.style.margin = "30px auto 20px";  // Add your desired margins
+                        iframe.style.display = "block";          // Needed for "auto" horizontal centering
 
-// Load video by index
-function loadVideo(index) {
-    // clamp index safely
-    if (index < 0) index = 0;
-    if (index >= playlistLength) index = playlistLength - 1;
 
-    currentIndex = index;
-
-    player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${currentIndex}`;
-
-    status.textContent = `Showing video ${currentIndex + 1} of ~${playlistLength}`;
-}
-
-// Random load
-function loadRandom() {
-    const index = Math.floor(Math.random() * playlistLength);
-    loadVideo(index);
-}
-
-// Controls
-document.getElementById("next-btn").onclick = () => {
-    loadVideo(currentIndex + 1);
-};
-
-document.getElementById("prev-btn").onclick = () => {
-    loadVideo(currentIndex - 1);
-};
-
-document.getElementById("random-btn").onclick = () => {
-    loadRandom();
-};
-
-// Initial load
-loadRandom();
-</script>
-
+                        videoContainer.appendChild(iframe);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching YouTube RSS feed:", error);
+                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
+                });
+        });
+    </script>
 
 
         
