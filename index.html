@@ -427,6 +427,28 @@ margin-bottom: 3px;
         .card:nth-child(5) { animation-delay: 0.5s; }
         .card:nth-child(6) { animation-delay: 0.6s; }
     </style>
+    
+    
+    <style>
+#video-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.video-item {
+    min-width: 300px;
+    flex: 0 0 auto;
+}
+
+.video-item iframe {
+    width: 100%;
+    height: 170px;
+    border: 0;
+    border-radius: 8px;
+}
+</style>
 </head>
 <body>
     <div class="main-container">
@@ -483,6 +505,31 @@ margin-bottom: 3px;
 </div>
 </div>
 </div>
+<script>
+const playlistId = "UUTXRw3r3kLpZw9SjNEUbveQ";
+const playlistLength = 50; // keep realistic
+const visibleCount = 5;
+
+// random starting point
+const startIndex = Math.floor(Math.random() * (playlistLength - visibleCount));
+
+const container = document.getElementById("video-row");
+container.innerHTML = "";
+
+for (let i = 0; i < visibleCount; i++) {
+    const index = startIndex + i;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "video-item";
+
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}`;
+    iframe.allowFullscreen = true;
+
+    wrapper.appendChild(iframe);
+    container.appendChild(wrapper);
+}
+</script>
 
 
 
