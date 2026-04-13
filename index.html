@@ -429,7 +429,7 @@ margin-bottom: 3px;
     </style>
     
     
-    <style>
+<style>
 #video-row {
     display: flex;
     gap: 12px;
@@ -446,7 +446,7 @@ margin-bottom: 3px;
     width: 100%;
     height: 170px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 </style>
 </head>
@@ -492,67 +492,45 @@ margin-bottom: 3px;
 <div class="category">
 <div class="card-container">
 <div class="card">
-<div id="video-section">
-    <!-- Main player -->
-    <div class="player-wrapper">
-        <iframe
-            id="main-player"
-            width="100%"
-            height="400"
-            style="border:0;"
-            allowfullscreen>
-        </iframe>
-    </div>
-
-    <!-- Fake preview row -->
-    <div id="preview-row"></div>
-</div>
+<div id="video-row"></div>
 
 </div>
 </div>
 </div>
 <script>
 const playlistId = "UUTXRw3r3kLpZw9SjNEUbveQ";
-const playlistLength = 50;
+const playlistLength = 50;     // keep realistic
 const visibleCount = 5;
 
-const player = document.getElementById("main-player");
-const previewRow = document.getElementById("preview-row");
+const container = document.getElementById("video-row");
 
-// random starting index
-const startIndex = Math.floor(Math.random() * (playlistLength - visibleCount));
+if (!container) {
+    console.error("video-row not found");
+} else {
+    container.innerHTML = "";
 
-// set initial video
-player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${startIndex}`;
+    const startIndex = Math.floor(Math.random() * (playlistLength - visibleCount));
 
-// create preview cards
-for (let i = 0; i < visibleCount; i++) {
-    const index = startIndex + i;
+    for (let i = 0; i < visibleCount; i++) {
+        setTimeout(() => {
+            const index = startIndex + i;
 
-    const card = document.createElement("div");
-    card.className = "preview-card";
+            const wrapper = document.createElement("div");
+            wrapper.className = "video-item";
 
-    // fake thumbnail (not exact video, but visually acceptable)
-    const img = document.createElement("img");
+            const iframe = document.createElement("iframe");
 
-    // using a placeholder thumbnail pattern
-    img.src = `https://img.youtube.com/vi/default/hqdefault.jpg`;
+            // combined perturbation
+            iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}&start=${i}`;
 
-    // OPTIONAL: add label so user sees difference
-    const label = document.createElement("div");
-    label.textContent = "Video " + (index + 1);
-    label.style.fontSize = "12px";
-    label.style.textAlign = "center";
+            iframe.allowFullscreen = true;
+            iframe.loading = "lazy";
 
-    card.appendChild(img);
-    card.appendChild(label);
+            wrapper.appendChild(iframe);
+            container.appendChild(wrapper);
 
-    // click behavior
-    card.onclick = () => {
-        player.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&index=${index}`;
-    };
-
-    previewRow.appendChild(card);
+        }, i * 250); // slightly increased delay for better separation
+    }
 }
 </script>
 
