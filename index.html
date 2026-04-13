@@ -441,7 +441,10 @@ margin-bottom: 3px;
 .video-track {
     display: flex;
     gap: 12px;
-    animation: scrollVideos 40s linear infinite;
+    width: max-content;
+
+    /* back-and-forth movement */
+    animation: scrollVideos 40s linear infinite alternate;
 }
 
 .video-item {
@@ -455,13 +458,13 @@ margin-bottom: 3px;
     border: 0;
 }
 
-/* continuous left movement */
+/* move left, then automatically reverse */
 @keyframes scrollVideos {
     0% {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(calc(-100% + 100vw));
     }
 }
 </style>
@@ -535,22 +538,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const videoRow = document.getElementById("video-row");
             videoRow.innerHTML = "";
 
-            // create moving track
             const track = document.createElement("div");
             track.className = "video-track";
 
-            const videos = [];
-
-            // get 20 videos
+            // ONLY 20 videos, no duplication
             for (let i = 0; i < Math.min(entries.length, 20); i++) {
                 const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
-                videos.push(videoId);
-            }
 
-            // duplicate list for seamless loop
-            const fullList = [...videos, ...videos];
-
-            fullList.forEach(videoId => {
                 const videoItem = document.createElement("div");
                 videoItem.className = "video-item";
 
@@ -560,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 videoItem.appendChild(iframe);
                 track.appendChild(videoItem);
-            });
+            }
 
             videoRow.appendChild(track);
         })
