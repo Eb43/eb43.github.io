@@ -444,7 +444,7 @@ margin-bottom: 3px;
     width: max-content;
 
     /* back-and-forth movement */
-    animation: scrollVideos 80s linear infinite alternate;
+    animation: scrollVideos 120s linear infinite alternate;
 }
 
 .video-item {
@@ -514,7 +514,7 @@ margin-bottom: 3px;
 
     <div id="video-row">
         <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UUTXRw3r3kLpZw9SjNEUbveQ"
+            src="https://www.youtube.com/embed/videoseries?list=UCTXRw3r3kLpZw9SjNEUbveQ"
             width="100%"
             height="400"
             allowfullscreen
@@ -538,27 +538,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const videoRow = document.getElementById("video-row");
             videoRow.innerHTML = "";
 
-            const track = document.createElement("div");
-            track.className = "video-track";
-
-            // ONLY 20 videos, no duplication
-            for (let i = 0; i < Math.min(entries.length, 20); i++) {
+            // STRICT: only 5 videos
+            for (let i = 0; i < Math.min(entries.length, 5); i++) {
                 const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
 
+                // wrapper div (this is what enables horizontal layout)
                 const videoItem = document.createElement("div");
                 videoItem.className = "video-item";
 
                 const iframe = document.createElement("iframe");
                 iframe.src = `https://www.youtube.com/embed/${videoId}`;
                 iframe.allowFullscreen = true;
-                
-                iframe.loading = "lazy";
 
                 videoItem.appendChild(iframe);
-                track.appendChild(videoItem);
+                videoRow.appendChild(videoItem);
             }
-
-            videoRow.appendChild(track);
         })
         .catch(error => {
             console.error("Error fetching YouTube RSS feed:", error);
@@ -566,6 +560,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 </script>
+
 
         
         <div class="category">
