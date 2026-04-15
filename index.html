@@ -430,7 +430,7 @@ margin-bottom: 3px;
     
     
 <style>
-.video-container {
+#video-container {
     position: relative;
     display: flex; /* added */
     flex-direction: row; /* added */
@@ -449,18 +449,17 @@ margin-bottom: 3px;
     */
 }
 
-.video-container:hover {
+#video-container:hover {
     transform: scale(1.02);
     box-shadow: var(--hover-shadow);
 }
 
-.video-container iframe {
+#video-container iframe {
     flex: 1; /* added */
     width: 100%;
     border: none;
     border-radius: var(--border-radius);
     margin: 0; /* adjusted from 30px auto 20px */
-}
 }
 
 </style>
@@ -539,8 +538,6 @@ margin-bottom: 3px;
                         const iframe = document.createElement("iframe");
                         iframe.src = `https://www.youtube.com/embed/${videoId}`;
                         iframe.allowFullscreen = true;
-                        iframe.style.margin = "30px auto 20px";  // Add your desired margins
-                        iframe.style.display = "block";          // Needed for "auto" horizontal centering
 
 
                         videoContainer.appendChild(iframe);
