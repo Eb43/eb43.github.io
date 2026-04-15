@@ -531,7 +531,7 @@ margin-bottom: 3px;
                     videoContainer.innerHTML = ""; // Clear loading text
 
                     // Loop through the newest 5 videos
-                    for (let i = 0; i < Math.min(entries.length, 10); i++) {
+                    for (let i = 0; i < Math.min(entries.length, 5); i++) {
                         const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
 
                         // Create an iframe to embed the video
