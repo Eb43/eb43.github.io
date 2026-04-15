@@ -434,39 +434,14 @@ margin-bottom: 3px;
     display: flex;
     gap: 12px;
     padding: 10px;
-    overflow: hidden;
-    position: relative;
+    overflow-x: auto; 
 }
 
-.video-track {
-    display: flex;
-    gap: 12px;
-    width: max-content;
-
-    /* back-and-forth movement */
-    animation: scrollVideos 120s linear infinite alternate;
-}
-
-.video-item {
-    min-width: 300px;
-    flex: 0 0 auto;
-}
-
-.video-item iframe {
-    width: 100%;
+#video-row iframe {
+    flex: 0 0 300px; /* фіксована ширина */
     height: 170px;
-    border: 0;
 }
 
-/* move left, then automatically reverse */
-@keyframes scrollVideos {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(calc(-100% + 100vw));
-    }
-}
 </style>
 </head>
 <body>
@@ -526,39 +501,41 @@ margin-bottom: 3px;
 </div>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCTXRw3r3kLpZw9SjNEUbveQ`;
+        // YouTube videos loading
+        document.addEventListener("DOMContentLoaded", function () {
+            const channelId = "UCTXRw3r3kLpZw9SjNEUbveQ"; // Replace with the actual YouTube Channel ID
+            const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCTXRw3r3kLpZw9SjNEUbveQ`;
 
-    fetch(proxyUrl)
-        .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then(data => {
-            const entries = data.querySelectorAll("entry");
-            const videoRow = document.getElementById("video-row");
-            videoRow.innerHTML = "";
+            
+            
+            fetch(proxyUrl)
+                .then(response => response.text())
+                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+                .then(data => {
+                    const entries = data.querySelectorAll("entry");
+                    const videoContainer = document.getElementById("video-row");
+                    videoContainer.innerHTML = ""; // Clear loading text
 
-            // STRICT: only 5 videos
-            for (let i = 0; i < Math.min(entries.length, 5); i++) {
-                const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
+                    // Loop through the newest 5 videos
+                    for (let i = 0; i < Math.min(entries.length, 10); i++) {
+                        const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
 
-                // wrapper div (this is what enables horizontal layout)
-                const videoItem = document.createElement("div");
-                videoItem.className = "video-item";
+                        // Create an iframe to embed the video
+                        const iframe = document.createElement("iframe");
+                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                        iframe.allowFullscreen = true;
 
-                const iframe = document.createElement("iframe");
-                iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                iframe.allowFullscreen = true;
 
-                videoItem.appendChild(iframe);
-                videoRow.appendChild(videoItem);
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching YouTube RSS feed:", error);
-            document.getElementById("video-row").innerHTML = "Failed to load videos.";
+
+                        videoContainer.appendChild(iframe);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching YouTube RSS feed:", error);
+                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
+                });
         });
-});
-</script>
+    </script>
 
 
         
