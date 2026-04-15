@@ -430,16 +430,37 @@ margin-bottom: 3px;
     
     
 <style>
-#video-row {
-    display: flex;
-    gap: 12px;
-    padding: 10px;
-    overflow-x: auto; 
+.video-container {
+    position: relative;
+    display: flex; /* added */
+    flex-direction: row; /* added */
+    gap: 20px; /* added */
+
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 30px auto 20px;
+    width: 100%;
+
+    /* removed:
+    padding-bottom: 56.25%;
+    height: 0;
+    height: 100%;
+    */
 }
 
-#video-row iframe {
-    flex: 0 0 300px; /* фіксована ширина */
-    height: 170px;
+.video-container:hover {
+    transform: scale(1.02);
+    box-shadow: var(--hover-shadow);
+}
+
+.video-container iframe {
+    flex: 1; /* added */
+    width: 100%;
+    border: none;
+    border-radius: var(--border-radius);
+    margin: 0; /* adjusted from 30px auto 20px */
+}
 }
 
 </style>
@@ -487,18 +508,19 @@ margin-bottom: 3px;
 <div class="card-container">
 <div class="card">
 
-    <div id="video-row">
+    <div id="video-container">
     </div>
 
 </div>
 </div>
 </div>
-<script>
+            <script>
         // YouTube videos loading
         document.addEventListener("DOMContentLoaded", function () {
             const channelId = "UCTXRw3r3kLpZw9SjNEUbveQ"; // Replace with the actual YouTube Channel ID
             const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCTXRw3r3kLpZw9SjNEUbveQ`;
-const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
+            //const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: 
+            const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`;
             
             
             fetch(proxyUrl)
@@ -506,7 +528,7 @@ const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssU
                 .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
                 .then(data => {
                     const entries = data.querySelectorAll("entry");
-                    const videoContainer = document.getElementById("video-row");
+                    const videoContainer = document.getElementById("video-container");
                     videoContainer.innerHTML = ""; // Clear loading text
 
                     // Loop through the newest 5 videos
@@ -517,7 +539,8 @@ const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssU
                         const iframe = document.createElement("iframe");
                         iframe.src = `https://www.youtube.com/embed/${videoId}`;
                         iframe.allowFullscreen = true;
-
+                        iframe.style.margin = "30px auto 20px";  // Add your desired margins
+                        iframe.style.display = "block";          // Needed for "auto" horizontal centering
 
 
                         videoContainer.appendChild(iframe);
@@ -525,7 +548,7 @@ const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssU
                 })
                 .catch(error => {
                     console.error("Error fetching YouTube RSS feed:", error);
-                    document.getElementById("video-row").innerHTML = "Failed to load videos.";
+                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
                 });
         });
     </script>
