@@ -488,13 +488,6 @@ margin-bottom: 3px;
 <div class="card">
 
     <div id="video-row">
-        <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UUTXRw3r3kLpZw9SjNEUbveQ"
-            width="100%"
-            height="400"
-            allowfullscreen
-            style="border:0; display:block; margin:30px auto 20px;">
-        </iframe>
     </div>
 
 </div>
@@ -505,7 +498,7 @@ margin-bottom: 3px;
         document.addEventListener("DOMContentLoaded", function () {
             const channelId = "UCTXRw3r3kLpZw9SjNEUbveQ"; // Replace with the actual YouTube Channel ID
             const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCTXRw3r3kLpZw9SjNEUbveQ`;
-
+const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
             
             
             fetch(proxyUrl)
@@ -532,7 +525,7 @@ margin-bottom: 3px;
                 })
                 .catch(error => {
                     console.error("Error fetching YouTube RSS feed:", error);
-                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
+                    document.getElementById("video-row").innerHTML = "Failed to load videos.";
                 });
         });
     </script>
