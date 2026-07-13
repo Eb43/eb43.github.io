@@ -504,52 +504,7 @@ margin-bottom: 3px;
 
 
 
-<div class="category">
-<div class="card-container">
-<div class="card">
 
-    <div id="video-container">
-    </div>
-
-</div>
-</div>
-</div>
-            <script>
-        // YouTube videos loading
-        document.addEventListener("DOMContentLoaded", function () {
-            const channelId = "UCTXRw3r3kLpZw9SjNEUbveQ"; // Replace with the actual YouTube Channel ID
-            const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=UCTXRw3r3kLpZw9SjNEUbveQ`;
-            //const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`; // Bypass CORS Instead of corsproxy.io, you can try a different public CORS proxy like: 
-            const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`;
-            
-            
-            fetch(proxyUrl)
-                .then(response => response.text())
-                .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-                .then(data => {
-                    const entries = data.querySelectorAll("entry");
-                    const videoContainer = document.getElementById("video-container");
-                    videoContainer.innerHTML = ""; // Clear loading text
-
-                    // Loop through the newest 5 videos
-                    for (let i = 0; i < Math.min(entries.length, 5); i++) {
-                        const videoId = entries[i].querySelector("yt\\:videoId, videoId").textContent;
-
-                        // Create an iframe to embed the video
-                        const iframe = document.createElement("iframe");
-                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-                        iframe.allowFullscreen = true;
-
-
-                        videoContainer.appendChild(iframe);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching YouTube RSS feed:", error);
-                    document.getElementById("video-container").innerHTML = "Failed to load videos.";
-                });
-        });
-    </script>
 
 
         
@@ -673,7 +628,7 @@ margin-bottom: 3px;
                 <div class="card" >
                     <a href="https://eb43.github.io/txtnotes-android-app-notes-in-txt-files.html">
                         <div class="card-image-container">
-                            <img src="https://raw.githubusercontent.com/Eb43/txtnotes/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/10.gif" alt="TXTnotes TeXeTeScribe note taking app android">
+                            <img src="https://raw.githubusercontent.com/Eb43/txtnotes/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" alt="TXTnotes TeXeTeScribe note taking app android">
                             <div class="card-overlay">
                                 <div class="overlay-text">Simple Note Taking →</div>
                             </div>
