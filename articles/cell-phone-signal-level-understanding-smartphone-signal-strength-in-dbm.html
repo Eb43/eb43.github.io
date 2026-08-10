@@ -1,0 +1,1347 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+<link rel="shortcut icon" href="https://eb43.github.io/favicon.ico" />
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+table td,
+table th {
+    padding: 10px 14px;
+    border: 1px solid #000;
+}
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+margin: 20px 0;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+ 
+ 
+     <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.js">
+    </script>
+
+    <script defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body);">
+    </script>
+    
+       
+    <title>Understanding the tiny amount of radio power your phone receives. From 1 milliwatt to 1 femtowatt</title>
+    <meta name="description" content="how much radio power actually reaches cell phone. understanding cell phone signal strength in dBm ">
+
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer Евген Барилюк" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 60%;">Евген Барилюк</p>
+    <p style="font-size: 120%;">Published: 13 August 2026</p>
+<p><strong>Total Word Count:</strong> 
+
+ <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer Евген Барилюк" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> 
+
+ <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometre; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls loop autoplay muted playsinline class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1>How weak is a cell phone signal? Understanding smartphone signal strength in dBm with real-world analogies</h1>
+
+<p>Look at your smartphone: it’s bright screen displays 3,4 or even 5 bars of the signal level. You feel calmed by the understanding of a stable powerful signal. But in reality at that moment your cell phone can “hear” almost nothing.</p>
+
+<p>
+Highly likely one severely underestimates the amount of energy that ultimately reaches the smartphone. Yet this tiny amount is sufficient for modern receivers to reconstruct voice, messages, photographs, maps, high-definition video, and even realtime productivity / gaming. Understanding how such an apparently impossible feat becomes possible begins with understanding one quantity: <strong>power</strong>.
+</p>
+
+<p>When a mobile phone transmits or receives data, it communicates with the mobile network's cell tower entirely by electromagnetic waves. These waves travel through space at the speed of light while carrying energy. Every second, the phone either emits a certain amount of energy through its antenna or attempts to collect an unimaginably tiny amount arriving from a distant cellular tower.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/understanding-smartphone-signal-strength-in-dbm.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Every radio signal has a measurable power, which is the rate at which energy is transferred. Power is measured in watts (W). One watt means that one joule (joule is a universal groundline unit of anything energy related) of energy is transferred every second.</p>
+
+<span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">1</span><span class="mspace">&nbsp;</span><span class="mord mathrm" style="margin-right:0.01389em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0463em;vertical-align:-0.686em;"></span><span class="mord">1</span><span class="mspace">&nbsp;</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">s</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathrm">J</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+
+
+
+
+
+<p>
+The unit of power shows how quickly energy is transferred. Here's a practical relation:
+</p>
+
+<ul>
+<li>1 watt means 1 joule of energy delivered every second.</li>
+<li>0,1 watt delivers 0,1 joule every second.</li>
+</ul>
+
+<p>Knowing the aforementioned, the definition for energy is <b>Energy is power accumulated over time:</b></p>
+
+<p style="text-align:center;">
+<strong>Energy = Power × Time</strong>
+</p>
+
+<p>
+Understanding the definitions of power and energy is crucial for understanding the processes in real world. For example, LED indicator of your laptop's power supply produces a very small power, but it can still perform noticeable energy consumption if it continues long enough. While a large power of a flashlight of your DSLR camera acts for only an instant and delivers little total energy, allowing to be fed by small batteries.
+</p>
+
+<h2>Radio waves are energy spread through space</h2>
+
+<p>Unlike electricity inside a wire, radio energy does not remain confined and spreads in multiple directions simultaneously. Depending on the emitting antenna, energy emitted in some directions may be lower that in other directions - such antennas are called directed antennas. A simple rod-like antenna (look at your wi-fi router’s antenna) is often described as omnidirectional because it radiates broadly around the antenna rather than concentrating its energy into one narrow beam.</p>
+
+<p>When the radio wave propagates through space, it extremely quickly loses its power per unit area with distance. Imagine inflating a balloon. The amount of rubber does not increase, but its surface becomes larger and larger. With every centimetre in ballon diameter increase, every square centimetre of its surface receives less rubber than before.</p>
+
+<p>As the wave expands, exactly the same transmitted power becomes distributed over an ever-growing spherical surface. If distance doubles, the surface area becomes four times larger, so each square metre receives only one quarter as much power.</p>
+
+<p>If distance increases tenfold, the same transmitted energy is spread over one hundred times more area. This geometric spreading is one of the primary reasons why received signals become extraordinarily weak.</p>
+
+<h3>Receiving radio signal is collecting the radio wave energy</h3>
+
+<p>A cell tower may transmit several hundred watts. But your phone receives only an extremely small fraction of that energy. That is because the energy travels some usually significant distance and phone's antenna occupies only a few square centimetres. Such tiny antenna is physically capable to intercept only the tiny amount of electromagnetic energy. A bigger antenna would capture more energy, and offer more reliable signal in identical conditions.</p>
+
+<p>Imagine a massive rain falling uniformly over some area. Placing a drinking glass anywhere collects only a minute fraction of that rainfall because the glass covers such a tiny area. Place a bigger bucket, and you get much more water captured.</p>
+
+<h2>How much energy does a cell phone really receive?</h2>
+
+<p>Every mobile phone periodically exchanges radio waves with the cellular base station even if it just sits in your pocket. And how much radio energy your phone actually receives from the cell tower?</p>
+
+<p>A quick answer the amount is so low that you will need a lot of zeroes. </p>
+
+<p>For a typical cellular frequency around 2 GHz, the wavelength is about 0,15 m. If a −80 dBm signal were continuously present for one second, the phone's antenna would receive only about 0,00000000001 joules of RF energy. That means the radio-frequency energy arriving at the receiver is only about 10 picowatts. A smartphone may consume hundreds of milliwatts and more while operating, so its total electrical power consumption can be tens of billions of times greater than the 10-picowatt −80 dBm radio signal arriving at its receiver.</p>
+
+<p>The -80 dBm signal is already a weak one, but in practice smartphones have to work with even lower values because of plethora factors influencing the signal level: frequency, antenna efficiency, antenna orientation, the phone's antenna gain, polarization mismatch, cable and cable matching losses.</p>
+
+
+<h2>Why dBm is used instead of Watts</h2>
+
+<p>All this time we've discussed the radio wave in the values of its energy, and all of a sudden a dBm unit of measurement appeared. Why dBm is everywhere when you deal with signals, and not Watts or Joules?
+
+<p>For the most part, because people don't like to write a lot of zeroes. So, a logarithmic unit dBm has become a standard.</p>
+
+<p>The "m" means that every value is referenced to 1 milliwatt. Exactly 0 dBm = 1 mW = 0,001 W.</p>
+
+
+<p style="text-align:center;">
+<strong>dBm = 10 × log<sub>10</sub>(Power / 1 mW)</strong>
+</p>
+
+<p>
+Using dBm makes enormously small power levels manageable. Instead of writing numbers containing twelve or fifteen zeros, engineers simply subtract 10 dB every time the power becomes ten times smaller.
+</p>
+
+<table class="table" border="1" cellpadding="26" cellspacing="0">
+<tr>
+<th>dBm</th>
+<th>Power</th>
+<th>Ratio to 1 mW</th>
+</tr>
+
+<tr><td>0 dBm</td><td>1 mW</td><td>1×</td></tr>
+<tr><td>-10 dBm</td><td>0,1 mW</td><td>10× smaller</td></tr>
+<tr><td>-20 dBm</td><td>0,01 mW</td><td>100× smaller</td></tr>
+<tr><td>-30 dBm</td><td>1 μW</td><td>1 000× smaller</td></tr>
+<tr><td>-40 dBm</td><td>100 nW</td><td>10 000× smaller</td></tr>
+<tr><td>-50 dBm</td><td>10 nW</td><td>100 000× smaller</td></tr>
+<tr><td>-60 dBm</td><td>1 nW</td><td>1 000 000× smaller</td></tr>
+<tr><td>-70 dBm</td><td>100 pW</td><td>10 000 000× smaller</td></tr>
+<tr><td>-80 dBm</td><td>10 pW</td><td>100 000 000× smaller</td></tr>
+<tr><td>-90 dBm</td><td>1 pW</td><td>1 000 000 000× smaller</td></tr>
+<tr><td>-100 dBm</td><td>100 fW</td><td>10 000 000 000× smaller</td></tr>
+<tr><td>-110 dBm</td><td>10 fW</td><td>100 000 000 000× smaller</td></tr>
+<tr><td>-120 dBm</td><td>1 fW</td><td>1 000 000 000 000× smaller</td></tr>
+
+</table>
+
+<p>
+The logarithmic scale hides just how dramatic these differences are. Every step of 10 dB removes another 90% of the remaining power. By the time signal reaches -120 dBm, the received power has become <strong>one trillion times smaller</strong> than the already tiny reference of one milliwatt. At this point a “no signal” sign can be expected. 
+</p>
+
+<p class="highlight"><b>Remember this: a signal at -120 dBm is not merely 120 times weaker than signal at 0 dBm. It is 1 000 000 000 000 (one trillion) times weaker</b>.</p>
+
+<h3>How to see the actual signal level on Android smartphone</h3>
+
+<p>Now that dBm has been introduced, there is no need to take the signal bars on your phone on faith. You can simply look at the actual signal-strength value reported by the phone.</p>
+
+<p>One convenient way to do this on Android is <a href="https://f-droid.org/en/packages/barilyuk.mobilosignal/">MobiloSignal</a>, a free and open-source application. It displays the phone's cellular signal strength in dBm and keeps the current value visible in the status bar and in a notification, so the measurement remains available while you are using other applications. </p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/phonesignalstrength/refs/heads/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" alt="MobiloSignal application for Android" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+
+<p>Install the application, allow the requested permissions, and it will make the numbers in this article something you can actually observe. Stand near a window and you might see a considerably stronger value, then move into an interior room, basement, elevator, or another location where the cellular signal is obstructed and watch the number become more negative. A change from −70 dBm to −90 dBm may look like only a difference of 20 on the screen, but you already know te  dBm is logarithmic, and the signal actually reduces 100-times in received power.</p>
+
+<p>The same measurement can also be useful when comparing locations. Instead of saying that one corner of a building has “better reception” than another, you can measure the difference directly. For example, moving from −105 dBm to −85 dBm represents a 20 dB increase, corresponding to 100 times more received power under the same measurement conditions.</p>
+
+<p>The dBm in status bar gives you a numerical way to observe the quantity that signal bars deliberately hide. Instead of seeing four or five bars and having no idea whether the underlying signal is −65 dBm or −95 dBm, you can see the actual reported value and relate it directly to the power scale.</p>
+
+
+<h2>Power levels humans can actually experience</h2>
+
+<p>
+Before descending into the extraordinarily weak signals handled by smartphones, it helps to anchor intuition using powers that can still produce visible or measurable effects in everyday life.
+</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+<th>Power</th>
+<th>Watts</th>
+<th>Typical Continuous Effect</th>
+</tr>
+
+<tr>
+<td>+40 dBm</td>
+<td>10 W</td>
+<td>Bright LED lamp, slow phone chargers.</td>
+</tr>
+
+<tr>
+<td>+30 dBm</td>
+<td>1 W</td>
+<td>Powerful flashlight LED.</td>
+</tr>
+
+<tr>
+<td>+20 dBm</td>
+<td>100 mW</td>
+<td>Bright indicator LED.</td>
+</tr>
+
+<tr>
+<td>+10 dBm</td>
+<td>10 mW</td>
+<td>Efficient laser pointer.</td>
+</tr>
+
+<tr>
+<td>0 dBm</td>
+<td>1 mW</td>
+<td>Extremely dim LED visible only in darkness.</td>
+</tr>
+
+</table>
+
+<p>Notice how the 1 mW level is merely the last power level that human still directly experience, while it is 100 000 times more powerful than the most powerful signal level a smartphone may realistically expect (-50 dBm).</p>
+
+
+
+<h2>Why -50 dBm may be considered as the highest signal level a smartphone can realistically expect</h2>
+
+<p>The &minus;50 dBm is not the best signal a smartphone can physically receive. A phone can absolutely receive much stronger signals, in some situations even close to 0 dBm.</p>
+
+<p>However, a &minus;50 dBm is considered a baseline for a strong received cellular signal under ordinary real-world conditions. Stronger signal levels, say as &minus;10 dBm, are not normally expected. &minus;10 dBm corresponds to 0,1 mW. That is an enormous amount of RF power to be arriving at a smartphone antenna.</p>
+
+<p>Consider a simplified cellular link base tower to smartphone. Suppose a base station transmits around +46 dBm (40 W) of RF power. Even before considering loss factors as buildings, reflections, antenna patterns, cable losses, and other factors, a propagation over distance produces substantial loss by itself.</p>
+
+<p>At 1 GHz, the free-space path loss over 1 km distance is approximately:</p>
+
+<p>L<sub>FS</sub> = 32,44 + 20 log<sub>10</sub>(1000) + 20 log<sub>10</sub>(1)</p>
+
+<p>L<sub>FS</sub> &asymp; 92,4 dB</p>
+
+<p>So, very approximately:</p>
+
+<p>46 &minus; 92,4 = &minus;46,4 dBm</p>
+
+<p>That already puts the signal level around &minus;46 dBm at 1 km, under an idealized free-space calculation with ideal antennas. Real cellular systems then have antenna gains and losses, actual environments introduce additional losses.</p>
+
+<p>This illustrates why values around &minus;50 dBm may be considered as the best cellular reception to be realistically expected.</p>
+
+<p>For a smartphone to receive a -10dBm signal from the same +46 dBm transmitter, it has to be only 15 metres away.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-10-dbm-strong-signal.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+<p>To achieve the -10dBm signal level at receiver, the 1 GHz signal propagation loss from the +46 dBm transmitter has to be 46 &minus; (&minus;10) = 56 dB. We can convert this loss into an approximate distance using the free-space path-loss (FSPL) equation:</p>
+
+<p> FSPL = 20 log<sub>10</sub>(d) + 20 log<sub>10</sub>(f) + 32,44 </p>
+
+<p>where <em>d</em> is the distance in kilometres and <em>f = 1 GHz = 1000 MHz</em> is the frequency in MHz.</p>
+
+<p> 56 = 20 log<sub>10</sub>(d) + 20 log<sub>10</sub>(1000) + 32,44 </p>
+
+<p> 56 = 20 log<sub>10</sub>(d) + 60 + 32,44 </p>
+
+<p> 20 log<sub>10</sub>(d) = &minus;36,44 </p>
+
+<p> d = 10<sup>&minus;36,44/20</sup> &asymp; 0,0151 km = 15.1 metres </p>
+
+
+
+
+<h2>Intuitive illustration of power levels a radio communication deals with</h2>
+
+<p class="highlight">We simplify things here and pretend we are in reality with no loss factors.</p>
+
+
+
+
+<h3>-10 dBm (0,1 mW): a world we can comprehend through mechanical work analogy</h3>
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −10 dBm (0,1 mW): 43,6 hours to boiling, and 14,9 days to evaporate it completely.</p>
+
+<p>
+The receiver now obtains only one tenth of the reference energy point of 1 mW. Gravity still provides an excellent reference because lifting objects depends directly upon energy.</p>
+
+<p>Let’s establish some numbers:</p>
+<p>Power -10 dBm = 0,1 mW = 0,0001 W </p>
+
+<p>Energy produced</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+<th>Time</th>
+<th>Energy</th>
+</tr>
+<tr>
+<td>1 second</td>
+<td>0,0001 J</td>
+</tr>
+<tr>
+<td>1 minute</td>
+<td>0,006 J</td>
+</tr>
+<tr>
+<td>1 hour</td>
+<td>0,36 J</td>
+</tr>
+<tr>
+<td>24 hours</td>
+<td>8,64 J</td>
+</tr>
+</table>
+
+<p>Mechanical work is now a better way to visualize such energy levels.</p>
+
+<p>
+Potential energy: E = mgh, where h is height of some mass m above the reference ground level. Alternatively, h = E / (mg)
+</p>
+
+<p>
+So, with given amount of energy a single kilogram of mass can be lifted to h = 0,36 / (1 × 9,81) ≈ 0,0367 m
+</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-10-dbm-water-lift.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>
+In other words, the amount of energy that is so high a smartphone cannot realistically expect it, in mechanical world is equal to a level so low that during one hour, this energy could lift a one liter bottle of water only 3,7 centimetres.
+</p>
+
+
+<h3>-20 dBm (10 µW): you’ll need over 175 years to charge a phone</h3> 
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −20 dBm (10 µW): 18,2 days to boiling, and 149 days to evaporate it completely.</p>
+
+<p> At -20 dBm, the smartphone’s radio signal processing circuit is at the situation as if someone stands beside you and screams directly into your ear though a megaphone. That appears extremely loud and powerful. But if you’d wanted to use a similar to -20 dBm level of power for other practical applications’ you’d better have a lot of patience.</p>
+
+<p>Say, you want to charge your phone. Radio wave energy is easily converted into electricity – a receiving antenna does this. But the amount of electricity obtained would be so small, you’ll need almost two centuries to charge a phone.</p>
+
+<p>Why so long? Imagine a 15-liter container representing a smartphone battery's stored energy. Now imagine adding the energy received by the antenna during one hour at -20 dBm. The equivalent addition would be only about 0,0098 milliliters if the entire battery energy were represented by 15 liters. That is roughly two-tenths of a drop of water per hour.</p>
+
+<p>Let’s establish some numbers:</p> 
+<p> Power -20 dBm = 0,01 mW = 0,00001 W = 10 µW</p> 
+
+<p>Energy produced:</p> 
+<table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,00001 J</td> </tr> <tr> <td>1 minute</td> <td>0,0006 J</td> </tr> <tr> <td>1 hour</td> <td>0,036 J</td> </tr> <tr> <td>24 hours</td> <td>0,864 J</td> </tr> </table> 
+
+<p>Say your phone has a battery capacity rated at approximately 4 000 mAh and 3,85 V. It stores roughly: 4 Ah × 3,85 V = 15,4 Wh of energy. Since one watt-hour equals 3 600 joules, the battery capacity in joules would be 15,4 Wh x 3600 J ≈ 55 440 J of energy </p> 
+
+<p> The energy received by the phone's antenna in one hour at -20 dBm is only 0,036 J. Relative to that illustrative 55 440 J battery: 0,036 / 55 440 ≈ 6,5 x 10<sup>-7</sup>.</p>
+
+<p>In other words, even if the phone could capture every joule of the incoming radio signal and store it with perfect efficiency, one hour of reception at -20 dBm would add only about 0,000065% of its total rated capacity. </p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-20-dbm-battery-charging.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Assuming the entire 10 µW received by the antenna could somehow be converted into battery energy with 100% efficiency, charging the illustrative 55 440 J battery would take: 55 440 J / 0,00001 W = 5 544 000 000 seconds. That is approximately 175,7 years to charge 4 000 mAh battery from empty to full when converting a continuous -20 dBm radio signal into electricity with 100% efficiency.</p>
+
+
+<h3>-30 dBm (1 µW): enough energy for a tiny flash after 17 min of wait</h3> 
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −30 dBm (1 µW): 182 days to boiling, and 4,07 years to evaporate it completely.</p>
+
+<p>At -30 dBm, the received power has fallen another factor of ten. The battery charging comparison is now left behind as it becomes too slow even if you only talk about it. But we would still be capable to capture some energy over time for an observable effect. For example, making a LED to blink half shorter than your eyes blink. </p> 
+
+<p>Let’s establish some numbers:</p> 
+<p> Power: -30 dBm = 0,001 mW = 0,000001 W = 1 µW </p> 
+
+<p>Energy produced:</p> <table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,00006 J</td> </tr> <tr> <td>1 hour</td> <td>0,0036 J</td> </tr> <tr> <td>24 hours</td> <td>0,0864 J</td> </tr> </table> 
+
+<p> Consider a hypothetical small LED that consumes 10 mW and produces a brief light flash lasting 0,1 second. For comparison, the human eye blinking cycle duration is 0,1-0,4 sec, typically human blinks 0,2 seconds. </p>
+
+<p>The electrical energy required for that flash would be: E = P × t = 0,01 W × 0,1 s = 0,001 J.</p>
+<p>LEDs convert only part of their electrical input into optical light. Let’s take a really good electrical-to-optical conversion efficiency of about 50% for an efficient white LED. At that efficiency, the 1 mJ electrical input would produce approximately 0,5 mJ of optical energy, with the remainder becoming heat and other losses. </p> 
+
+<p> The radio signal at -30 dBm supplies only 0,000001 J every second. To accumulate 0,001 J it takes t = E / P = 0,001 / 0,000001 = 1000 seconds. That is approximately 16,7 minutes</p>. 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-30-dbm-led-flash.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>A flash of light with 0,5 mJ optical energy and 0,1 sec duration is within the range of human visual perception. Very likely it can be noticed, but there is no unconditional guarantee based on solely the total optical energy. Of course, in reality there is always a fine print: depending on wavelength, beam divergence, retinal illumination, adaptation level, observer's distance, etc. </p>
+
+
+<h3>-40 dBm (100 nW): don’t spill even a water droplet – it would take 38 years to dry</h3> 
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −40 dBm (100 nW): 1 817 days to boiling, and 40,7 years to evaporate it completely.</p>
+
+<p>Imagine leaving a tiny water droplet exposed to the air. In normal room conditions it dries up in minutes because air supplies huge amounts of energy for evaporation. </p>
+<p>But what if the droplet was receiving only the energy from a radio wave source at the power level of -40 dBm. At -40 dBm, the received power has fallen to one hundred nanowatts. How long would it take to evaporate this droplet?</p>
+
+<p>Let’s establish some numbers: </p> 
+<p>Power -40 dBm = 0,0001 mW = 0,0000001 W = 100 nW</p> 
+<p>Energy produced: </p> <table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,0000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,00036 J</td> </tr> <tr> <td>24 hours</td> <td>0,00864 J</td> </tr> </table> 
+
+<p>Water requires approximately 2,4 million joules per kilogram to evaporate at room temperature, with the exact value depending on temperature.</p> 
+
+<p>If all of the energy received during one hour at -40 dBm were transferred into evaporating water, the corresponding mass of water would be: m = E / L, where E is the available energy and L is the latent heat of vaporization. </p> 
+
+<p>Therefore: m = 0,00036 / 2 400 000 ≈ 1,5 × 10<sup>-10</sup> kg. Converting this to grams: 1,5 × 10<sup>-10</sup> kg = 0,00000015 g or 0,15 micrograms.</p> 
+
+<p>So the entire amount of radio energy received during one hour at -40 dBm is equivalent, in terms of energy, to the heat required to evaporate only about 0,15 micrograms of water. That is not a quantity a person could see, feel, or measure with an ordinary household scale. </p>
+
+<p>How long would this energy take to evaporate a noticeable amount of water? Let’s reverse the calculation and calculate for an amount of a spilled droplet of water that contains approximately 0,05 mL of water or 0,05 g = 0,00005 kg.</p>
+
+<p>The energy required to evaporate this amount, ignoring all other heat losses, is: E = mL = 0,00005 × 2 400 000 = 120 J. At 100 nW of delivered power, the time required to supply 120 J of energy would be: t = E / P = 120 / 0,0000001 = 1 200 000 000 seconds. Converting to years: 1 200 000 000 / 31 536 000 ≈ 38 years. So, you would not want to spill even a drop of water in a place where it is evaporated by only the radio power at -40 dBm</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-40-dbm-water-drop-evaporate.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+<p>A cup of water, spilled under this condition, makes calculator go crazy. A cup containing approximately 250 mL or 0,25 kg of water would require 6 000 000 000 000 seconds for evaporation. That is 190 000 years. </p>
+
+
+<h3>-50 dBm (10 nW): the full Moon would have to become a tiny dot to light this weak</h3> 
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −50 dBm (10 nW): 18 168 days to boiling, and 407 years to evaporate it completely.</p>
+
+
+<p>Imagine you get out far away from any city on a cloudless summer night with a full Moon. Everything will be illuminated by the moonlight, which is reflected sunlight - Moon does not generate light itself. NASA describes the Moon as reflecting only a small fraction of the sunlight that falls on it. Approximately 0,0018 W/m² of reflected solar radiation from a full Moon arrives at Earth. </p>
+
+<p>That means that, in ideal clear conditions, every square metre facing the full Moon receives approximately 0,0018 W = 1,8 mW of reflected lunar optical radiation. </p>
+
+<p>At -50 dBm, the received power is only 10 nanowatts. How small would the Moon have to appear in the sky for its light to produce the same power density,?</p>
+
+
+<p>Let’s establish the numbers first:</p> 
+<p>Power: -50 dBm = 0,00001 mW = 0,00000001 W = 10 nW</p>
+<p>Energy produced:</p> <table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,00000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,0000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,000864 J</td> </tr> </table>
+
+<p>For the comparison to be somewhat physically justifiable we need to assume smartphone antenna effective area. For a simple baseline, let's assume an effective aperture of approximately 5 cm² = 0,0005 m². This is an electromagnetic effective area used for calculating how much power an antenna receives, not the physical size of the antenna itself.</p>
+
+<p>With this assumption, a -50 dBm signal corresponds to the following radio-wave power density at the smartphone: 0,00000001 W / 0,0005 m² = 0,00002 W/m² = 20 µW/m²</p>
+
+
+<p>Now compare the full-Moon irradiance with the radio power density corresponding to the -50 dBm signal received by our smartphone antenna:</p> <ul> <li>Full Moon: 0,0018 W/m² = 1800 µW/m²</li> <li>-50 dBm with a 5 cm² effective aperture: 0,00002 W/m² = 20 µW/m²</li> </ul>
+
+<p>The ratio is therefore: 0,0018 / 0,00002 = 90. So the full Moon delivers about 90 times more optical power to each square metre of a surface facing it than the radio wave power density corresponding to a -50 dBm signal received by our simplified smartphone antenna.</p>
+
+<p>How much smaller would the Moon have to be to produce an equivalent amount of power per square metre? Assuming the identical surface reflectivity and other factors, the received light would be proportional to its apparent area. Therefore, to reduce the Moon's received light by a factor of 90, its apparent diameter would have to decrease by a factor of √90 ≈ 9,49.</p>
+
+<p>The real Moon has a diameter of approximately 3475 km. Therefore the equivalent miniature Moon would have a diameter of 3475 / 9,49 ≈ 366 km.</p>
+
+<p>Despite the Moon looks much larger to our eyes, and we fall under a famous psychological phenomenon known as the "Moon Illusion", the real full Moon has an apparent diameter equivalent to a roughly 5,5 mm disk held at arm's length. A typical pencil held at arm's length can block the view of the full Moon.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-50-dbm-moon-visual.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Our 366 km mini Moon at the same distance to Earth would appear 9,49 times smaller, equivalent to only about 0,58 millimetres at arm's length. That is less than a millimetre across, small enough to appear as a tiny dot rather than anything resembling the Moon.</p>
+
+
+<h3>−60 dBm (1 nW): five months to collect the energy of a sweater's single static-electricity zap</h3>
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −60 dBm (1 nW): 181 684 days to boiling, and 4 073 years to evaporate it completely.</p>
+
+
+<p>Remember how carefully you have to take off your sweater in winter to not get electrocuted by it? Taking off a sweater can leave your body strongly electrically charged, resulting a second later in a bright flash of an electrical spark an a sting of electricity into the body. </p>
+
+<p>A single swap of a sweater against the body takes merely a second yet it produces powerful charge. But if you want to get identical zapping from a -60 dBm source, you’ll be collecting similar amount of energy for almost 5 months.</p>
+
+<p>Now let’s establish some numbers:</p>
+<p>Power -60 dBm = 1 nW = 0,000000001 W</strong></p>
+<p>Energy:</p>
+
+<table> <thead> <tr> <th>Time</th> <th>Energy</th> </tr> </thead> <tbody> <tr> <td>1 second</td> <td>0,000000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,00000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,0000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,0000864 J</td> </tr> </tbody> </table>
+
+<p>How much energy is stored before a sweater can zap you with an electric spark? Luckily, Talebzadeh, Moradian, Han, and Swenson investigated an experimental study “Effect of Human Activities and Environmental Conditions on Electrostatic Charging” and measured electrostatic charging during dressing / undressing. In an extreme dry condition of 22 °C and 5% relative humidity, the voltage produced by garment removal could exceed 20 000 V. The researchers also used a test-person-to-ground capacitance of approximately 60 pF for their residential-home configuration. </p>
+
+<p>We can use those experimentally reported values to calculate the electrical energy stored in the charged person using the capacitor energy equation: 
+E = ½CV<sup>2</sup>. Using the reported 60 pF capacitance and the 20 000 V charge level the zap would deliver E = ½ × 60 × 10<sup>−12</sup> F × (20 000 V)<sup>2</sup> = 0,012 J of energy. That is 12 millijoules.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-60-dbm-sweater-spark.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>To accumulate 12 mJ of energy from -60 dBm source t = E / P = 0,012 J / 0,000000001 W = 12 000 000 seconds ≈ 138,9 days. Therefore, a continuous -60 dBm radio signal would need about five months to deliver the same amount of energy as the 12 mJ of a single zap from your sweater. </p>
+
+
+
+<h3>-70 dBm (100 pW):  42 minutes to collect the light of a photo</h3>
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −70 dBm (100 pW): 1,82 million days to boiling, and 40 734 years to evaporate it completely.</p>
+
+
+<p>Imagine an ordinary clear summer day with bright sunlight. You take out an iPhone 17 Pro Max to make a photo. Its main camera has a 48-megapixel sensor, with individual pixels measuring approximately 1,22 μm. With the lens opened to an f/1,78 aperture, a bright outdoor scene can be photographed with an exposure of roughly 1/4000 second. During that tiny fraction of a second, every pixel on the sensor collects a small amount of light energy enough to make a photo.</p>
+
+<p>Now imagine replacing the sunlight with an extraordinarily weak flashlight producing only -70 dBm of power, and using its narrow beam to illuminate the pixels. How long would it take to collect the same amount of light energy?</p>
+
+<p>Let's establish some numbers:</p>
+
+<p>Power: -70 dBm = 100 pW = 0,0000000001 W</p>
+
+<p>Energy produced:</p>
+
+<table> <thead> <tr><th>Time</th><th>Energy</th></tr> </thead> <tbody> <tr><td>1 second</td><td>0,0000000001 J</td></tr> <tr><td>1 minute</td><td>0,000000006 J</td></tr> <tr><td>1 hour</td><td>0,00000036 J</td></tr> <tr><td>24 hours</td><td>0,00000864 J</td></tr> </tbody> </table>
+
+<p>Oversimplified assumptions: day with 100 000 lux of illumination, 18% average reflectance, a luminous efficacy of 100 lm/W for sunlight-like illumination.</p>
+
+<p>Therefore, 100 000 lux corresponds approximately to 100 000 / 100 = 1 000 W/m² of incident optical power. With 18% average reflectance, the scene reflects approximately 180 W/m². Assuming the scene behaves approximately as a diffuse Lambertian reflector, its radiance is roughly 180 / π ≈ 57 W/(m²·sr).</p>
+
+<p>The irradiance at the image sensor is approximately πL/(4N²), where L is the scene radiance and N is the f-number. With L ≈ 57 W/(m²·sr) and N = 1,78, this gives approximately 14,2 W/m² at the sensor (we assume no optical losses).</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-70-dbm-camera-photo.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>The 48-million-pixel sensor with individual pixel size of 1,22 μm has an active area of roughly 48 000 000 × (1,22 × 10<sup>−6</sup>)² ≈ 0,0000714 m².</p>
+
+<p>During a 1/4000-second exposure, approximately 14,2 × 0,0000714 × 0,00025 ≈ 0,000000254 J, or about 0,254 μJ, of optical energy reaches the sensors. Individual pixel receives 0,254 μJ / 48 000 000 ≈ 5,3 × 10<sup>−15</sup> J during the exposure.</p>
+
+<p>Now replace the sunlight with a narrow -70 dBm beam aimed directly at one pixel. To deliver 5,3 femtojoules to one pixel: <p>t = E / P = 5,3 × 10<sup>−15</sup> J / 10<sup>−10</sup> W ≈ 5,3 × 10<sup>−5</sup> seconds. To supply the same amount of energy to all 48 million pixels from the -70 dBm source, the equivalent total time would be: 48 000 000 × 5,3 × 10<sup>−5</sup> s ≈ 2 544 seconds = 42 minutes.</p>
+
+<p>So, an instant image you get under bright summer light would require 42 minutes if the sun was an extremely weak -70 dBm source.</p>
+
+
+
+<h3>−80 dBm (10 pW): 2,6 minutes to supply the energy that represents a photo file stored in NAND</h3>
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −80 dBm (10 pW): 18,2 million days to boiling, and 407 342 years to evaporate it completely.</p>
+
+
+
+<p>When you save a photograph in your smartphone’s gallery, it is not a file on a physical level. It is not even zeroes and ones. The image is a bunch of electrons, trapped inside the phone's flash memory. Writing data into flash memory requires a lot of energy, with much of that energy ultimately dissipated as heat while pushing the electrons inside memory cells. </p>
+
+<p>A paper “Conceptual Design of a Nano-Networking Device” by Sebastian Canovas-Carrasco, Antonio-Javier Garcia-Sanchez, Felipe Garcia-Sanchez, Joan Garcia-Haro reports that the energy per bit estimated in the write operation using SLC NAND memory type is 305 pJ, whereas for MLC it is 1200 pJ.</p>
+
+<p>An average photo today takes up several megabytes of space, say 4 MB (32 million bits). That would require 32 000 000 × 1200 × 10<sup>−12</sup> = 0,0384 J = 38,4 mJ. Calculation is not conducted for SLC because, despite it is the best by speed and reliability, it has been phased out long ago. MLC is also being phased out, but some products using it are still available on the market. So to some extent MLC may be called as a commercially available type of memory today. </p>
+
+<p>If your phone’s battery rated at 4000 mAh and a nominal voltage of 3,85 V total stored energy E = 4 Ah × 3,85 V = 15,4 Wh = 15,4 Wh × 3600 J/Wh = 55 440 J was somehow supplying energy exclusively to NAND flash writing, the number of complete 4 MB photos that could theoretically be written using the entire battery's charge would be 55 440 J / 0,0384 J ≈ 1 443 750 files. The corresponding amount of data would be 1 443 750 × 4 MB = 5 775 000 MB ≈ 5,78 TB</p>
+
+<p>Here we deliberately exclude all additional energy loss factors, such as processor, memory controller, voltage regulators, NAND charge-pump circuitry, error correction and other components. NAND itself has additional energy losses.</p>
+
+<p>Now how much energy is associated with the charge stored in NAND that is considered by phone’s processor as a 4 MB photograph? Since in NAND data is represented by the amount of charge stored in memory cells, which changes their threshold voltage and is recognized by the software as different states.</p>
+
+<p>Now imagine replacing the battery with an extraordinarily weak source of energy. How long would it take for a −80 dBm source to provide the energy associated with storing the entire photograph?</p>
+
+<p>Let's establish some numbers:</p>
+
+<p>Power: −80 dBm = 10 pW = 0,00000000001 W</p>
+
+<p>Energy produced:</p>
+
+<table> <thead> <tr> <th>Time</th> <th>Energy</th> </tr> </thead> <tbody> <tr> <td>1 second</td> <td>0,00000000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,0000000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,000000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,000000864 J</td> </tr> </tbody> </table>
+
+<p>A 4 MB file contains approximately 32 million bits, using 1 byte = 8 bits, 4 MB = 4 000 000 bytes × 8 = 32 000 000 bits.</p>
+
+<p>A 4 MB file written to MLC NAND requires approximately 38,4 mJ of write energy. At −80 dBm, an ideal lossless source would need about 122 years to supply the same amount of energy.</p>
+
+<p>How much energy is equivalent to the charge associated with one file stored in NAND? To answer this question one needs a numerical value for the number of electrons associated with a memory cell. It was extremely hard to establish a baseline, and luckily a book “NAND Flash Memory Technologies: Fundamentals to 3D Scaling” by IEEE Press was found. On page 175 it provides us with a baseline: a 1X-nm NAND memory cell can contain close to 100 stored electrons for a threshold-voltage shift.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-80-dbm-energy-of-file-in-nand.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>The charge of one electron is approximately 1,602176634 × 10<sup>−19</sup> C. Therefore, 100 electrons carry Q = 100 × 1,602176634 × 10<sup>−19</sup> C ≈ 1,602 × 10<sup>−17</sup> C.</p>
+
+<p>Under our idealized assumption, the electrical work associated with moving this charge through 3 V potential difference is E = QV = 1,602 × 10<sup>−17</sup> C × 3 V ≈ 4,81 × 10<sup>−17</sup> J. This is an energy scale associated with the stored charge, not the actual energy consumed by the NAND programming operation.</p>
+
+<p>If we apply this per-bit energy scale to a 4 MB file, E = 32 000 000 × 4,81 × 10<sup>−17</sup> J ≈ 1,54 × 10<sup>−9</sup> J. That is approximately 1,54 nJ, or 0,00000000154 joule, for the entire 4 MB photograph. </p>
+
+<p>A −80 dBm source, assuming perfect conversion and absolutely no losses, would deliver this energy in t = E / P = 1,54 × 10<sup>−9</sup> J / 10<sup>−11</sup> W ≈ 154 seconds. That is approximately 2,6 minutes for a continuous -80 dBm radio signal to supply the same amount of energy stored in NAND cells to represent our 4 MB JPEG photo .</p>
+
+
+
+<h3>-90 dBm (1 pW): 8,5 days to move a watch's second hand by one second</h3> 
+
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −90 dBm (1 pW): 181,7 million days to boiling, and 4,07 million years to evaporate it completely.</p>
+
+
+<p>A mechanical watch second hand does not draw much attention beside clicking each second. The battery is a big enough source of energy to reliably supply the amount of electricity required for accurate time keeping. When battery’s stored energy dries up, we simply replace it. But what if we powered the analog watch from radio waves? Would it keep up with time?</p>
+<p>A conventional analog watch's second hand makes one complete revolution in 60 seconds, moving through 360° / 60 = 6° per second. In radians, that is approximately 0,1047 rad. </p> 
+<p> That tiny movement still requires mechanical work. A quartz-watch movement specification gives a typical useful torque at the second-hand shaft of about 7 μN·m. Using that as our reference, we can calculate the mechanical energy required to turn the second hand through its one-second movement. </p> 
+
+<p>Let’s establish some numbers:</p> 
+<p>Power: -90 dBm = 1 pW = 0,000000000001 W</p> 
+<p>Energy produced</p> <table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,000000000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,00000000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,0000000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,0000000864 J</td> </tr> </table> 
+
+<p> Mechanical work for a rotating object is E = τθ, where τ is torque and θ is the angle moved in radians. For our reference watch, τ ≈ 7 × 10<sup>−6</sup> N·m and θ = 6° ≈ 0,10472 rad. Therefore: E = 7 × 10<sup>−6</sup> × 0,10472 ≈ 7,33 × 10<sup>−7</sup> J. So moving the second hand through the six-degree angle corresponding to one second requires approximately 0,733 μJ of mechanical work under our reference conditions. </p> 
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-90-dbm-watch-second-hand.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p> A continuous -90 dBm radio source produces 1 pW of power. The time required to accumulate the same amount of energy is: t = E / P = 7,33 × 10<sup>−7</sup> / 10<sup>−12</sup> ≈ 733 000 seconds. That is approximately 8,5 days. </p>
+
+<h3>-100 dBm (0,1 pW): 45 600 years to allow your smartphone a single bzzz of vibration</h3>
+
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −100 dBm (0,1 pW): 1,82 billion days to boiling, and 40,7 million years to evaporate it completely.</p>
+
+<p>Smartphone’s vibration motor is something you don’t notice, but it makes the interaction with the phone much more intuitive. Whether that is a subtle vibration confirming the key press of virtual screen buttons, or an special effect to add more action in games. You feel a smartphone vibration as a simple short buzz, but inside a lot of things happen, consuming the energy. Li-ion battery allows the phone to buzz as much as user wants. But what if the vibration motor was powered only by the -100 dBm source?</p>
+
+<p>Let’s establish some numbers:</p>
+<p>Power: -100 dBm = 0,1 pW = 0,0000000000001 W</p>
+<p>Energy produced:</p>
+<table border="1" cellpadding="6" cellspacing="0">
+<tr>
+<th>Time</th>
+<th>Energy</th>
+</tr>
+<tr>
+<td>1 second</td>
+<td>0,0000000000001 J</td>
+</tr>
+<tr>
+<td>1 minute</td>
+<td>0,000000000006 J</td>
+</tr>
+<tr>
+<td>1 hour</td>
+<td>0,00000000036 J</td>
+</tr>
+<tr>
+<td>24 hours</td>
+<td>0,00000000864 J</td>
+</tr>
+</table>
+
+<p>Vibration of your phone is caused my rapid movement of small unbalanced piece of metal. In Android this mass typically rotates while in iPhone it moves linearly. This unbalanced piece of metal moves hundreds of times per second, shifting the whole smartphone back and forth by a fraction of a millimeter. You feel this as a vibration.</p> 
+
+<p>
+A typical small coin-type vibration motor has a rated speed of 10 000 revolutions per minute, or 10 000 / 60 ≈ 166,7 revolutions every second. At 3 V, with an average current consumption of 48 mA it consumes electrical power = 3 × 0,048 = 0,144 W. 
+</p>
+
+
+<p>If the full 0,144 W of electrical power is treated as mechanical power under our ideal no-loss assumption, the mechanical energy corresponding to one complete rotation is E = P / f = 0,144 W / 166,7 s<sup>−1</sup> ≈ 0,000864 J. So one complete rotation of the motor's eccentric mass corresponds to approximately 0,864 mJ of mechanical energy.
+</p>
+
+<p>
+Now imagine trying to obtain just that one rotation from a −100 dBm source. At 0,1 pW. It would take t = E / P = 0,000864 J / 0,0000000000001 W = 8 640 000 000 seconds = 274 years to collect the amount of energy the vibration motor uses per single rotation.
+</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-100-dbm-one-vibration.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+<p>So, to make a single one-second bzzz the phone has to collect the E = 0,000864 J × 166,7 ≈ 0,144 J of energy. That would take t = 0,144 J / 0,0000000000001 W = 1 440 000 000 000 seconds = 45 662 years.
+</p>
+
+<h3>-110 dBm (0,01 pW): 317 000 years to supply one second of Wi-Fi radio transmission</h3>
+
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −110 dBm (0,01 pW): 18,2 billion days to boiling, and 407 million years to evaporate it completely.</p>
+
+
+<p> Your Wi-Fi router sits quietly under the table or on a shelf for years, sending photographs, streaming videos, downloading web pages without anything visible happening, except its LEDs blinking. But in reality a lot of radio frequency is transmitted every second. So, what if router used radio frequency energy to transmit radio signal?</p>
+
+<p>Let’s establish some numbers:</p>
+<p>Power: -110 dBm = 0,01 pW = 0,00000000000001 W</p>
+<p>Energy produced by the −110 dBm source: </p>
+
+<table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,00000000000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,0000000000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,000000000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,000000000864 J</td> </tr> </table>
+
+<p>Household Wi-Fi transmitters are limited in RF transmitted power by law, a typical reference point for a Wi-Fi access point is 100 mW of transmit power. The energy used by the 100 mW transmitter during one second is E = P × t = 0,1 W × 1 s = 0,1 J </p>
+
+<p>Now we have to feed the Wi-Fi router’s energy demands with extraordinarily weak -110 dBm source. Its power is only 10<sup>−14</sup> W. The time required to accumulate 0,1 J is t = E / P = 0,1 J / 10<sup>−14</sup> W = 10<sup>13</sup> seconds = 317 098 years. </p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-110-dbm-wi-fi-per-sec.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p> In other words, under our idealized zero-loss assumption, a continuous −110 dBm radio signal would need about 317 000 years to collect the same amount of energy that a 100 mW Wi-Fi transmitter puts into its radio output during just one second. </p>
+
+
+
+<h3>-120 dBm (1 fW): one trillion years to collect the energy your car uses to travel 11 km</h3>
+
+<p class="alert-info">Heat a drop (0,05 mL) of water with −120 dBm (0,001 pW): 181,7 billion days to boiling, and 4,07 billion years to evaporate it completely.</p>
+<p>A litre of gasoline does not look particularly impressive sitting in a fuel can. Yet putting that litre into a typical modern car gives the car enough chemical energy to travel roughly 11 kilometres. </p>
+
+<p>What would happen if we tried to collect exactly the same amount of energy from a radio signal of -120 dBm?</p>
+
+<p>Let's establish some numbers:</p>
+<p>Power: −120 dBm = 1 fW = 0,000000000000001 W</p>
+<p>Energy produced</p>
+<table border="1" cellpadding="6" cellspacing="0"> <tr> <th>Time</th> <th>Energy</th> </tr> <tr> <td>1 second</td> <td>0,000000000000001 J</td> </tr> <tr> <td>1 minute</td> <td>0,00000000000006 J</td> </tr> <tr> <td>1 hour</td> <td>0,0000000000036 J</td> </tr> <tr> <td>24 hours</td> <td>0,0000000000864 J</td> </tr> </table>
+
+<p>For gasoline, we use a lower heating value of approximately 32 000 000 J per litre. This is the chemical energy released when one litre of gasoline is burned, only roughly 30% is transferred into mechanical motion of the piston. Add here more losses for delivering mechanical power to the wheels. But hey, we greatly simplify things here. </p>
+
+<p>Therefore, one litre of gasoline contains approximately E = 32 MJ = 32&nbsp;000&nbsp;000 J. A modern passenger car with an average fuel economy of about 25,6 miles per gallon travels approximately 10,9 kilometres on one litre of gasoline. </p>
+
+<p>Now imagine that instead of pouring one litre of gasoline into the car, we try to collect those 32 million joules from a continuous -120 dBm source. Under our idealized assumption of perfect energy capture and absolutely no losses, the required time is t = E / P = 32&nbsp;000&nbsp;000 J / 0,000000000000001 W = 3,2 × 10<sup>19</sup> seconds ≈ 1,01 × 10<sup>12</sup> years.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/-120-dbm-car-ride.jpg" alt="MobiloSignal dBm Signal level" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>That is approximately 1 trillion years a continuous −120 dBm radio signal would need to deliver the same amount of energy that a typical modern car uses to travel 11 kilometres.</p>
+
+
+
+<h2>How GSM stickers worked then?</h2>
+
+<p>This whole article has been showing one rather unintuitive fact: cellular works with radio signals carrying extraordinarily little power. The level of power is so small that it is not enough for any immediate visible effect.</p>
+
+<p>But readers may have experience with 2G GSM phones and remember wildly popular back then GSM Stickers. These stickers contained nothing more than a wire acting as antenna and LED. No batteries or other energy sources, yet they visibly blinked while a call or SMS was in transit. These stickers use real RF energy provided by the radio signal of a cell network. And they could blink even when the cell tower signal received by the phone was weak. So, all analogies in this article are incorrect?</p>
+
+<p>Be assured, dBm calculations above are correct (at least up to author’s knowledge level). The problem is people typically assume the stickers use the signal of the cell tower. However, cellular communication is a two way road – the phone also “screams” with radio energy in an attempt to “talk” to the cell tower. At this moment the power transmitted may reach up to a watt, and, considering, the sticker is slapped as close to antenna as possible, it gets a significant amount of that power. Sliding the sticker away from phone’s antenna made it much dimmer, and if the sticker was put on a phone in a corner opposite to where phone’s antenna located, the sticker often did not light up at all.</p> 
+
+<p>The easiest way to understand why the sticker works it is to imagine the phone and the tower having a very short conversation:</p> 
+<ul> <li>Tower: “Hey, phone, you awake?”</li> <li>Phone: “Yep. Loud and clear.” &larr; <em>tiny sticker flashes</em></li> <li>Tower: “Someone's trying to reach you, pal.”</li> <li>Phone: “Gotcha. Send the call my way.” &larr; <em>tiny sticker makes more blinking</em></li> <li>Tower: [beepbeepbeepbeepbeepbeepbeepbeepbeepbeep]</li> <li>Phone: <em>signals to user with ringing</em></li> </ul>
+
+
+
+
+
+<video controls loop autoplay muted playsinline class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/cell-phone-signal-level-cell-phone-signal-level-understanding-smartphone-signal-strength-in-dbm/gsm-led-flashing-sticker.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+
+<p>Depending on the GSM band, phone’s transmitted power class and power-control state, a GSM handset could transmit at power levels reaching roughly 1–2 W. For comparison: 1 W = +30 dBm. A phone receives a considerably strong signal of −60 dBm = 1 nW from the cell tower. The difference between +30 dBm and −60 dBm is 90 dB. In power terms, that is a factor of 10<sup>9</sup> = 1 000 000 000. The sticker receives from the phone the signal that is million times stronger than a signal from cell tower.</p> 
+
+<p>The sticker obviously does not collect the entire watt of the signal GSM phone transmits. Only a fraction of the phone's transmitted RF energy reaches the sticker's antenna. But the sticker is sitting extremely close to the signal source, so that fraction can still be enormously greater than the 1 nW represented by the distant cellular signal being received by the phone.</p>
+
+<p>Also, in GSM communication system the phone does not transmit a continuous RF signal. GSM uses time slots, so the handset transmits in short power bursts. During those bursts, the instantaneous RF power can be much higher than what you would get if you simply calculate an average transmitted power over some long period. The sticker’s antenna picks up this RF burst, rectifies some of that RF energy into electrical energy, and uses it to produce a short flash of its LEDs.</p>
+
+<h3>Why only 2G GSM blinking stickers existed and no stickers for 3G, 4G and 5G is sold?</h3>
+
+<p>Nowadays 2G GSM technology has been disabled in some countries and is in the process of doing so in other. Because of that GSM Stickers have also disappeared. But why you would hardly find stickers for 3G UMTS, 4G LTE and 5G cellular technologies?</p>
+
+<p>The GSM stickers existed primarily because of how GSM phones operated - in short, relatively strong bursts of radio signal, giving a primitive RF harvester something obvious to grab.</p>
+
+<p>More modern 3G, 4G and 5G use different power control and transmission protocols. The result is an absence of the powerful, clearly separated RF energy bursts with long enough pauses for a human eye to perceive the resulting LED flashes. A modern RF-harvesting sticker would rather produce some faint LED glowing. This makes the classic battery-free flashing stickers impractical as a cheap mass-market toy.</p>
+
+</div>
+</div>
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
