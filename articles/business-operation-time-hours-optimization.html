@@ -1,0 +1,1017 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+<link rel="shortcut icon" href="https://eb43.github.io/favicon.ico" />
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 70%; 
+            max-width: 1200px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+
+    img {
+    display: block; 
+    width: 100%;
+    height: auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto; 
+    margin-top: 20px; 
+    margin-bottom: 20px;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+        /* Images */
+
+.image-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+}
+
+
+.image-container:hover {
+    transform: scale(1.02);
+}
+
+.image-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+}
+
+
+        h1 {
+            margin: 20px 0;
+            padding-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+pre {
+            background: rgba(211, 211, 211, 0.5);
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+            white-space: pre-wrap;
+        }
+
+
+        .code-block {
+            background: #f8f9fa;
+            color: black;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: "CODE";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e17055;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: #f8f9fa;
+            color: black;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #6c5ce7;
+            margin: 0 10px;
+        }
+        
+        table {
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 10px 10px 10px 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+table td,
+table th {
+    padding: 10px 14px;
+    b-order: 1px solid #000;
+}
+table, tr {  border: 1px solid black; border-left: none; border-right: none; border-collapse: collapse; }
+                
+        .function-box {
+            background: #f8f9fa;
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .function-box h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+                
+        p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #d63031;
+        }
+    </style>
+    
+ 
+     <style>
+        /* Inline critical CSS for faster loading */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --border-color: #e9ecef;
+            --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            margin-left: auto; 
+    margin-right: auto;
+        }
+
+
+        .counters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--subtle-shadow);
+            max-width: 1200px;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Header section */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+       .author-info {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* Add this to explicitly align left */
+           gap: 20px;
+           margin-bottom: 20px;
+           position: relative;
+           z-index: 2;
+
+            
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+           
+       }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .author-details h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .author-details p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+
+        /* Enhanced navigation link */
+        .back-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--subtle-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--secondary-color);
+        }
+
+        /* Content sections */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-caption {
+            transform: translateY(0);
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 30px auto 20px;
+            width: 70%;
+            height: 70%;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--border-radius);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .alert-warning {
+            background: #fef9e7;
+            border-color: var(--warning-color);
+            color: #8a6d3b;
+        }
+
+        .alert-danger {
+            background: #f2dede;
+            border-color: var(--accent-color);
+            color: #a94442;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d9edf7;
+            border-color: var(--secondary-color);
+            color: #31708f;
+        }
+
+        .alert-icon {
+            font-size: 1.2em;
+            margin-top: 2px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 2em;
+            }
+
+            .author-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+        
+    @media (max-width: 700px) {
+  .terminal-and-pen-img {
+    display: none;
+  }
+}    
+    </style>
+ 
+    
+       
+    <title>Optimizing retail operating hours using historical sales transaction  analysis</title>
+    <meta name="description" content="Using historical sales data to make a data driven decision on optimal business operation time">
+
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER SECTION  -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div  style="display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="author-info" style="display: flex;">
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/monkey-writer-coder-small.jpg" 
+    style="height: 130px; width: 130px; object-fit: contain; object-position: 1% 1%; margin-right: 10px;" 
+    alt="Eugen Barilyuk EB43 Monkey Writer Евген Барилюк" class="author-avatar"
+  >
+
+  <div class="author-details" style="display: flex; flex-direction: column; justify-content: center;">
+    <p style="font-size: 260%;"><b>Eugen Barilyuk</b></p>
+    <p style="font-size: 60%;">Евген Барилюк</p>
+    <p style="font-size: 120%;">Published: 03 October 2026</p>
+<p><strong>Total Word Count:</strong> 
+
+ <span id="word-count">0</span></p>
+  </div>
+</div>
+
+<a 
+  href="https://eb43.github.io/portfolio-page.html" 
+  class="back-link" 
+  style="margin-top: 10px; font-size: 110%; text-decoration: none; color: #333;"
+>
+  ←🏠 Back to <i><b>eb43.github.io</b></i> articles list
+</a>
+    </div>
+
+  
+  <img 
+    src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/writer-terminal-600-600px.png"  
+    style="position: absolute; top: 0; right: 0; z-index: 1; width: 50%; height: auto; object-fit: contain; object-position: 1% 1%; margin-top: 0px !important; margin-bottom: 0px !important; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2) !important;" 
+    alt="Eugen Barilyuk Monkey Writer Евген Барилюк" class="terminal-and-pen-img"
+  >
+</div>
+
+
+  
+
+
+<!-- TEMPLATES  TEMPLATES  TEMPLATES -->
+  <!-- <img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/fast-charging-technologies-in-detail/slow-phone-charger.jpg" alt="" style="height: auto; width: 50%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<a href=".html" rel="nofollow"></a>
+
+<details>
+  <summary><i style="font-size: 100%; color: brown"><u>Click to unfold the rest of DIV</u></i></summary>
+
+</details>
+-->
+
+<!--
+<div style="background-color:#ffd938; border-radius: 8px; padding: 15px; overflow: hidden; margin: 0 auto; width: 500px; text-align:center; white-space: pre-wrap;">
+<p style=" color: #111; width: 400px; text-transform: uppercase; text-align:center;  "><u>Nota Bene:</u> 
+
+ <br><b>Android without Google Play Store consumers view as not fully functional Android.</b></p>
+<br>
+</div>
+-->
+
+<!--
+<div class="video-container">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jVf5ZBLI2XI?si=bE2wxGENAeyVaZSj" title="microwave keys not working" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+</div>
+
+<video controls class="image-container" style="height: auto; width: 100%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+  <source src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/make-wordpress-properly-save-unicode/unicode-corrupted.mp4" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+-->
+
+<!--END OF TEMPLATES-->
+
+
+
+<h1>Determining optimal store operating hours through historical transaction timestamp analysis</h1>
+
+<p>Every retail business is basically a system that generates revenue by converting customer demand into completed sales. The business cannot just extend its operating hours to increase its revenue – the correlation is not a simple linear function. Extending operating hours does not necessarily increase revenue proportionally, because additional operating hours also introduce additional labour and operating expenses. By contrast, shifting the existing operating window earlier or later keeps the total operating duration unchanged while changing which periods of customer activity are covered.</p>
+
+<p>A retail business operates within a finite number of hours each day. Every business day therefore represents a fixed interval during which demand can be converted into sales. Selecting this interval is an optimization problem because changing its position within the day changes the amount of customer purchases while the business is open.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/optimal-business-operation-time.jpg" alt="sap sales timestamps export" style="height: auto; width: 90%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Given a fixed daily operating duration, the optimization task would be to determine the continuous operating window that contains the largest number of historically observed sales transactions.</p>
+
+<p>For example, assume a retailer intends to operate for ten hours per day. Numerous operating schedules satisfy this requirement:</p>
+
+<table>
+<thead>
+<tr>
+<th>Schedule</th>
+<th>Opening</th>
+<th>Closing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>07:00</td>
+<td>17:00</td>
+</tr>
+<tr>
+<td>B</td>
+<td>08:00</td>
+<td>18:00</td>
+</tr>
+<tr>
+<td>C</td>
+<td>09:00</td>
+<td>19:00</td>
+</tr>
+</tbody>
+</table>
+
+<p>Each schedule provides exactly the same operating duration. None receives additional trading time. The only variable is the position of the operating window within the day.</p>
+
+<p>If customer purchasing activity is concentrated during early morning hours, an earlier opening schedule may include a greater number of completed transactions. Conversely, if purchasing activity continues into the evening, delaying both opening and closing may capture more sales while maintaining the same total operating time. The objective is therefore not to maximize the number of hours that the business remains open, but to determine where those hours should be positioned within the day.</p>
+
+<p>This distinction is important because extending business hours and repositioning business hours are fundamentally different operational decisions. Extending operating hours increases staffing requirements, utility consumption and other operating costs. Repositioning operating hours keeps unchanged the daily duration and daily costs associated.</p>
+
+<h2>Why selection of the best operating hours may be counterintuitive</h2>
+
+<p>Operating hours are frequently established through convention rather than quantitative analysis. A schedule may remain unchanged because it has existed for many years, because nearby competitors operate during similar hours, or because management considers the selected timeframe reasonable. None of these approaches evaluates whether the chosen schedule captures the greatest proportion of observed customer demand.</p>
+
+<p>Human judgement and feeling may not be the best tool for the task of selecting the period of the day with maximum number of sales. A store manager may remember unusually busy mornings, employees may recall mornings that appeared quiet, and customers may comment that they would prefer evening hours. These observations describe individual experiences rather than the complete historical distribution of sales.</p>
+
+<p>The distinction between intuitive subjective evidence and observational data is fundamental in analytical decision making. Individual observations are influenced by recency, selective memory and exceptional events. Transaction databases record every completed sale using the same business process regardless of whether the day was exceptionally busy or exceptionally quiet. Consequently, historical transaction records provide a substantially more reliable basis for identifying recurring patterns of customer activity.</p>
+
+<p>Several external factors influence when customers visit a retail store. Daily commuting patterns determine when employees travel to and from workplaces. Nearby schools influence pedestrian activity during morning arrival and afternoon dismissal. Industrial facilities often generate demand that follows production shifts rather than conventional office hours. Public transportation schedules affect customer accessibility, while shopping centres may experience concentrated activity immediately after surrounding businesses close for the day. These influences differ between locations and frequently change over time as local infrastructure and demographics evolve.</p>
+
+<p>Because customer activity depends on numerous external variables, operating hours that perform well at one location cannot automatically be assumed optimal elsewhere. Even stores belonging to the same retail chain may exhibit different purchasing patterns despite selling similar products. Selecting operating hours by copying another location therefore substitutes one assumption for another without evaluating the historical evidence available for the store under consideration.</p>
+
+<p>The objective of data analysis is not to replace managerial experience, but to supplement it with measurable evidence. Instead of asking whether a particular schedule appears reasonable, the analysis asks a more precise question: during which continuous time interval did completed sales historically occur most frequently?</p>
+
+
+
+<h3>Why historical sales transactions provide the real evidence</h3>
+
+<p>Every completed sale represents a recorded purchase event. Unlike customer surveys, manual observations or memory recollections, sales transactions are generated automatically during normal business operations. Their timestamps therefore provide an objective record of when recorded purchases occurred.</p>
+
+<p>Enterprise resource planning systems such as SAP NetWeaver record the creation date and creation time of sales documents as part of routine transaction processing. Because these timestamps are created automatically, they provide a chronological history of when completed purchases occurred throughout the business day.</p>
+
+<p>When accumulated over hundreds of operating days, these timestamps reveal the temporal distribution of completed customer purchases. They answer questions that cannot be answered reliably from memory alone.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>Do customers purchase more frequently immediately after opening or later in the morning?</li>
+<li>Does customer activity decline steadily throughout the afternoon or remain relatively constant until closing?</li>
+<li>Does a significant proportion of purchases occur shortly before closing time?</li>
+<li>Would delaying opening exclude many sales transactions?</li>
+<li>Would extending the operating window later into the evening capture a larger proportion of customer activity?</li>
+</ul>
+
+<p>If customer activity is concentrated during early morning hours, opening later excludes transactions that historically occurred before the doors opened. Conversely, if customer activity extends into the evening, closing earlier excludes transactions that historically occurred later in the day. Since every operating schedule captures a different portion of daily customer activity, different schedules inevitably contain different numbers of completed transactions. </p>
+
+<p>The optimization problem therefore becomes one of selecting the operating window that historically contained the greatest concentration of completed sales.</p>
+
+
+<h2>Formal definition of the optimization problem</h2>
+
+<p>This article treats one sales document as one transaction, provided that each sales document represents one completed sale in the source data. Every transaction contributes equally to the analysis regardless of the number of products purchased per transaction, or transaction value. Consequently, the optimization criterion is the total number of sales transactions contained within a candidate operating window.</p>
+
+<p>This baseline assumption emerges from the data source peculiarities. SAP’s VBAP table contains sales documents, with each representing an item sold, rather than unique sales transactions.</p>
+
+<p>Alternative optimization criteria are possible. A retailer might instead choose to maximize total revenue, gross profit, average basket value or units sold. Those objectives require additional information beyond transaction timestamps and therefore fall outside the scope of the available dataset.</p>
+
+<p>The optimization problem can therefore be stated as follows:</p>
+
+<p class="alert-info"><i>Determine the continuous operating interval of fixed duration that contains the greatest number of completed sales transactions recorded during the observation period.</i></p>
+
+<p>Several characteristics of this formulation deserve attention.</p>
+
+<ul>
+<li>The operating duration is fixed throughout the optimization.</li>
+<li>Every candidate schedule spans exactly the same number of hours.</li>
+<li>The only variable is the opening time.</li>
+<li>The closing time changes automatically because the operating duration remains constant.</li>
+<li>Every completed transaction contributes one observation.</li>
+<li>The schedule containing the largest number of observations is considered the optimal solution under the chosen optimization criterion.</li>
+</ul>
+
+<p>Restricting the problem in this manner improves the scientific validity of the analysis. Every conclusion remains directly traceable to recorded observations. Should additional business information become available in the future, such as transaction value, gross margin or labour costs, alternative optimization criteria may be investigated using the same analytical framework.</p>
+
+<h2>Observations data source</h2>
+
+<p>The analysis is based on historical sales transactions exported from an SAP NetWeaver system. Each record represents a completed sale and contains the timestamp at which the transaction was registered. No customer demographics, product information, or financial metrics are required for the objective considered in this study. The timestamp alone is sufficient because the optimization criterion depends exclusively on the temporal distribution of completed sales.</p>
+
+<p>The analysis assumes that the historical observation period spans several years. A long observation period reduces the influence of short-term fluctuations caused by promotions, holidays, supply shortages, weather conditions, or other isolated events. Instead of describing the activity of a particular week or month, the resulting distribution reflects the purchasing behaviour observed at the store.</p>
+
+<p>The objective is intentionally limited. The analysis identifies the operating interval that historically contained the largest number of completed sales. </p>
+
+<h3>Limiting the data timespan to make it more representative</h3>
+
+<p>Although the store’s SAP database contains records dating back to 2010, including the entire history would reduce the relevance of the analysis. Customer purchasing behaviour is not stationary over long periods. Changes in population, consumer habits, surrounding neighbor businesses, inflation, online shopping, and the structural effects following the COVID-19 pandemic have major altering power over shopping patterns. Consequently, transaction records from fifteen years ago should not be given equal weight when selecting business hours for current operations.</p>
+
+<p>Rather than maximizing the number of observations, the objective is to analyze customer behaviour that is representative of present-day conditions. Restricting the dataset to the most recent years provides a better balance between statistical reliability and business relevance. In this study, only sales recorded during 2025 and 2026 are included in the analysis.</p>
+
+<h3>How to export transaction timestamps from SAP NetWeaver</h3>
+
+<p>SAP NetWeaver stores sales order information across multiple tables, each serving a different purpose within the transactional model. Since the analysis requires precise registration timestamps together with filtering by plant, data must be extracted in two stages.</p>
+
+<p>The first stage utilizes the transaction SE16N, which provides direct access to SAP database tables. This T-code allows access to the item table VBAP (sales document item data). The data contained within this table should be filtered by the WERKS field, allowing records to be filtered for a specific store (in SAP this is often regarded to as a plant). Also, restricting the observation period can be achieved using the creation date field (ERDAT).</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/sap-vbap-table.jpg" alt="sap sales timestamps export" style="height: auto; width: 90%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>Since the optimization problem concerns the distribution of sales throughout the day, timestamps with minute-level precision are required. To export timestamps with this level of time precision, verify the time field (ERZET) is selected. </p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/sap-vbap-table-sales-timestamps-exported.jpg" alt="sap sales timestamps export" style="height: auto; width: 90%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>These fields are exported to Microsoft Excel, where the remaining preprocessing and analytical steps are performed.</p>
+
+<h2>Analyzing the dataset in Excel</h2>
+
+<p>The exported timestamps contain second-level precision, which obscures recurring demand patterns. To get a clear view of the temporal distribution, individual timestamps should be aggregated into fixed-length intervals. The interval length determines the balance between temporal resolution and statistical stability. Extremely short intervals, such as one minute, produce highly variable counts, conversely, hourly aggregation smooths the data, but risk hiding local demand peaks.</p>
+
+<p>A twenty-minute interval provides a practical compromise. It is purely  an analytical design choice, which is finer than 30, 40, 60 minutes without creating the workload of 10- or 5-minute intervals. Each hour is divided into three equal segments, allowing demand to be evaluated at 00, 20, and 40 minutes past the hour. The timestamps exported from SAP database are rounded downward to the nearest twenty-minute boundary.</p>
+
+
+<p>In Microsoft Excel, the transformation is performed using the following formula:</p>
+
+<pre><code>=TEXT(FLOOR(B2 + TIME(1,0,0), TIME(0,20,0)), "HH:MM")</code></pre>
+
+<p>where column B contains the original SAP timestamp.</p>
+
+<p>The formula performs three operations sequentially:</p>
+<ol>
+<li>adds the required hour offset, since SAP stores time of its server, not the local time of the retail store (this matters for countries with several time zones, and international sales). In this dataset, the SAP timestamp required a one-hour correction to correspond to the store's local time;</li>
+<li>rounds the adjusted timestamp downward to the nearest twenty-minute boundary using <code>FLOOR</code> command;</li>
+<li>converts the rounded value into a formatted time label suitable for grouping within Excel Pivot Tables.
+</li>
+</ol>
+
+<p>Example: a transaction registered at 15:37 is therefore assigned to the 15:20 interval, while a transaction occurring at 15:58 becomes part of the 15:40 interval.</p>
+
+<p>Grouping transactions in this manner converts individual sales into a frequency distribution suitable for aggregation, and subsequent visualization, offering easy to understand trend for optimisation. The transformation also ensures that every sale belongs to exactly one interval, preventing duplication or ambiguity during later calculations.</p>
+
+<h3>How the exported dataset was analyzed in Excel</h3>
+
+<h3>Step 1. Open the exported dataset</h3>
+
+<p>Open the spreadsheet exported from SAP NetWeaver. Verify that the date and time columns are recognized by Excel as a date rather than plain text. A simple verification consists of changing the cell format. If Excel allows the date to be displayed in different formats (for example, 09-Jun-2025 or 2025-06-09), the value has been imported correctly. If changing the format has no effect, the column contains text and should first be converted into proper dates.</p>
+
+<h3>Step 2. Create a 20-minute interval column</h3>
+<p>Insert a new column named Time Interval. If the timestamps obtained from the SAP database are stored in column B, enter the following formula into the first data row.</p>
+<pre><code>=TEXT(FLOOR(B2+TIME(1,0,0),TIME(0,20,0)),"HH:MM")</code></pre>
+
+<p>The formula performs three operations:</p>
+<ul>
+<li>applies the required one-hour correction (modify the correction accordingly to the time zone difference of the store and SAP server),
+</li>
+<li>rounds every timestamp downward to the nearest 20-minute interval (08:49:59 &rarr; 08:40)</li>
+<li>keeps the result in a human readable format of HOURS:MINUTES.</li>
+</ul>
+
+<p>Copy the formula to every remaining row to get a dataset that contains a categorical variable representing the twenty-minute interval during which each sale occurred.</p>
+
+
+<h3>Step 3. Filter the observation period</h3>
+
+<p>Start with the exported Excel data and apply a filter to the column that contains full date of a transaction. In our example this is Created on column.</p>
+
+<ol> 
+<li>Select the entire dataset, including the column headers.</li> 
+<li>Click on the arrow near the header of the Created on column.</li> 
+<li>Set the filter for the date range to include records from 01/01/2025 through 31/12/2026.</li> 
+</ol>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/filter-by-created-on-date.jpg" alt="excel sales data analysis" style="height: auto; width: 60%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<p>The important point is that the filter must be applied to the actual date values, not merely to displayed text. If Excel recognises Created on as a date, the filter will provide date-based conditions such as Greater Than or Equal To and Less Than or Equal To.</p>
+
+<p>Because the current date may be earlier than the last day of the desired time range, there may naturally be no records for the remaining part of the last year within the filter. The upper boundary simply defines the intended analysis period; Excel will use whatever observations actually exist up to the latest available date.</p>
+
+<h3>Step 4. Analyze data using Pivot Table</h3>
+
+<p>Excel's Pivot Table is sufficient for this aggregation and avoids modifying the underlying transaction records. </p>
+
+<h4>1. Select the exported data</h4>
+
+  <p>Click any cell inside the exported dataset. If the data has been converted to an Excel Table, selecting one cell is sufficient because Excel will recognize the complete table automatically. Otherwise, select the complete range containing the transaction records, including the column headers.
+  </p>
+
+
+  <h4>2. Insert the PivotTable</h4>
+
+  <p>With the dataset selected, go to Insert &rarr; PivotTable. Excel will display the PivotTable creation dialog. Confirm that the selected table or range contains the complete transaction dataset. Select New Worksheet as the destination and click OK.</p>
+
+  <p>Excel will create an empty PivotTable and display the PivotTable Fields panel. The panel contains the fields from the exported SAP data and four areas into which fields can be placed: Filters, Columns, Rows and Values.</p>
+
+  <h4>3. Put the 20-minute time field into Rows</h4>
+
+  <p>The field used for the final distribution should represent the 20-minute interval assigned to each transaction. If this field has already been created, use it here. In our dataset this is Hour2 column. </p>
+
+  <p>Drag the 20-minute time field into the Rows area.</p>
+
+  <p>The PivotTable will then create one row for each time interval occurring in the source data. The ordering should be chronological, from <code>00:00</code> through <code>23:40</code>. If Excel sorts the intervals alphabetically rather than chronologically, the underlying time values are probably stored as text and should be converted to actual Excel time values before proceeding.</p>
+
+  <h4>4. Put the sales transactions into Values</h4>
+
+  <p>Drag Sales Document into the Values area.  The PivotTable should now contain two columns: Time interval and Count of Sales Document. </p>
+
+  <p>The PivotTable may omit intervals with zero transactions. This does not affect the moving-window calculation, because the calculation evaluates the actual time values in the distribution and treats absent intervals as having zero transactions.</p>
+
+<p>Before using the distribution for optimization, verify that the PivotTable represents the intended dataset. The sum of all interval counts should equal the number of transaction records included after applying the date filter.</p>
+
+ <p>This check is useful because an apparently plausible distribution can still be based on an incorrectly filtered source range, an incomplete PivotTable source, or an inappropriate value calculation. The total count provides a simple reconciliation between the raw transaction dataset and the aggregated distribution.</p>
+
+  <h4>7. The resulting distribution</h4>
+
+ <p>After these steps, the raw SAP transaction data has been reduced to a compact daily distribution:</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/pivot-table-inserted.jpg" alt="excel sales data analysis" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+ 
+<p>Preserve this table as the input to the optimization. The table describes the historical distribution of transactions; the optimization is performed in the next stage by evaluating consecutive groups of intervals corresponding to the proposed operating duration.</p>
+
+
+ <p>The next step is to define the candidate operating duration and slide a window of that duration across the 20-minute distribution.</p>
+
+<h2>Select the optimal business operating time window</h2>
+
+<p>The PivotTable now provides the observed transaction distribution in 20-minute intervals. The next step is to transform this distribution into an optimisation problem. The next step is to determine where a fixed operating period should be placed to capture the largest possible number of transactions.</p>
+
+<p>The problem can be expressed as a moving-window optimisation. A window representing the required operating duration is moved through the time distribution, and the transaction counts within each candidate window are summed. The window with the highest total is the optimal operating period for the selected duration.</p>
+
+<p>The objective is now to make Excel automatically answer this question:</p>
+
+<h4>Step 1: Enter the desired operating duration</h4>
+
+<p>Choose an empty cell, for example D1, and enter the header for operating duration of the store in hours. In E1, enter the desired duration. For example: 8. The value in E1 is the only parameter that will need to be changed when testing different operating durations.</p>
+
+<h4>Step 2: Convert the duration into 20-minute intervals</h4>
+
+<p>In D2, enter: Number of 20-minute intervals. In E2, enter: =E1*3</p>
+
+<p>For an eight-hour operating period, Excel returns 24, because eight hours contain twenty four 20-minute intervals.</p>
+
+<h4>Step 3: Create the candidate start-time column</h4>
+
+<p>In D4, enter: Candidate start. In E4, enter: Candidate end. In F4, enter: Transactions in window. 
+
+<p>Now copy the time intervals from the PivotTable into column D, or simply reference them.</p>
+
+<p>In D5, enter: =A2</p>
+
+<p>Then copy the formula down through all time slots, in this case up to D21. Cell D21 corresponds to the final valid window start time of 12:00. Later start times would extend beyond the available observation range and are therefore not considered.
+
+<h4>Step 4: Calculate the end time automatically</h4>
+
+<p>In E5, enter: =D5+TIME($E$1,0,0)</p>
+
+<p>In case the formula results in a decimal fraction, convert cells into Time format. Then copy the formula down through cell E21.</p>
+
+<p>Excel now calculates the end of every candidate window automatically. </p>
+
+<h4>Step 5: Calculate the amount of transactions inside every time window</h4>
+
+<p>In cell F5, enter formula: =SUMPRODUCT((TIMEVALUE($A$2:$A$39)>=D5)*(TIMEVALUE($A$2:$A$39)<E5)*$B$2:$B$39)
+
+<p>Then copy the formula down.</p>
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/excel-getting-optimal-business-operation-time.jpg" alt="excel sales data analysis" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+<h4>Step 6: Identify the maximum transaction count</h4>
+
+<p>In cell D44, enter: Maximum transactions. Verify the cell E44 is converted to Number format, and enter: =MAX(F5:F21)</p>
+
+<p>This returns the largest transaction total among all candidate windows.</p>
+
+<h4>Step 7: Visualizing the sales data to see the optimal business operating time window</h4>
+
+<p>The moving-window calculation can be easier to understand in the graphic chart format. </p>
+
+<p>In the calculation table, the start time is stored in column D and the end time in column E, while column F contains the calculated number of transactions for each candidate window. Add a new column, G, with the heading Window. In cell G7, enter the following formula =TEXT(D7,"hh:mm")&amp;"–"&amp;TEXT(E7,"hh:mm")</p>
+
+<p>Copy the formula down through all candidate windows.</p>
+
+<p>To create the chart, select the Window column together with the corresponding Transactions in window column. Then choose: Insert → Charts → Column or Bar Chart → 2-D Column → Clustered Column.</p>
+
+<p>The horizontal axis will contain the operating time windows, while the vertical axis will show the total number of transactions captured by each window.</p>
+
+<p>The resulting chart provides a direct visual representation of the optimization landscape. Each column represents one possible operating schedule, and its height represents the number of transactions that would fall inside that schedule. The highest column therefore corresponds to the optimal window under the defined objective of a period containing the maximum number of transactions.</p>
+
+
+<img class="image-container" src="https://raw.githubusercontent.com/Eb43/eb43.github.io/refs/heads/main/images/business-operation-time-hours-optimization/visualisation-optimal-business-time.jpg" alt="excel sales data analysis" style="height: auto; width: 80%; object-fit: contain; object-position: 1% 1%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+
+
+
+
+
+
+<h2>Final summary</h2>
+
+<p>The typical workday usually has a fixed 8-hour operating period. But there is no obvious reason why those 8 hours should begin at one particular time rather than another. Often, the operating time slot is selected based on management's subjective preference. Alas, a poorly chosen timeframe can leave a significant part of customer activity outside the selected hours, while another timeframe of exactly the same duration can capture considerably more of it.</p>
+
+<p>The finished worksheet performs the entire optimisation through one chain of calculations to determine which operating time slot within the analysed day contains the largest number of recorded sales transactions.</p>
+
+<ul> 
+<li>the SAP NetWeaver export provides the historical transaction timestamps;</li> 
+<li>the Excel PivotTable aggregates transactions into 20-minute intervals;</li> 
+<li>the candidate start and end times define each possible 8-hour operating window;</li> 
+<li>the calculation formula sums the transactions falling within each window;</li> 
+<li>the candidate windows are ranked by their total transaction count;</li> 
+<li>the maximum identifies the operating period containing the largest number of transactions; and</li> 
+<li>the visual chart of transaction totals distribution across time slots allows the transaction volume of different operating periods to be compared intuitively.</li> 
+</ul>
+
+<p>Once this has been established, the manager no longer needs to rely solely on subjective intuition when selecting an operating schedule for a retail store. The decision can instead be supported by the historical transaction data and a systematic comparison of the available operating periods.</p>
+
+<p>The resulting schedule should be interpreted specifically as the window with the highest observed transaction count in the analysed data. It does not, by itself, establish that this schedule produces the highest profit or lowest operating cost. Those conclusions would require additional data such as transaction values, margins, staffing costs, and other operating expenses.</p>
+
+<p>This article provides a simple and reproducible way to evaluate operating hours using historical transaction data. Rather than selecting a schedule based on general assumptions about customer behaviour, the analyst can compare the available operating windows quantitatively and select the one supported by the observed transaction distribution.</p>
+
+<!--Divs of the article end -->
+</div>
+</div>
+    </div>
+
+<!-- Article content ends here -->
+
+        <!-- Counters section -->
+        <div class="counters-section">
+  <script type="text/javascript" src="https://counter.websiteout.com/js/7/5/0/1"></script>
+  <a href="https://www.free-counters.org/" style="text-decoration: none; color: blue;">https://www.free-counters.org</a>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/auth.php?id=752be28e7acd82c813caca7e5db2f9882410f420"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1365755/t/0"></script>
+  <a href="https://www.flagcounter.me/details/f36"><img src="https://www.flagcounter.me/f36/" alt="Flag Counter"></a>
+  </div>
+
+
+
+
+
+
+
+<! - Word Count On Page Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const TAGS_TO_COUNT = ['h1', 'h2', 'h3', 'h4', 'p', 'strong', 'pre', 'span', 'b', 'i', 'u', 'ul', 'li'];
+    let totalWords = 0;
+
+    TAGS_TO_COUNT.forEach(tag => {
+      const elements = document.getElementsByTagName(tag);
+      for (let el of elements) {
+        const text = el.innerText || el.textContent || "";
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        totalWords += words.length;
+      }
+    });
+
+    document.getElementById("word-count").textContent = totalWords;
+  });
+</script>
+
+</body>
+</html>
+
+
